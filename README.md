@@ -84,7 +84,7 @@ O sistema CRM permitirá:
 
 A modelagem C4 é uma abordagem para descrever a arquitetura de software por meio de uma hierarquia de diagramas: Contexto, Contêiner, Componente e Código.
 
-![C4](images/tccimg.drawio.png)
+![C4](tcc.drawio.png)
 
 ---
 
@@ -94,13 +94,13 @@ A modelagem C4 é uma abordagem para descrever a arquitetura de software por mei
 
 O vendedor cadastra e gerencia expositores, controla o pipeline de vendas, registra interações, configura lembretes, gera relatórios, exporta dados e gerencia follow-ups.
 
-![Caso de Uso - Vendedor](images/vendedorcuso.png)
+![Caso de Uso - Vendedor](vendedorcuso.png)
 
 #### Administrador
 
 Gerencia usuários, permissões, auditoria e visualiza dashboards consolidados.
 
-![Caso de Uso - Administrador](images/admcuso.png)
+![Caso de Uso - Administrador](admcuso.png)
 
 ---
 
