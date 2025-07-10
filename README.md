@@ -1,7 +1,7 @@
 # CRMSHOT - CRM De Vendas
 ## de feiras e eventos
 
-![Logo](/images/catolica.png)
+![Logo](/catolica.png)
 
 **Centro Universitário Católica de Santa Catarina - Joinville**  
 Engenharia de Software  
