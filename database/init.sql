@@ -1,3 +1,6 @@
+34367746
+
+
 -- Script de inicialização do banco de dados CRM Shot Fair Brasil
 -- PostgreSQL
 
