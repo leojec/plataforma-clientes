@@ -36,7 +36,8 @@ function Login() {
         toast.error(result.message);
       }
     } catch (error) {
-      toast.error('Erro ao fazer login');
+      const errorMessage = error?.message || 'Erro ao fazer login';
+      toast.error(typeof errorMessage === 'string' ? errorMessage : 'Erro ao fazer login');
     } finally {
       setLoading(false);
     }

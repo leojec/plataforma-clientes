@@ -1,6 +1,6 @@
 package com.crmshot.security;
 
-import com.crmshot.service.UsuarioService;
+import com.crmshot.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
     
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioRepository usuarioRepository;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
@@ -43,9 +43,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = usuarioService.loadUserByUsername(username);
+            UserDetails userDetails = usuarioRepository.findByEmail(username).orElse(null);
             
-            if (jwtUtil.validateToken(jwt, userDetails)) {
+            if (userDetails != null && jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = 
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

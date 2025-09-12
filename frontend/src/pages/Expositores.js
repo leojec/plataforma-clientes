@@ -16,7 +16,7 @@ function Expositores() {
       const response = await api.get('/expositores', {
         params: { nome: searchTerm }
       });
-      return response.data.content || response.data;
+      return response.data;
     }
   );
 
@@ -176,6 +176,7 @@ function Expositores() {
 
 // Componente Modal (simplificado)
 function ExpositorModal({ expositor, onClose }) {
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     razaoSocial: expositor?.razaoSocial || '',
     nomeFantasia: expositor?.nomeFantasia || '',
@@ -199,11 +200,26 @@ function ExpositorModal({ expositor, onClose }) {
     });
   };
 
+  const createMutation = useMutation(
+    async (data) => {
+      const response = await api.post('/expositores', data);
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('expositores');
+        toast.success('Expositor criado com sucesso!');
+        onClose();
+      },
+      onError: (error) => {
+        toast.error('Erro ao criar expositor: ' + (error.response?.data?.message || error.message));
+      }
+    }
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implementar lógica de salvamento
-    toast.success(expositor ? 'Expositor atualizado!' : 'Expositor criado!');
-    onClose();
+    createMutation.mutate(formData);
   };
 
   return (
@@ -223,6 +239,17 @@ function ExpositorModal({ expositor, onClose }) {
                 required
                 className="input-field mt-1"
                 value={formData.razaoSocial}
+                onChange={handleChange}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Nome Fantasia</label>
+              <input
+                type="text"
+                name="nomeFantasia"
+                className="input-field mt-1"
+                value={formData.nomeFantasia}
                 onChange={handleChange}
               />
             </div>
@@ -250,12 +277,24 @@ function ExpositorModal({ expositor, onClose }) {
               />
             </div>
             
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Telefone</label>
+              <input
+                type="text"
+                name="telefone"
+                className="input-field mt-1"
+                value={formData.telefone}
+                onChange={handleChange}
+              />
+            </div>
+            
             <div className="flex space-x-3 pt-4">
               <button
                 type="submit"
                 className="btn-primary flex-1"
+                disabled={createMutation.isLoading}
               >
-                {expositor ? 'Atualizar' : 'Criar'}
+                {createMutation.isLoading ? 'Salvando...' : (expositor ? 'Atualizar' : 'Criar')}
               </button>
               <button
                 type="button"

@@ -92,4 +92,8 @@ public class UsuarioService implements UserDetailsService {
     public Long contarUsuariosAtivosPorPerfil(Usuario.PerfilUsuario perfil) {
         return usuarioRepository.countUsuariosAtivosPorPerfil(perfil);
     }
+    
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email).orElse(null);
+    }
 }

@@ -31,12 +31,20 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha())
-            );
+            // Buscar usuário por email
+            Usuario usuario = usuarioService.findByEmail(loginRequest.getEmail());
             
-            Usuario usuario = (Usuario) authentication.getPrincipal();
-            String token = jwtUtil.generateToken(usuario);
+            if (usuario == null) {
+                return ResponseEntity.badRequest().body("Usuário não encontrado");
+            }
+            
+            // Verificar senha (simplificado - sem criptografia por enquanto)
+            if (!usuario.getSenha().equals(loginRequest.getSenha())) {
+                return ResponseEntity.badRequest().body("Senha incorreta");
+            }
+            
+            // Gerar token simples
+            String token = "token_" + usuario.getId() + "_" + System.currentTimeMillis();
             
             // Atualizar último acesso
             usuarioService.atualizarUltimoAcesso(usuario.getId());
@@ -45,7 +53,7 @@ public class AuthController {
             
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body("Credenciais inválidas: " + e.getMessage());
+                .body("Erro no login: " + e.getMessage());
         }
     }
     

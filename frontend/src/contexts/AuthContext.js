@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, senha) => {
     try {
-      const response = await api.post('/auth/login', { email, senha });
+      const response = await api.post('/login', { email, senha });
       const { token, usuario } = response.data;
       
       localStorage.setItem('token', token);
@@ -36,9 +36,25 @@ export function AuthProvider({ children }) {
       
       return { success: true };
     } catch (error) {
+      let errorMessage = 'Erro ao fazer login';
+      
+      if (error.response?.data) {
+        if (typeof error.response.data === 'string') {
+          errorMessage = error.response.data;
+        } else if (error.response.data.message) {
+          errorMessage = error.response.data.message;
+        } else if (error.response.data.error) {
+          errorMessage = error.response.data.error;
+        } else {
+          errorMessage = 'Erro de conexão com o servidor';
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       return { 
         success: false, 
-        message: error.response?.data || 'Erro ao fazer login' 
+        message: errorMessage
       };
     }
   };
