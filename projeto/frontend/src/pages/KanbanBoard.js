@@ -219,7 +219,6 @@ function KanbanBoard() {
     }
   ];
 
-
   return (
     <DndContext
       sensors={sensors}
@@ -228,155 +227,156 @@ function KanbanBoard() {
       onDragEnd={handleDragEnd}
     >
       <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className="w-16 bg-gray-800 transition-all duration-300 flex flex-col">
-        {/* Logo */}
-        <div className="p-4 flex items-center justify-center">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-            A
+        {/* Sidebar */}
+        <div className="w-16 bg-gray-800 transition-all duration-300 flex flex-col">
+          {/* Logo */}
+          <div className="p-4 flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+              A
+            </div>
           </div>
+
+          {/* Navigation Icons */}
+          <nav className="flex-1 px-2 py-4 space-y-2">
+            {[
+              { icon: 'List', label: 'Lista', active: true },
+              { icon: 'FileText', label: 'Documentos' },
+              { icon: 'Shield', label: 'Segurança' },
+              { icon: 'Settings', label: 'Configurações' },
+              { icon: 'Printer', label: 'Impressão' },
+              { icon: 'Bot', label: 'Automação' },
+              { icon: 'User', label: 'Usuários' },
+              { icon: 'FileText', label: 'Relatórios' },
+              { icon: 'Calendar', label: 'Agenda' },
+              { icon: 'BarChart', label: 'Gráficos' }
+            ].map((item, index) => (
+              <button
+                key={index}
+                className={`w-full p-3 rounded-lg transition-colors flex items-center justify-center ${
+                  item.active 
+                    ? 'bg-gray-700 text-white' 
+                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                }`}
+              >
+                <div className="w-5 h-5 bg-current rounded-sm"></div>
+              </button>
+            ))}
+          </nav>
         </div>
 
-        {/* Navigation Icons */}
-        <nav className="flex-1 px-2 py-4 space-y-2">
-          {[
-            { icon: 'List', label: 'Lista', active: true },
-            { icon: 'FileText', label: 'Documentos' },
-            { icon: 'Shield', label: 'Segurança' },
-            { icon: 'Settings', label: 'Configurações' },
-            { icon: 'Printer', label: 'Impressão' },
-            { icon: 'Bot', label: 'Automação' },
-            { icon: 'User', label: 'Usuários' },
-            { icon: 'FileText', label: 'Relatórios' },
-            { icon: 'Calendar', label: 'Agenda' },
-            { icon: 'BarChart', label: 'Gráficos' }
-          ].map((item, index) => (
-            <button
-              key={index}
-              className={`w-full p-3 rounded-lg transition-colors flex items-center justify-center ${
-                item.active 
-                  ? 'bg-gray-700 text-white' 
-                  : 'text-gray-300 hover:text-white hover:bg-gray-700'
-              }`}
-            >
-              <div className="w-5 h-5 bg-current rounded-sm"></div>
-            </button>
-          ))}
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <header className="bg-blue-100 px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-            </button>
-            <h1 className="text-xl font-semibold text-gray-800">
-              Segmentação de Leads - Clientes e Prospects SFB (809)
-            </h1>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Adicionar Cliente</span>
-            </button>
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-            </button>
-            <div className="relative">
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
+          {/* Header */}
+          <header className="bg-blue-100 px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
               <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
                 <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
               </button>
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                59
-              </span>
+              <h1 className="text-xl font-semibold text-gray-800">
+                Segmentação de Leads - Clientes e Prospects SFB (809)
+              </h1>
             </div>
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-            </button>
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-            </button>
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-            </button>
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-            </button>
-          </div>
-        </header>
 
-        {/* Kanban Board */}
-        <main className="flex-1 p-6 bg-white overflow-x-auto">
-          <div className="flex space-x-6 min-w-max">
-            {columns.map((column) => (
-              <div key={column.id} className={`flex-shrink-0 w-80 ${column.bgColor} rounded-lg border-2 ${column.borderColor}`}>
-                {/* Column Header */}
-                <div className="p-4 border-b border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <h2 className="font-semibold text-gray-900">
-                      {column.title} ({column.count})
-                    </h2>
-                    <button className="p-1 hover:bg-gray-200 rounded">
-                      <Filter className="w-4 h-4 text-gray-500" />
-                    </button>
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Adicionar Cliente</span>
+              </button>
+              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
+              </button>
+              <div className="relative">
+                <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+                  <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
+                </button>
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  59
+                </span>
+              </div>
+              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
+              </button>
+              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
+              </button>
+              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
+              </button>
+              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
+              </button>
+            </div>
+          </header>
+
+          {/* Kanban Board */}
+          <main className="flex-1 p-6 bg-white overflow-x-auto">
+            <div className="flex space-x-6 min-w-max">
+              {columns.map((column) => (
+                <div key={column.id} className={`flex-shrink-0 w-80 ${column.bgColor} rounded-lg border-2 ${column.borderColor}`}>
+                  {/* Column Header */}
+                  <div className="p-4 border-b border-gray-200">
+                    <div className="flex items-center justify-between">
+                      <h2 className="font-semibold text-gray-900">
+                        {column.title} ({column.count})
+                      </h2>
+                      <button className="p-1 hover:bg-gray-200 rounded">
+                        <Filter className="w-4 h-4 text-gray-500" />
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                {/* Column Content */}
-                <div className="p-4 max-h-96 overflow-y-auto">
-                  <SortableContext 
-                    items={leads[column.id].map(lead => lead.id)} 
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {leads[column.id].map((lead) => (
-                      <SortableLeadCard key={lead.id} lead={lead} columnId={column.id} />
-                    ))}
-                  </SortableContext>
-                  
-                  {/* Empty state */}
-                  {leads[column.id].length === 0 && (
-                    <div className="text-center py-8 text-gray-500">
-                      <div className="w-12 h-12 mx-auto mb-2 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <div className="w-6 h-6 bg-gray-400 rounded-sm"></div>
+                  {/* Column Content */}
+                  <div className="p-4 max-h-96 overflow-y-auto">
+                    <SortableContext 
+                      items={leads[column.id].map(lead => lead.id)} 
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {leads[column.id].map((lead) => (
+                        <SortableLeadCard key={lead.id} lead={lead} columnId={column.id} />
+                      ))}
+                    </SortableContext>
+                    
+                    {/* Empty state */}
+                    {leads[column.id].length === 0 && (
+                      <div className="text-center py-8 text-gray-500">
+                        <div className="w-12 h-12 mx-auto mb-2 bg-gray-200 rounded-lg flex items-center justify-center">
+                          <div className="w-6 h-6 bg-gray-400 rounded-sm"></div>
+                        </div>
+                        <p className="text-sm">Nenhum lead nesta etapa</p>
                       </div>
-                      <p className="text-sm">Nenhum lead nesta etapa</p>
+                    )}
+                  </div>
+
+                  {/* Column Footer */}
+                  {column.id === 'lead' && (
+                    <div className="p-4 border-t border-gray-200">
+                      <div className="flex items-center justify-between text-sm text-gray-600">
+                        <span>Próxima edição(1)</span>
+                        <button className="p-1 hover:bg-gray-200 rounded">
+                          <Filter className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {column.id === 'standFechado' && (
+                    <div className="p-4 border-t border-gray-200">
+                      <div className="flex items-center justify-between text-sm text-gray-600">
+                        <span>Perdido(2)</span>
+                        <button className="p-1 hover:bg-gray-200 rounded">
+                          <Filter className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
-
-                {/* Column Footer */}
-                {column.id === 'lead' && (
-                  <div className="p-4 border-t border-gray-200">
-                    <div className="flex items-center justify-between text-sm text-gray-600">
-                      <span>Próxima edição(1)</span>
-                      <button className="p-1 hover:bg-gray-200 rounded">
-                        <Filter className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {column.id === 'standFechado' && (
-                  <div className="p-4 border-t border-gray-200">
-                    <div className="flex items-center justify-between text-sm text-gray-600">
-                      <span>Perdido(2)</span>
-                      <button className="p-1 hover:bg-gray-200 rounded">
-                        <Filter className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </main>
+              ))}
+            </div>
+          </main>
+        </div>
       </div>
 
       {/* Modal de Adicionar Cliente */}
