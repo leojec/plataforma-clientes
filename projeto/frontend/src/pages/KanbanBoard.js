@@ -58,6 +58,9 @@ function KanbanBoard() {
     const activeId = active.id;
     const overId = over.id;
 
+    // Verificar se overId é uma string
+    if (typeof overId !== 'string') return;
+
     // Encontrar a coluna de origem
     let sourceColumn = null;
     for (const [columnId, items] of Object.entries(leads)) {
