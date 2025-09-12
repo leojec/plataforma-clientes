@@ -285,29 +285,16 @@ function KanbanBoard() {
                 <Plus className="w-4 h-4" />
                 <span>Adicionar Cliente</span>
               </button>
-              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-              </button>
-              <div className="relative">
-                <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-                  <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
+              
+              {/* Usuário */}
+              <div className="flex items-center space-x-2">
+                <button className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-lg transition-colors">
+                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                    A
+                  </div>
+                  <span className="text-gray-700 font-medium">Admin</span>
                 </button>
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  59
-                </span>
               </div>
-              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-              </button>
-              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-              </button>
-              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-              </button>
-              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-              </button>
             </div>
           </header>
 
