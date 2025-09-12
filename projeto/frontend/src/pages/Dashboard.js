@@ -13,7 +13,7 @@ import {
   UserPlus,
   CheckSquare,
   UserMinus,
-  HandCoins,
+  Hand,
   CheckCircle,
   DollarSign
 } from 'lucide-react';
@@ -52,7 +52,7 @@ function Dashboard() {
       id: 4,
       title: 'VALOR PROPOSTAS EM ABERTO',
       value: 'R$ 0,00',
-      icon: HandCoins,
+      icon: Hand,
       color: 'bg-green-500',
       iconBg: 'bg-green-100'
     },
