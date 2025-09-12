@@ -1,120 +1,154 @@
 import React, { useState } from 'react';
 import { 
+  DndContext, 
+  DragOverlay, 
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { 
   Phone, 
   MapPin, 
   Calendar,
-  User,
   Filter,
-  ChevronDown
+  Plus
 } from 'lucide-react';
+import AddClientModal from '../components/AddClientModal';
 
 function KanbanBoard() {
   const [leads, setLeads] = useState({
-    lead: [
-      { id: 1, nome: 'Empresa A', telefone: '(11) 99999-9999', endereco: 'São Paulo/SP' },
-      { id: 2, nome: 'Empresa B', telefone: '(21) 88888-8888', endereco: 'Rio de Janeiro/RJ' },
-      { id: 3, nome: 'Empresa C', telefone: '(31) 77777-7777', endereco: 'Belo Horizonte/MG' },
-      { id: 4, nome: 'Empresa D', telefone: '(41) 66666-6666', endereco: 'Curitiba/PR' },
-      { id: 5, nome: 'Empresa E', telefone: '(51) 55555-5555', endereco: 'Porto Alegre/RS' }
-    ],
-    emAndamento: [
-      { 
-        id: 6, 
-        nome: 'Empresa F', 
-        telefone: '(11) 44444-4444', 
-        endereco: 'Rua das Flores, 123 - São Paulo/SP',
-        dataContato: '15/09/2024 14:30',
-        responsavel: 'Simoni Jarschel',
-        urgente: true
-      },
-      { 
-        id: 7, 
-        nome: 'Empresa G', 
-        telefone: '(21) 33333-3333', 
-        endereco: 'Av. Central, 456 - Rio de Janeiro/RJ',
-        dataContato: '16/09/2024 10:00',
-        responsavel: 'Leonardo',
-        urgente: false
-      }
-    ],
-    emNegociacao: [
-      { 
-        id: 8, 
-        nome: 'Empresa H', 
-        telefone: '(31) 22222-2222', 
-        endereco: 'Praça da Liberdade, 789 - Belo Horizonte/MG',
-        dataContato: '18/09/2024 09:30',
-        responsavel: 'Simoni Jarschel',
-        urgente: true
-      },
-      { 
-        id: 9, 
-        nome: 'Empresa I', 
-        telefone: '(41) 11111-1111', 
-        endereco: 'Rua XV de Novembro, 321 - Curitiba/PR',
-        dataContato: '20/09/2024 15:45',
-        responsavel: 'Leonardo',
-        urgente: false
-      }
-    ],
-    standFechado: [
-      { 
-        id: 10, 
-        nome: 'Empresa J', 
-        telefone: '(51) 99999-0000', 
-        endereco: 'Av. Ipiranga, 654 - Porto Alegre/RS',
-        responsavel: 'Simoni Jarschel'
-      },
-      { 
-        id: 11, 
-        nome: 'Empresa K', 
-        telefone: '(11) 88888-0000', 
-        endereco: 'Rua Augusta, 987 - São Paulo/SP',
-        responsavel: 'Leonardo'
-      }
-    ]
+    lead: [],
+    emAndamento: [],
+    emNegociacao: [],
+    standFechado: []
   });
 
-  const columns = [
-    { 
-      id: 'lead', 
-      title: 'Lead', 
-      count: leads.lead.length,
-      bgColor: 'bg-gray-50',
-      borderColor: 'border-gray-200'
-    },
-    { 
-      id: 'emAndamento', 
-      title: 'Em Andamento', 
-      count: leads.emAndamento.length,
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200'
-    },
-    { 
-      id: 'emNegociacao', 
-      title: 'Em Negociação', 
-      count: leads.emNegociacao.length,
-      bgColor: 'bg-yellow-50',
-      borderColor: 'border-yellow-200'
-    },
-    { 
-      id: 'standFechado', 
-      title: 'Stand Fechado', 
-      count: leads.standFechado.length,
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-200'
-    }
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeId, setActiveId] = useState(null);
 
-  const LeadCard = ({ lead, columnId }) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragStart = (event) => {
+    setActiveId(event.active.id);
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    setActiveId(null);
+
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    // Encontrar a coluna de origem
+    let sourceColumn = null;
+    for (const [columnId, items] of Object.entries(leads)) {
+      if (items.find(item => item.id === activeId)) {
+        sourceColumn = columnId;
+        break;
+      }
+    }
+
+    // Encontrar a coluna de destino
+    let targetColumn = null;
+    if (overId.startsWith('column-')) {
+      targetColumn = overId.replace('column-', '');
+    } else {
+      for (const [columnId, items] of Object.entries(leads)) {
+        if (items.find(item => item.id === overId)) {
+          targetColumn = columnId;
+          break;
+        }
+      }
+    }
+
+    if (!sourceColumn || !targetColumn) return;
+
+    // Permitir mover apenas para a próxima coluna sequencialmente
+    const columnOrder = ['lead', 'emAndamento', 'emNegociacao', 'standFechado'];
+    const sourceIndex = columnOrder.indexOf(sourceColumn);
+    const targetIndex = columnOrder.indexOf(targetColumn);
+
+    if (targetIndex !== sourceIndex + 1) {
+      return; // Não permite pular colunas
+    }
+
+    // Remover da coluna de origem
+    const sourceItems = leads[sourceColumn].filter(item => item.id !== activeId);
+    const draggedItem = leads[sourceColumn].find(item => item.id === activeId);
+
+    // Adicionar à coluna de destino
+    const targetItems = [...leads[targetColumn]];
+    
+    // Se está sendo movido para "emAndamento", adicionar responsável
+    if (targetColumn === 'emAndamento') {
+      draggedItem.responsavel = 'Simoni Jarschel';
+      draggedItem.dataContato = new Date().toLocaleString('pt-BR');
+    }
+
+    setLeads(prev => ({
+      ...prev,
+      [sourceColumn]: sourceItems,
+      [targetColumn]: targetItems
+    }));
+  };
+
+  const handleAddClient = (newClient) => {
+    setLeads(prev => ({
+      ...prev,
+      lead: [...prev.lead, newClient]
+    }));
+  };
+
+  // Componente SortableLeadCard
+  const SortableLeadCard = ({ lead, columnId }) => {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+      isDragging,
+    } = useSortable({ id: lead.id });
+
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+      opacity: isDragging ? 0.5 : 1,
+    };
+
     const getResponsavelColor = (responsavel) => {
       return responsavel === 'Simoni Jarschel' ? 'bg-blue-500' : 'bg-green-500';
     };
 
     return (
-      <div className={`p-4 mb-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer ${
-        lead.urgente ? 'border-red-300 bg-red-50' : ''
-      }`}>
+      <div
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+        className={`p-4 mb-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing ${
+          lead.urgente ? 'border-red-300 bg-red-50' : ''
+        }`}
+      >
         <div className="flex items-center justify-between mb-2">
           <h3 className="font-semibold text-gray-900 text-sm">{lead.nome}</h3>
           {lead.urgente && (
@@ -154,8 +188,46 @@ function KanbanBoard() {
     );
   };
 
+  const columns = [
+    { 
+      id: 'lead', 
+      title: 'Lead', 
+      count: leads.lead.length,
+      bgColor: 'bg-gray-50',
+      borderColor: 'border-gray-200'
+    },
+    { 
+      id: 'emAndamento', 
+      title: 'Em Andamento', 
+      count: leads.emAndamento.length,
+      bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-200'
+    },
+    { 
+      id: 'emNegociacao', 
+      title: 'Em Negociação', 
+      count: leads.emNegociacao.length,
+      bgColor: 'bg-yellow-50',
+      borderColor: 'border-yellow-200'
+    },
+    { 
+      id: 'standFechado', 
+      title: 'Stand Fechado', 
+      count: leads.standFechado.length,
+      bgColor: 'bg-green-50',
+      borderColor: 'border-green-200'
+    }
+  ];
+
+
   return (
-    <div className="flex h-screen bg-gray-100">
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <div className="w-16 bg-gray-800 transition-all duration-300 flex flex-col">
         {/* Logo */}
@@ -207,8 +279,12 @@ function KanbanBoard() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Adicionar Cliente</span>
             </button>
             <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
               <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
@@ -255,9 +331,14 @@ function KanbanBoard() {
 
                 {/* Column Content */}
                 <div className="p-4 max-h-96 overflow-y-auto">
-                  {leads[column.id].map((lead) => (
-                    <LeadCard key={lead.id} lead={lead} columnId={column.id} />
-                  ))}
+                  <SortableContext 
+                    items={leads[column.id].map(lead => lead.id)} 
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {leads[column.id].map((lead) => (
+                      <SortableLeadCard key={lead.id} lead={lead} columnId={column.id} />
+                    ))}
+                  </SortableContext>
                   
                   {/* Empty state */}
                   {leads[column.id].length === 0 && (
@@ -297,7 +378,28 @@ function KanbanBoard() {
           </div>
         </main>
       </div>
-    </div>
+
+      {/* Modal de Adicionar Cliente */}
+      <AddClientModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAddClient={handleAddClient}
+      />
+
+      {/* Drag Overlay */}
+      <DragOverlay>
+        {activeId ? (
+          <div className="p-4 mb-3 bg-white rounded-lg shadow-lg border border-gray-200 opacity-90">
+            <div className="font-semibold text-gray-900 text-sm">
+              {leads.lead.find(l => l.id === activeId)?.nome ||
+               leads.emAndamento.find(l => l.id === activeId)?.nome ||
+               leads.emNegociacao.find(l => l.id === activeId)?.nome ||
+               leads.standFechado.find(l => l.id === activeId)?.nome}
+            </div>
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   );
 }
 
