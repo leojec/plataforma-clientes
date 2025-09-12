@@ -6,6 +6,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import KanbanBoard from './pages/KanbanBoard';
 import Expositores from './pages/Expositores';
 import Oportunidades from './pages/Oportunidades';
 import Relatorios from './pages/Relatorios';
@@ -37,6 +38,7 @@ function AppRoutes() {
         </ProtectedRoute>
       }>
         <Route index element={<Dashboard />} />
+        <Route path="kanban" element={<KanbanBoard />} />
         <Route path="expositores" element={<Expositores />} />
         <Route path="oportunidades" element={<Oportunidades />} />
         <Route path="relatorios" element={<Relatorios />} />

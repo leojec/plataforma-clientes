@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Menu, 
   RefreshCw, 
@@ -21,6 +22,7 @@ import {
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState('Dia');
+  const navigate = useNavigate();
 
   // Dados dos cards de resumo
   const summaryCards = [
@@ -190,7 +192,7 @@ function Dashboard() {
         {/* Navigation Icons */}
         <nav className="flex-1 px-2 py-4 space-y-2">
           {[
-            { icon: List, label: 'Lista' },
+            { icon: List, label: 'Lista', action: () => navigate('/kanban') },
             { icon: FileText, label: 'Documentos' },
             { icon: Shield, label: 'Segurança' },
             { icon: FileText, label: 'Relatórios' },
@@ -200,6 +202,7 @@ function Dashboard() {
           ].map((item, index) => (
             <button
               key={index}
+              onClick={item.action}
               className="w-full p-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-colors flex items-center"
             >
               <item.icon className="w-5 h-5" />

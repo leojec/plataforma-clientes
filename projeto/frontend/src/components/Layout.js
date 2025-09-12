@@ -17,8 +17,8 @@ function Layout() {
   const { user, logout } = useAuth();
   const location = useLocation();
   
-  // Se estivermos no Dashboard, não renderizar o layout padrão
-  if (location.pathname === '/') {
+  // Se estivermos no Dashboard ou KanbanBoard, não renderizar o layout padrão
+  if (location.pathname === '/' || location.pathname === '/kanban') {
     return <Outlet />;
   }
 
