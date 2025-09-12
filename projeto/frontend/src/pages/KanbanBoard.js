@@ -273,7 +273,7 @@ function KanbanBoard() {
                 <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
               </button>
               <h1 className="text-xl font-semibold text-gray-800">
-                Segmentação de Leads - Clientes e Prospects SFB (809)
+                LISTA
               </h1>
             </div>
 
