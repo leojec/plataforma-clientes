@@ -35,41 +35,35 @@ O projeto consiste no desenvolvimento de um sistema de CRM (Customer Relationshi
 
 ```
 TCC/
-├── projeto/              # Código principal do projeto
-│   ├── backend/         # API Spring Boot
-│   │   ├── src/main/java/com/crmshot/
-│   │   │   ├── entity/  # Entidades JPA
-│   │   │   ├── repository/ # Repositórios JPA
-│   │   │   ├── service/ # Lógica de negócio
-│   │   │   ├── controller/ # Controllers REST
-│   │   │   ├── dto/     # Data Transfer Objects
-│   │   │   ├── config/  # Configurações
-│   │   │   └── security/ # Configurações de segurança
-│   │   ├── src/main/resources/
-│   │   │   └── application.yml # Configurações da aplicação
-│   │   └── pom.xml      # Dependências Maven
-│   ├── frontend/        # Aplicação React
-│   │   ├── src/
-│   │   │   ├── components/ # Componentes React
-│   │   │   ├── pages/    # Páginas da aplicação
-│   │   │   ├── services/ # Serviços de API
-│   │   │   ├── contexts/ # Contextos React
-│   │   │   └── utils/    # Utilitários
-│   │   ├── public/      # Arquivos estáticos
-│   │   └── package.json # Dependências NPM
-│   ├── scripts/         # Scripts de configuração
-│   │   ├── setup.sh    # Script de setup do ambiente
-│   │   ├── setup-local.sh # Setup local sem Docker
-│   │   └── setup-db.sh # Setup apenas do banco
-│   ├── start.sh        # Script para iniciar tudo
-│   └── start-simple.sh # Script simplificado
-├── database/            # Scripts de banco de dados
-│   ├── init.sql        # Script de inicialização
-│   └── sample_data.sql # Dados de exemplo
-├── docs/               # Documentação
-│   ├── *.png           # Diagramas e imagens
-│   └── images/         # Outras imagens
-└── README.md           # Este arquivo
+├── backend/                 # API Spring Boot
+│   ├── src/main/java/com/crmshot/
+│   │   ├── entity/         # Entidades JPA
+│   │   ├── repository/     # Repositórios JPA
+│   │   ├── service/        # Lógica de negócio
+│   │   ├── controller/     # Controllers REST
+│   │   ├── dto/           # Data Transfer Objects
+│   │   ├── config/        # Configurações
+│   │   └── security/      # Configurações de segurança
+│   ├── src/main/resources/
+│   │   └── application.yml # Configurações da aplicação
+│   └── pom.xml            # Dependências Maven
+├── frontend/               # Aplicação React
+│   ├── src/
+│   │   ├── components/    # Componentes React
+│   │   ├── pages/         # Páginas da aplicação
+│   │   ├── services/      # Serviços de API
+│   │   ├── contexts/      # Contextos React
+│   │   └── utils/         # Utilitários
+│   ├── public/            # Arquivos estáticos
+│   └── package.json       # Dependências NPM
+├── database/              # Scripts de banco de dados
+│   ├── init.sql          # Script de inicialização
+│   └── sample_data.sql   # Dados de exemplo
+├── scripts/              # Scripts de configuração
+│   └── setup.sh         # Script de setup do ambiente
+└── docs/                # Documentação
+    ├── *.png            # Diagramas e imagens
+    └── images/          # Outras imagens
 ```
 
 ---
@@ -94,19 +88,18 @@ TCC/
 
 2. **Execute o script de configuração:**
    ```bash
-   cd projeto
    ./scripts/setup.sh
    ```
 
 3. **Inicie o backend:**
    ```bash
-   cd projeto/backend
+   cd backend
    mvn spring-boot:run
    ```
 
 4. **Inicie o frontend (em outro terminal):**
    ```bash
-   cd projeto/frontend
+   cd frontend
    npm start
    ```
 
@@ -228,13 +221,13 @@ TCC/
 
 ### Backend
 ```bash
-cd projeto/backend
+cd backend
 mvn test
 ```
 
 ### Frontend
 ```bash
-cd projeto/frontend
+cd frontend
 npm test
 ```
 
