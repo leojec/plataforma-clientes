@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Arrays;
 
 @Repository
 public interface OportunidadeRepository extends JpaRepository<Oportunidade, Long> {
@@ -55,4 +56,13 @@ public interface OportunidadeRepository extends JpaRepository<Oportunidade, Long
     List<Oportunidade> findByVendedorAndDataPrevistaFechamentoBetween(@Param("vendedorId") Long vendedorId,
                                                                      @Param("dataInicio") LocalDateTime dataInicio,
                                                                      @Param("dataFim") LocalDateTime dataFim);
+    
+    // Métodos para dashboard
+    Long countByStatus(String status);
+    
+    @Query("SELECT SUM(o.valorEstimado) FROM Oportunidade o WHERE o.status = :status")
+    BigDecimal sumValorEstimadoByStatus(@Param("status") String status);
+    
+    @Query("SELECT SUM(o.valorEstimado) FROM Oportunidade o WHERE o.status IN :statusList")
+    BigDecimal sumValorEstimadoByStatusIn(@Param("statusList") List<String> statusList);
 }

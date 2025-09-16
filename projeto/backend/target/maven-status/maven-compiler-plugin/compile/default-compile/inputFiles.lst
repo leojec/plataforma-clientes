@@ -9,6 +9,7 @@
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/repository/OportunidadeRepository.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/dto/LoginRequest.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/SimpleController.java
+/Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/DashboardController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/TestController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/service/ExpositorService.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/CrmshotApplication.java

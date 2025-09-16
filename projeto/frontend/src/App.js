@@ -10,6 +10,8 @@ import KanbanBoard from './pages/KanbanBoard';
 import Expositores from './pages/Expositores';
 import Oportunidades from './pages/Oportunidades';
 import Relatorios from './pages/Relatorios';
+import Configuracoes from './pages/Configuracoes';
+import LeadDetail from './pages/LeadDetail';
 import Layout from './components/Layout';
 
 const queryClient = new QueryClient();
@@ -39,9 +41,11 @@ function AppRoutes() {
       }>
         <Route index element={<Dashboard />} />
         <Route path="kanban" element={<KanbanBoard />} />
+        <Route path="lead/:id" element={<LeadDetail />} />
         <Route path="expositores" element={<Expositores />} />
         <Route path="oportunidades" element={<Oportunidades />} />
         <Route path="relatorios" element={<Relatorios />} />
+        <Route path="configuracoes" element={<Configuracoes />} />
       </Route>
     </Routes>
   );

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,4 +44,7 @@ public interface ExpositorRepository extends JpaRepository<Expositor, Long> {
     @Query("SELECT e FROM Expositor e WHERE e.vendedor.id = :vendedorId AND e.status = :status")
     List<Expositor> findByVendedorAndStatus(@Param("vendedorId") Long vendedorId, 
                                            @Param("status") Expositor.StatusExpositor status);
+    
+    // Método para contar expositores criados após uma data
+    Long countByDataCadastroAfter(LocalDateTime data);
 }

@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { 
-  Menu, 
   RefreshCw, 
   Calendar, 
   List, 
   User, 
-  FileText, 
-  Shield, 
-  Settings, 
-  Printer, 
-  Bot,
   UserPlus,
   CheckSquare,
   UserMinus,
@@ -18,18 +11,37 @@ import {
   CheckCircle,
   DollarSign
 } from 'lucide-react';
+import { useQuery } from 'react-query';
+import { api } from '../services/api';
 
 function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState('Dia');
-  const navigate = useNavigate();
 
-  // Dados dos cards de resumo
+  // Buscar dados do dashboard da API
+  const { data: dashboardStats, isLoading, error } = useQuery(
+    'dashboardStats',
+    () => api.get('/dashboard/stats').then(res => res.data),
+    {
+      refetchInterval: 30000, // Atualizar a cada 30 segundos
+      retry: 3
+    }
+  );
+
+  // Buscar dados do gráfico (comentado por enquanto)
+  // const { data: graficoData } = useQuery(
+  //   'dashboardGrafico',
+  //   () => api.get('/dashboard/atividades-grafico').then(res => res.data),
+  //   {
+  //     refetchInterval: 60000, // Atualizar a cada 1 minuto
+  //   }
+  // );
+
+  // Dados dos cards de resumo (dinâmicos)
   const summaryCards = [
     {
       id: 1,
       title: 'NOVOS CLIENTES',
-      value: '10',
+      value: dashboardStats?.novosClientes || 0,
       icon: UserPlus,
       color: 'bg-blue-500',
       iconBg: 'bg-blue-100'
@@ -37,7 +49,7 @@ function Dashboard() {
     {
       id: 2,
       title: 'QTD.ATIVIDADES',
-      value: '7',
+      value: dashboardStats?.qtdAtividades || 0,
       icon: CheckSquare,
       color: 'bg-blue-700',
       iconBg: 'bg-blue-100'
@@ -45,7 +57,7 @@ function Dashboard() {
     {
       id: 3,
       title: 'QTD.PERDA',
-      value: '0',
+      value: dashboardStats?.qtdPerdas || 0,
       icon: UserMinus,
       color: 'bg-red-500',
       iconBg: 'bg-red-100'
@@ -53,7 +65,7 @@ function Dashboard() {
     {
       id: 4,
       title: 'VALOR PROPOSTAS EM ABERTO',
-      value: 'R$ 0,00',
+      value: `R$ ${(dashboardStats?.valorPropostasAbertas || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
       icon: Hand,
       color: 'bg-green-500',
       iconBg: 'bg-green-100'
@@ -61,7 +73,7 @@ function Dashboard() {
     {
       id: 5,
       title: 'QTD.GANHO',
-      value: '26',
+      value: dashboardStats?.qtdGanhos || 0,
       icon: CheckCircle,
       color: 'bg-green-500',
       iconBg: 'bg-green-100'
@@ -69,7 +81,7 @@ function Dashboard() {
     {
       id: 6,
       title: 'VALOR GANHO',
-      value: 'R$ 1.512.219,00',
+      value: `R$ ${(dashboardStats?.valorGanho || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
       icon: DollarSign,
       color: 'bg-green-700',
       iconBg: 'bg-green-100'
@@ -118,177 +130,165 @@ function Dashboard() {
 
   // Inicializar o gráfico quando o componente montar
   useEffect(() => {
-    if (window.CanvasJS) {
-      const chart = new window.CanvasJS.Chart("chartContainer", {
-        animationEnabled: true,
-        title: {
-          text: "Atividades Realizadas",
-          fontFamily: "Arial",
-          fontSize: 16,
-          fontWeight: "bold"
-        },
-        axisX: {
-          title: "Dias",
-          valueFormatString: "DD/MM"
-        },
-        axisY: {
-          title: "Qtd. Atividades",
-          minimum: 0,
-          maximum: 30,
-          interval: 10
-        },
-        data: [
-          {
-            type: "line",
-            name: "Simoni Jarschel",
-            showInLegend: true,
-            dataPoints: chartData["Simoni Jarschel"]
-          },
-          {
-            type: "line",
-            name: "Leonardo",
-            showInLegend: true,
-            dataPoints: chartData["Leonardo"]
-          }
-        ],
-        legend: {
-          cursor: "pointer",
-          itemclick: function (e) {
-            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-              e.dataSeries.visible = false;
-            } else {
-              e.dataSeries.visible = true;
+    const initializeChart = () => {
+      if (window.CanvasJS && window.CanvasJS.Chart && document.getElementById("chartContainer")) {
+        try {
+          const chart = new window.CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+              text: "Atividades Realizadas",
+              fontFamily: "Arial",
+              fontSize: 16,
+              fontWeight: "bold"
+            },
+            axisX: {
+              title: "Dias",
+              valueFormatString: "DD/MM"
+            },
+            axisY: {
+              title: "Qtd. Atividades",
+              minimum: 0,
+              maximum: 30,
+              interval: 10
+            },
+            data: [
+              {
+                type: "line",
+                name: "Simoni Jarschel",
+                showInLegend: true,
+                dataPoints: chartData["Simoni Jarschel"]
+              },
+              {
+                type: "line",
+                name: "Leonardo",
+                showInLegend: true,
+                dataPoints: chartData["Leonardo"]
+              }
+            ],
+            legend: {
+              cursor: "pointer",
+              itemclick: function (e) {
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                  e.dataSeries.visible = false;
+                } else {
+                  e.dataSeries.visible = true;
+                }
+                chart.render();
+              }
             }
-            chart.render();
-          }
+          });
+          chart.render();
+        } catch (error) {
+          console.warn('Erro ao renderizar gráfico:', error);
         }
-      });
-      chart.render();
-    }
+      } else {
+        // Se CanvasJS não estiver carregado, tenta novamente em 100ms
+        setTimeout(initializeChart, 100);
+      }
+    };
+
+    // Aguarda um pouco para garantir que o CanvasJS esteja carregado
+    setTimeout(initializeChart, 500);
   }, []);
 
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando dados do dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="text-red-500 text-6xl mb-4">⚠️</div>
+          <p className="text-red-600 mb-2">Erro ao carregar dados</p>
+          <p className="text-gray-500 text-sm">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'w-64' : 'w-16'} bg-gray-800 transition-all duration-300 flex flex-col`}>
-        {/* Logo */}
-        <div className="p-4 flex items-center">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-            A
-          </div>
-          {sidebarOpen && (
-            <span className="ml-3 text-white font-bold text-lg">APLEADS</span>
-          )}
+    <div className="h-full flex flex-col bg-gray-50">
+      {/* Header */}
+      <div className="bg-blue-100 px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <h1 className="text-xl font-semibold text-gray-800">DashBoard</h1>
         </div>
 
-        {/* Menu Toggle */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 text-white hover:bg-gray-700 transition-colors"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
+        <div className="flex items-center space-x-4">
+          {/* Notification Badge */}
+          <div className="relative">
+            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+              <RefreshCw className="w-5 h-5 text-gray-600" />
+            </button>
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              59
+            </span>
+          </div>
 
-        {/* Navigation Icons */}
-        <nav className="flex-1 px-2 py-4 space-y-2">
-          {[
-            { icon: List, label: 'Lista', action: () => navigate('/kanban') },
-            { icon: FileText, label: 'Documentos' },
-            { icon: Shield, label: 'Segurança' },
-            { icon: FileText, label: 'Relatórios' },
-            { icon: Settings, label: 'Configurações' },
-            { icon: Printer, label: 'Impressão' },
-            { icon: Bot, label: 'Automação' }
-          ].map((item, index) => (
+          <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+            <Calendar className="w-5 h-5 text-gray-600" />
+          </button>
+
+          <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+            <List className="w-5 h-5 text-gray-600" />
+          </button>
+
+          <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+            <User className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
+
+        {/* Period Selector */}
+        <div className="flex bg-white rounded-lg p-1">
+          {['Dia', 'Semana', 'Mês'].map((period) => (
             <button
-              key={index}
-              onClick={item.action}
-              className="w-full p-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-colors flex items-center"
+              key={period}
+              onClick={() => setSelectedPeriod(period)}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                selectedPeriod === period
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-600 hover:text-gray-800'
+              }`}
             >
-              <item.icon className="w-5 h-5" />
-              {sidebarOpen && <span className="ml-3 text-sm">{item.label}</span>}
+              {period}
             </button>
           ))}
-        </nav>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <header className="bg-blue-100 px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <Menu className="w-5 h-5 text-gray-600" />
-            </button>
-            <h1 className="text-xl font-semibold text-gray-800">DashBoard</h1>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            {/* Notification Badge */}
-            <div className="relative">
-              <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-                <RefreshCw className="w-5 h-5 text-gray-600" />
-              </button>
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                59
-              </span>
-            </div>
-
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <Calendar className="w-5 h-5 text-gray-600" />
-            </button>
-
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <List className="w-5 h-5 text-gray-600" />
-            </button>
-
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <User className="w-5 h-5 text-gray-600" />
-            </button>
-          </div>
-
-          {/* Period Selector */}
-          <div className="flex bg-white rounded-lg p-1">
-            {['Dia', 'Semana', 'Mês'].map((period) => (
-              <button
-                key={period}
-                onClick={() => setSelectedPeriod(period)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  selectedPeriod === period
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-gray-800'
-                }`}
-              >
-                {period}
-              </button>
-            ))}
-          </div>
-        </header>
-
-        {/* Main Content Area */}
-        <main className="flex-1 p-6 bg-gray-50">
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {summaryCards.map((card) => (
-              <div key={card.id} className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center">
-                  <div className={`p-3 rounded-lg ${card.color}`}>
-                    <card.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">{card.title}</p>
-                    <p className="text-2xl font-bold text-gray-900">{card.value}</p>
-                  </div>
+      <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {summaryCards.map((card) => (
+            <div key={card.id} className="bg-white rounded-lg shadow-sm p-6">
+              <div className="flex items-center">
+                <div className={`p-3 rounded-lg ${card.color}`}>
+                  <card.icon className="w-6 h-6 text-white" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">{card.title}</p>
+                  <p className="text-2xl font-bold text-gray-900">{card.value}</p>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          {/* Chart */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div id="chartContainer" style={{ height: "400px" }}></div>
-          </div>
-        </main>
+        {/* Chart */}
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <div id="chartContainer" style={{ height: "400px" }}></div>
+        </div>
       </div>
     </div>
   );

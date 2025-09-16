@@ -3,30 +3,28 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { 
   Home, 
-  Building2, 
+  List, 
   TrendingUp, 
   BarChart3, 
+  Settings,
   Menu, 
   X, 
   LogOut,
-  User
+  User,
+  Search
 } from 'lucide-react';
 
 function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useAuth();
   const location = useLocation();
-  
-  // Se estivermos no Dashboard ou KanbanBoard, não renderizar o layout padrão
-  if (location.pathname === '/' || location.pathname === '/kanban') {
-    return <Outlet />;
-  }
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
-    { name: 'Expositores', href: '/expositores', icon: Building2 },
+    { name: 'Lista', href: '/kanban', icon: List },
     { name: 'Oportunidades', href: '/oportunidades', icon: TrendingUp },
     { name: 'Relatórios', href: '/relatorios', icon: BarChart3 },
+    { name: 'Configurações', href: '/configuracoes', icon: Settings },
   ];
 
   const isCurrentPath = (path) => {
@@ -42,7 +40,7 @@ function Layout() {
       {sidebarOpen && (
         <div className="fixed inset-0 flex z-40 md:hidden">
           <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white">
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-slate-800">
             <div className="absolute top-0 right-0 -mr-12 pt-2">
               <button
                 className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -56,9 +54,9 @@ function Layout() {
         </div>
       )}
 
-      {/* Sidebar Desktop */}
+      {/* Sidebar Desktop - CRM Shot Style */}
       <div className="hidden md:flex md:flex-shrink-0">
-        <div className="flex flex-col w-64">
+        <div className="flex flex-col w-64 bg-slate-800">
           <SidebarContent navigation={navigation} isCurrentPath={isCurrentPath} />
         </div>
       </div>
@@ -80,7 +78,7 @@ function Layout() {
                 <div className="relative w-full text-gray-400 focus-within:text-gray-600">
                   <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
                     <span className="text-sm font-medium text-gray-900">
-                      CRM Shot Fair Brasil
+                      CRM Shot
                     </span>
                   </div>
                 </div>
@@ -111,10 +109,8 @@ function Layout() {
 
         {/* Page Content */}
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
-          <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <Outlet />
-            </div>
+          <div className="h-full">
+            <Outlet />
           </div>
         </main>
       </div>
@@ -124,36 +120,67 @@ function Layout() {
 
 function SidebarContent({ navigation, isCurrentPath }) {
   return (
-    <div className="flex flex-col h-0 flex-1 border-r border-gray-200 bg-white">
-      <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-        <div className="flex items-center flex-shrink-0 px-4">
-          <Building2 className="h-8 w-8 text-primary-600" />
-          <span className="ml-2 text-xl font-bold text-gray-900">CRM Shot</span>
+    <div className="flex flex-col h-full bg-slate-800">
+      {/* Header com Logo CRM Shot */}
+      <div className="flex items-center px-6 py-4 border-b border-slate-700">
+        {/* Logo CRM Shot */}
+        <div className="flex items-center">
+          <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center relative">
+            {/* Speech bubble icon */}
+            <div className="w-6 h-6 border-2 border-white rounded-lg relative">
+              {/* Growth bars inside */}
+              <div className="absolute bottom-1 left-1 flex items-end space-x-0.5">
+                <div className="w-1 h-2 bg-white"></div>
+                <div className="w-1 h-3 bg-white"></div>
+                <div className="w-1 h-4 bg-white"></div>
+              </div>
+              {/* Growth arrow */}
+              <div className="absolute top-0 right-0 w-0 h-0 border-l-2 border-b-2 border-white transform rotate-45"></div>
+            </div>
+          </div>
+          <div className="ml-3">
+            <div className="text-white font-bold text-sm leading-none">CRM</div>
+            <div className="text-red-400 font-bold text-xs leading-none">SHOT</div>
+          </div>
         </div>
-        <nav className="mt-5 flex-1 px-2 space-y-1">
-          {navigation.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`${
-                  isCurrentPath(item.href)
-                    ? 'bg-primary-100 border-primary-500 text-primary-700'
-                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                } group flex items-center px-2 py-2 text-sm font-medium rounded-md border-l-4`}
-              >
-                <Icon
-                  className={`${
-                    isCurrentPath(item.href) ? 'text-primary-500' : 'text-gray-400 group-hover:text-gray-500'
-                  } mr-3 h-5 w-5`}
-                />
-                {item.name}
-              </Link>
-            );
-          })}
-        </nav>
       </div>
+
+      {/* Barra de Pesquisa */}
+      <div className="px-6 py-4 border-b border-slate-700">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <input
+            type="text"
+            placeholder=""
+            className="w-full pl-10 pr-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+      </div>
+
+      {/* Navigation Menu */}
+      <nav className="flex-1 px-4 py-4 space-y-2">
+        {navigation.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.name}
+              to={item.href}
+              className={`${
+                isCurrentPath(item.href)
+                  ? 'bg-slate-700 text-white'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+              } group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors`}
+            >
+              <Icon
+                className={`${
+                  isCurrentPath(item.href) ? 'text-white' : 'text-slate-400 group-hover:text-white'
+                } mr-3 h-5 w-5`}
+              />
+              {item.name}
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }
