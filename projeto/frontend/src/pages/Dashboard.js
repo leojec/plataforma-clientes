@@ -193,7 +193,9 @@ function Dashboard() {
         <div className="text-center">
           <div className="text-red-500 text-6xl mb-4">⚠️</div>
           <p className="text-red-600 mb-2">Erro ao carregar dados</p>
-          <p className="text-gray-500 text-sm">{error.message}</p>
+          <p className="text-gray-500 text-sm">
+            {typeof error.message === 'string' ? error.message : 'Erro desconhecido'}
+          </p>
         </div>
       </div>
     );

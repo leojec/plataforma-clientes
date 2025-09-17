@@ -19,11 +19,15 @@ function Agenda() {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   // Buscar atividades da agenda
-  const { data: agendaData, isLoading, refetch } = useQuery(
+  const { data: agendaData, isLoading, refetch, error } = useQuery(
     ['agenda', selectedDate],
     () => api.get(`/agenda/atividades?data=${selectedDate.toISOString()}&modo=dia`).then(res => res.data),
     {
       refetchInterval: 30000,
+      retry: false, // Não tentar novamente em caso de erro
+      onError: (error) => {
+        console.error('Erro ao buscar atividades da agenda:', error);
+      }
     }
   );
 
@@ -94,6 +98,20 @@ function Agenda() {
     return (
       <div className="h-full flex items-center justify-center bg-gray-50">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="text-red-500 text-6xl mb-4">⚠️</div>
+          <p className="text-red-600 mb-2">Erro ao carregar agenda</p>
+          <p className="text-gray-500 text-sm">
+            {typeof error.message === 'string' ? error.message : 'Erro desconhecido'}
+          </p>
+        </div>
       </div>
     );
   }
