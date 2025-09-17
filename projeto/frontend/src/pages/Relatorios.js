@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 
 function Relatorios() {
-  const [selectedPeriod, setSelectedPeriod] = useState('Mês');
   const navigate = useNavigate();
 
   // Buscar dados do dashboard (mesmos dados do Dashboard)
@@ -139,22 +138,6 @@ function Relatorios() {
           </button>
         </div>
 
-        {/* Period Selector */}
-        <div className="flex bg-white rounded-lg p-1">
-          {['Dia', 'Semana', 'Mês'].map((period) => (
-            <button
-              key={period}
-              onClick={() => setSelectedPeriod(period)}
-              className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                selectedPeriod === period
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              {period}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Content */}
