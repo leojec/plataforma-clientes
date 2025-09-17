@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { api } from '../services/api';
 import { 
   DndContext, 
   DragOverlay, 
@@ -30,25 +32,62 @@ import AddClientModal from '../components/AddClientModal';
 
 function KanbanBoard() {
   const navigate = useNavigate();
+  
+  // Buscar expositores do banco de dados
+  const { data: expositoresData, isLoading, refetch } = useQuery(
+    'expositores',
+    () => api.get('/expositores').then(res => res.data),
+    {
+      refetchInterval: 30000,
+    }
+  );
+
+  // Organizar expositores por status
   const [leads, setLeads] = useState({
-    lead: [
-      {
-        id: 'lead-1',
-        nome: 'João Silva',
-        endereco: 'Rua das Flores, 123',
-        telefone: '47999999999'
-      },
-      {
-        id: 'lead-2',
-        nome: 'Maria Santos',
-        endereco: 'Av. Principal, 456',
-        telefone: '47988888888'
-      }
-    ],
+    lead: [],
     emAndamento: [],
     emNegociacao: [],
     standFechado: []
   });
+
+  // Atualizar leads quando os dados do backend chegarem
+  useEffect(() => {
+    if (expositoresData?.content) {
+      const leadsPorStatus = {
+        lead: [],
+        emAndamento: [],
+        emNegociacao: [],
+        standFechado: []
+      };
+
+      expositoresData.content.forEach(expositor => {
+        const leadData = {
+          id: `lead-${expositor.id}`,
+          nome: expositor.nomeFantasia || expositor.razaoSocial,
+          endereco: expositor.endereco || 'Endereço não informado',
+          telefone: expositor.telefone || expositor.celular || 'Telefone não informado',
+          expositorId: expositor.id
+        };
+
+        // Mapear status do expositor para colunas do Kanban
+        switch (expositor.status) {
+          case 'POTENCIAL':
+            leadsPorStatus.lead.push(leadData);
+            break;
+          case 'ATIVO':
+            leadsPorStatus.emAndamento.push(leadData);
+            break;
+          case 'INATIVO':
+            leadsPorStatus.standFechado.push(leadData);
+            break;
+          default:
+            leadsPorStatus.lead.push(leadData);
+        }
+      });
+
+      setLeads(leadsPorStatus);
+    }
+  }, [expositoresData]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeId, setActiveId] = useState(null);
@@ -204,11 +243,9 @@ function KanbanBoard() {
     }));
   };
 
-  const handleAddClient = (newClient) => {
-    setLeads(prev => ({
-      ...prev,
-      lead: [...prev.lead, newClient]
-    }));
+  const handleAddClient = (newExpositor) => {
+    // Refetch dos dados para atualizar com dados reais do banco
+    refetch();
   };
 
   // Componente LeadCard (simplificado para teste)
@@ -291,6 +328,14 @@ function KanbanBoard() {
       borderColor: 'border-green-200'
     }
   ];
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <DndContext

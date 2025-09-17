@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { api } from '../services/api';
 
 function AddClientModal({ isOpen, onClose, onAddClient }) {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     cnpj: '',
     telefone: '',
@@ -34,7 +36,7 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validação básica
@@ -43,56 +45,66 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
       return;
     }
 
-    // Criar novo cliente
-    const newClient = {
-      id: Date.now(), // ID único temporário
-      nome: formData.razaoSocial,
-      nomeFantasia: formData.nomeFantasia,
-      telefone: formData.telefone,
-      telefoneAlternativo: formData.telefoneAlternativo,
-      email: formData.email,
-      cnpj: formData.cnpj,
-      endereco: `${formData.logradouro}, ${formData.numero} - ${formData.bairro}, ${formData.cidade}/${formData.uf}`,
-      tipoEndereco: formData.tipoEndereco,
-      complemento: formData.complemento,
-      site: formData.site,
-      redeSocial: formData.redeSocial,
-      dtInicioAtividade: formData.dtInicioAtividade,
-      cnaePrincipal: formData.cnaePrincipal,
-      textoCnaePrincipal: formData.textoCnaePrincipal,
-      faturamentoEstimado: formData.faturamentoEstimado,
-      quadroFuncionarios: formData.quadroFuncionarios,
-      dataCadastro: new Date().toLocaleString('pt-BR')
-    };
+    setLoading(true);
+    try {
+      // Preparar dados para o backend
+      const expositorData = {
+        razaoSocial: formData.razaoSocial,
+        nomeFantasia: formData.nomeFantasia || null,
+        cnpj: formData.cnpj || null,
+        email: formData.email,
+        telefone: formData.telefone,
+        celular: formData.telefoneAlternativo || null,
+        endereco: formData.logradouro && formData.numero ? 
+          `${formData.logradouro}, ${formData.numero}${formData.complemento ? ` - ${formData.complemento}` : ''} - ${formData.bairro}, ${formData.cidade}/${formData.uf}` : null,
+        cidade: formData.cidade || null,
+        estado: formData.uf || null,
+        site: formData.site || null,
+        descricao: `CNAE: ${formData.cnaePrincipal} - ${formData.textoCnaePrincipal}. Faturamento: ${formData.faturamentoEstimado}. Funcionários: ${formData.quadroFuncionarios}` || null,
+        status: 'POTENCIAL' // Novos leads começam como POTENCIAL
+      };
 
-    onAddClient(newClient);
-    
-    // Limpar formulário
-    setFormData({
-      cnpj: '',
-      telefone: '',
-      telefoneAlternativo: '',
-      razaoSocial: '',
-      nomeFantasia: '',
-      tipoEndereco: '',
-      logradouro: '',
-      numero: '',
-      complemento: '',
-      bairro: '',
-      cidade: '',
-      uf: '',
-      email: '',
-      site: '',
-      redeSocial: '',
-      dtInicioAtividade: '',
-      cnaePrincipal: '',
-      textoCnaePrincipal: '',
-      faturamentoEstimado: '',
-      quadroFuncionarios: ''
-    });
+      // Salvar no backend
+      const response = await api.post('/expositores', expositorData);
+      
+      // Notificar o componente pai para atualizar a lista
+      if (onAddClient) {
+        onAddClient(response.data);
+      }
+      
+      // Limpar formulário
+      setFormData({
+        cnpj: '',
+        telefone: '',
+        telefoneAlternativo: '',
+        razaoSocial: '',
+        nomeFantasia: '',
+        tipoEndereco: '',
+        logradouro: '',
+        numero: '',
+        complemento: '',
+        bairro: '',
+        cidade: '',
+        uf: '',
+        email: '',
+        site: '',
+        redeSocial: '',
+        dtInicioAtividade: '',
+        cnaePrincipal: '',
+        textoCnaePrincipal: '',
+        faturamentoEstimado: '',
+        quadroFuncionarios: ''
+      });
 
-    toast.success('Cliente cadastrado com sucesso!');
-    onClose();
+      toast.success('Expositor cadastrado com sucesso!');
+      onClose();
+      
+    } catch (error) {
+      console.error('Erro ao cadastrar expositor:', error);
+      toast.error(error.response?.data || 'Erro ao cadastrar expositor');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -379,9 +391,10 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
           <div className="flex justify-center mt-8">
             <button
               type="submit"
-              className="bg-green-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+              disabled={loading}
+              className="bg-green-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Salvar
+              {loading ? 'Salvando...' : 'Salvar'}
             </button>
           </div>
         </form>
