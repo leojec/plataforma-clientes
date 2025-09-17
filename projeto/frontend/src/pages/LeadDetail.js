@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
 import { 
   ArrowLeft, 
   Mail, 
@@ -44,27 +45,55 @@ function LeadDetail() {
     { id: 'retomada', label: 'Retomada' }
   ];
 
-  const handleSaveActivity = (activityData) => {
+  const handleSaveActivity = async (activityData) => {
     console.log('Atividade salva para o lead:', id, activityData);
     
-    // Criar nova atividade com ID único
-    const novaAtividade = {
-      id: Date.now(), // ID único baseado no timestamp
-      data: activityData.dataCriacao || new Date().toLocaleDateString('pt-BR'),
-      descricao: activityData.descricao,
-      agendamento: activityData.dataAgendamento && activityData.horarioAgendamento 
-        ? `Sim - ${activityData.dataAgendamento}` 
-        : 'Não',
-      usuario: 'Leonardo', // Pode ser dinâmico baseado no usuário logado
-      tipo: activityData.tipoAtividade,
-      link: activityData.link
-    };
+    try {
+      // Salvar atividade no backend
+      const response = await api.post('/agenda/atividades', {
+        ...activityData,
+        leadId: id
+      });
+      
+      if (response.data.sucesso) {
+        // Criar nova atividade para exibir na tabela local
+        const novaAtividade = {
+          id: response.data.id,
+          data: activityData.dataCriacao || new Date().toLocaleDateString('pt-BR'),
+          descricao: activityData.descricao,
+          agendamento: activityData.dataAgendamento && activityData.horarioAgendamento 
+            ? `Sim - ${activityData.dataAgendamento}` 
+            : 'Não',
+          usuario: 'Leonardo', // Pode ser dinâmico baseado no usuário logado
+          tipo: activityData.tipoAtividade,
+          link: activityData.link
+        };
 
-    // Adicionar à lista de atividades
-    setAtividades(prevAtividades => [novaAtividade, ...prevAtividades]);
-    
-    // Aqui você pode salvar a atividade no backend
-    setIsActivityModalOpen(false);
+        // Adicionar à lista de atividades
+        setAtividades(prevAtividades => [novaAtividade, ...prevAtividades]);
+        
+        setIsActivityModalOpen(false);
+        
+        // Mostrar mensagem de sucesso
+        console.log('Atividade salva com sucesso na agenda!');
+      }
+    } catch (error) {
+      console.error('Erro ao salvar atividade:', error);
+      // Ainda adicionar localmente em caso de erro
+      const novaAtividade = {
+        id: Date.now(),
+        data: activityData.dataCriacao || new Date().toLocaleDateString('pt-BR'),
+        descricao: activityData.descricao,
+        agendamento: activityData.dataAgendamento && activityData.horarioAgendamento 
+          ? `Sim - ${activityData.dataAgendamento}` 
+          : 'Não',
+        usuario: 'Leonardo',
+        tipo: activityData.tipoAtividade,
+        link: activityData.link
+      };
+      setAtividades(prevAtividades => [novaAtividade, ...prevAtividades]);
+      setIsActivityModalOpen(false);
+    }
   };
 
   const handleSaveStatus = (statusData) => {
