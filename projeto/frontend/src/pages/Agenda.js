@@ -15,12 +15,11 @@ import {
 
 function Agenda() {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState('dia'); // 'dia', 'semana', 'mes'
 
   // Buscar atividades da agenda
   const { data: agendaData, isLoading } = useQuery(
-    ['agenda', selectedDate, viewMode],
-    () => api.get(`/agenda/atividades?data=${selectedDate.toISOString()}&modo=${viewMode}`).then(res => res.data),
+    ['agenda', selectedDate],
+    () => api.get(`/agenda/atividades?data=${selectedDate.toISOString()}&modo=dia`).then(res => res.data),
     {
       refetchInterval: 30000,
     }
@@ -99,26 +98,6 @@ function Agenda() {
           </button>
         </div>
 
-        {/* View Mode Selector */}
-        <div className="flex bg-white rounded-lg p-1">
-          {[
-            { key: 'dia', label: 'Dia' },
-            { key: 'semana', label: 'Semana' },
-            { key: 'mes', label: 'Mês' }
-          ].map((mode) => (
-            <button
-              key={mode.key}
-              onClick={() => setViewMode(mode.key)}
-              className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                viewMode === mode.key
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              {mode.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Content */}
