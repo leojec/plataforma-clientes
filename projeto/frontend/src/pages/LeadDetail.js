@@ -32,7 +32,7 @@ function LeadDetail() {
     telefone: '(11) 99999-9999',
     endereco: 'Rua das Flores, 123 - São Paulo/SP',
     status: 'Em Andamento',
-    vendedor: 'Leonardo',
+    vendedor: 'Administrador',
     dataCriacao: '15/09/2024',
     valorEstimado: 'R$ 15.000,00'
   };
@@ -64,7 +64,7 @@ function LeadDetail() {
           agendamento: activityData.dataAgendamento && activityData.horarioAgendamento 
             ? `Sim - ${activityData.dataAgendamento}` 
             : 'Não',
-          usuario: 'Leonardo', // Pode ser dinâmico baseado no usuário logado
+          usuario: 'Administrador', // Pode ser dinâmico baseado no usuário logado
           tipo: activityData.tipoAtividade,
           link: activityData.link
         };
@@ -87,7 +87,7 @@ function LeadDetail() {
         agendamento: activityData.dataAgendamento && activityData.horarioAgendamento 
           ? `Sim - ${activityData.dataAgendamento}` 
           : 'Não',
-        usuario: 'Leonardo',
+        usuario: 'Administrador',
         tipo: activityData.tipoAtividade,
         link: activityData.link
       };
@@ -161,20 +161,6 @@ function LeadDetail() {
               className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-colors"
             >
               <Plus className="h-5 w-5" />
-            </button>
-            {/* Botão de teste - remover depois */}
-            <button 
-              onClick={() => {
-                console.log('🧪 Teste direto - movendo para Em Andamento');
-                const event = new CustomEvent('statusChanged', { 
-                  detail: { leadId: id, newStatus: 'Em Andamento' }
-                });
-                window.dispatchEvent(event);
-                setTimeout(() => navigate('/kanban'), 500);
-              }}
-              className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm"
-            >
-              TESTE
             </button>
           </div>
         </div>
