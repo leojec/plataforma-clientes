@@ -10,7 +10,6 @@ import {
   Video,
   ChevronLeft,
   ChevronRight,
-  Plus,
   Filter
 } from 'lucide-react';
 
@@ -145,10 +144,6 @@ function Agenda() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
-              <Plus className="w-4 h-4" />
-              <span>Nova Atividade</span>
-            </button>
             <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
               <Filter className="w-4 h-4" />
               <span>Filtros</span>
@@ -169,10 +164,6 @@ function Agenda() {
               <div className="text-center py-12">
                 <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-500">Nenhuma atividade agendada para esta data</p>
-                <button className="mt-4 flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors mx-auto">
-                  <Plus className="w-4 h-4" />
-                  <span>Agendar Atividade</span>
-                </button>
               </div>
             ) : (
               <div className="space-y-4">

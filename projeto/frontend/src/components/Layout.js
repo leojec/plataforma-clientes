@@ -7,6 +7,7 @@ import {
   TrendingUp, 
   BarChart3, 
   Settings,
+  Calendar,
   Menu, 
   X, 
   LogOut,
@@ -24,6 +25,7 @@ function Layout() {
     { name: 'Lista', href: '/kanban', icon: List },
     { name: 'Oportunidades', href: '/oportunidades', icon: TrendingUp },
     { name: 'Relatórios', href: '/relatorios', icon: BarChart3 },
+    { name: 'Agenda', href: '/agenda', icon: Calendar },
     { name: 'Configurações', href: '/configuracoes', icon: Settings },
   ];
 
