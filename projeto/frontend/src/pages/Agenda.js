@@ -10,14 +10,16 @@ import {
   Video,
   ChevronLeft,
   ChevronRight,
-  Filter
+  Filter,
+  CheckCircle,
+  Circle
 } from 'lucide-react';
 
 function Agenda() {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   // Buscar atividades da agenda
-  const { data: agendaData, isLoading } = useQuery(
+  const { data: agendaData, isLoading, refetch } = useQuery(
     ['agenda', selectedDate],
     () => api.get(`/agenda/atividades?data=${selectedDate.toISOString()}&modo=dia`).then(res => res.data),
     {
@@ -71,6 +73,21 @@ function Agenda() {
     const newDate = new Date(selectedDate);
     newDate.setDate(selectedDate.getDate() + days);
     setSelectedDate(newDate);
+  };
+
+  const marcarComoConcluida = async (atividadeId) => {
+    try {
+      // Fazer requisição para marcar como concluída no backend
+      await api.put(`/agenda/atividades/${atividadeId}/concluir`);
+      
+      // Refetch dos dados para atualizar a interface
+      refetch();
+      
+      console.log('Atividade marcada como concluída:', atividadeId);
+    } catch (error) {
+      console.error('Erro ao marcar atividade como concluída:', error);
+      alert('Erro ao marcar atividade como concluída');
+    }
   };
 
   if (isLoading) {
@@ -186,16 +203,28 @@ function Agenda() {
                       </p>
                     </div>
 
-                    {/* Status */}
-                    <div className="flex items-center">
+                    {/* Status e Ações */}
+                    <div className="flex items-center space-x-2">
                       {atividade.status === 'concluida' ? (
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          Concluída
-                        </span>
+                        <div className="flex items-center space-x-2">
+                          <CheckCircle className="w-5 h-5 text-green-600" />
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Concluída
+                          </span>
+                        </div>
                       ) : (
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                          Agendada
-                        </span>
+                        <div className="flex items-center space-x-2">
+                          <button
+                            onClick={() => marcarComoConcluida(atividade.id)}
+                            className="p-1 hover:bg-green-100 rounded-full transition-colors"
+                            title="Marcar como concluída"
+                          >
+                            <Circle className="w-5 h-5 text-gray-400 hover:text-green-600" />
+                          </button>
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            Agendada
+                          </span>
+                        </div>
                       )}
                     </div>
                   </div>

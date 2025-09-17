@@ -217,6 +217,38 @@ public class AgendaController {
         }
     }
     
+    @PutMapping("/atividades/{id}/concluir")
+    public ResponseEntity<Map<String, Object>> marcarComoConcluida(@PathVariable Long id) {
+        try {
+            Optional<Interacao> interacaoOpt = interacaoRepository.findById(id);
+            
+            if (!interacaoOpt.isPresent()) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("sucesso", false);
+                errorResponse.put("mensagem", "Atividade não encontrada");
+                return ResponseEntity.notFound().build();
+            }
+            
+            Interacao interacao = interacaoOpt.get();
+            interacao.setConcluida(true);
+            interacao.setDataAtualizacao(LocalDateTime.now());
+            
+            interacaoRepository.save(interacao);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("sucesso", true);
+            response.put("mensagem", "Atividade marcada como concluída");
+            response.put("id", id);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("sucesso", false);
+            errorResponse.put("mensagem", "Erro ao marcar atividade como concluída: " + e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
     private Interacao.TipoInteracao mapStringToTipoInteracao(String tipo) {
         switch (tipo) {
             case "Ligação":
