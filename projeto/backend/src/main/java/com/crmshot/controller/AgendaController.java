@@ -57,14 +57,19 @@ public class AgendaController {
             Map<String, Object> atividade = new HashMap<>();
             atividade.put("id", interacao.getId());
             atividade.put("titulo", interacao.getTipo().name() + " - " + 
-                (interacao.getExpositor() != null ? interacao.getExpositor().getNome() : "Lead"));
+                (interacao.getExpositor() != null ? 
+                    (interacao.getExpositor().getNomeFantasia() != null ? 
+                        interacao.getExpositor().getNomeFantasia() : 
+                        interacao.getExpositor().getRazaoSocial()) : "Lead"));
             atividade.put("descricao", interacao.getDescricao());
             atividade.put("tipo", mapTipoInteracao(interacao.getTipo()));
             atividade.put("horario", interacao.getDataProximaAcao() != null ? 
                 interacao.getDataProximaAcao().format(DateTimeFormatter.ofPattern("HH:mm")) : "00:00");
             atividade.put("data", dataConsulta.toString());
             atividade.put("leadNome", interacao.getExpositor() != null ? 
-                interacao.getExpositor().getNome() : "Lead");
+                (interacao.getExpositor().getNomeFantasia() != null ? 
+                    interacao.getExpositor().getNomeFantasia() : 
+                    interacao.getExpositor().getRazaoSocial()) : "Lead");
             atividade.put("leadId", "lead-" + (interacao.getExpositor() != null ? 
                 interacao.getExpositor().getId() : "0"));
             atividade.put("status", interacao.getConcluida() ? "concluida" : "agendada");
@@ -169,7 +174,10 @@ public class AgendaController {
             novaInteracao.setExpositor(expositorOpt.get());
             novaInteracao.setUsuario(usuarios.get(0)); // Usar primeiro usuário ativo
             novaInteracao.setTipo(tipo);
-            novaInteracao.setAssunto(tipoAtividade + " - " + expositorOpt.get().getNome());
+            novaInteracao.setAssunto(tipoAtividade + " - " + 
+                (expositorOpt.get().getNomeFantasia() != null ? 
+                    expositorOpt.get().getNomeFantasia() : 
+                    expositorOpt.get().getRazaoSocial()));
             novaInteracao.setDescricao(descricao);
             
             // Configurar data e horário da próxima ação
