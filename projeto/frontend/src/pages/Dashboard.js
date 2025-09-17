@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  RefreshCw, 
   Calendar, 
-  List, 
-  User, 
   UserPlus,
   CheckSquare,
   UserMinus,
@@ -27,14 +24,14 @@ function Dashboard() {
     }
   );
 
-  // Buscar dados do gráfico (comentado por enquanto)
-  // const { data: graficoData } = useQuery(
-  //   'dashboardGrafico',
-  //   () => api.get('/dashboard/atividades-grafico').then(res => res.data),
-  //   {
-  //     refetchInterval: 60000, // Atualizar a cada 1 minuto
-  //   }
-  // );
+  // Buscar dados do gráfico
+  const { data: graficoData } = useQuery(
+    'dashboardGrafico',
+    () => api.get('/dashboard/atividades-grafico').then(res => res.data),
+    {
+      refetchInterval: 60000, // Atualizar a cada 1 minuto
+    }
+  );
 
   // Dados dos cards de resumo (dinâmicos)
   const summaryCards = [
@@ -88,45 +85,37 @@ function Dashboard() {
     }
   ];
 
-  // Dados do gráfico
-  const chartData = {
-    "Simoni Jarschel": [
-      { x: new Date(2024, 7, 12), y: 5 },
-      { x: new Date(2024, 7, 14), y: 8 },
-      { x: new Date(2024, 7, 16), y: 12 },
-      { x: new Date(2024, 7, 18), y: 28 },
-      { x: new Date(2024, 7, 20), y: 15 },
-      { x: new Date(2024, 7, 22), y: 10 },
-      { x: new Date(2024, 7, 24), y: 6 },
-      { x: new Date(2024, 7, 26), y: 8 },
-      { x: new Date(2024, 7, 28), y: 12 },
-      { x: new Date(2024, 7, 30), y: 18 },
-      { x: new Date(2024, 8, 1), y: 22 },
-      { x: new Date(2024, 8, 3), y: 15 },
-      { x: new Date(2024, 8, 5), y: 8 },
-      { x: new Date(2024, 8, 7), y: 12 },
-      { x: new Date(2024, 8, 9), y: 20 },
-      { x: new Date(2024, 8, 11), y: 25 }
-    ],
-    "Leonardo": [
-      { x: new Date(2024, 7, 12), y: 2 },
-      { x: new Date(2024, 7, 14), y: 5 },
-      { x: new Date(2024, 7, 16), y: 3 },
-      { x: new Date(2024, 7, 18), y: 4 },
-      { x: new Date(2024, 7, 20), y: 2 },
-      { x: new Date(2024, 7, 22), y: 3 },
-      { x: new Date(2024, 7, 24), y: 1 },
-      { x: new Date(2024, 7, 26), y: 2 },
-      { x: new Date(2024, 7, 28), y: 3 },
-      { x: new Date(2024, 7, 30), y: 4 },
-      { x: new Date(2024, 8, 1), y: 2 },
-      { x: new Date(2024, 8, 3), y: 5 },
-      { x: new Date(2024, 8, 5), y: 3 },
-      { x: new Date(2024, 8, 7), y: 2 },
-      { x: new Date(2024, 8, 9), y: 4 },
-      { x: new Date(2024, 8, 11), y: 5 }
-    ]
+  // Processar dados do gráfico vindos do backend
+  const processChartData = () => {
+    if (!graficoData || !graficoData.dados) return {};
+    
+    const chartData = {};
+    const usuarios = graficoData.usuarios || [];
+    
+    // Inicializar arrays para cada usuário
+    usuarios.forEach(usuario => {
+      chartData[usuario] = [];
+    });
+    
+    // Processar cada ponto de dados
+    graficoData.dados.forEach(ponto => {
+      const [dia, mes] = ponto.data.split('/');
+      const ano = new Date().getFullYear();
+      const data = new Date(ano, parseInt(mes) - 1, parseInt(dia));
+      
+      usuarios.forEach(usuario => {
+        const quantidade = ponto[usuario] || 0;
+        chartData[usuario].push({
+          x: data,
+          y: quantidade
+        });
+      });
+    });
+    
+    return chartData;
   };
+  
+  const chartData = processChartData();
 
   // Inicializar o gráfico quando o componente montar
   useEffect(() => {
@@ -151,20 +140,13 @@ function Dashboard() {
               maximum: 30,
               interval: 10
             },
-            data: [
-              {
-                type: "line",
-                name: "Simoni Jarschel",
-                showInLegend: true,
-                dataPoints: chartData["Simoni Jarschel"]
-              },
-              {
-                type: "line",
-                name: "Leonardo",
-                showInLegend: true,
-                dataPoints: chartData["Leonardo"]
-              }
-            ],
+            data: Object.keys(chartData).map((usuario, index) => ({
+              type: "line",
+              name: usuario.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Formatar nome
+              showInLegend: true,
+              dataPoints: chartData[usuario] || [],
+              color: index === 0 ? "#4285F4" : "#EA4335" // Cores diferentes para cada usuário
+            })),
             legend: {
               cursor: "pointer",
               itemclick: function (e) {
@@ -189,7 +171,7 @@ function Dashboard() {
 
     // Aguarda um pouco para garantir que o CanvasJS esteja carregado
     setTimeout(initializeChart, 500);
-  }, []);
+  }, [graficoData]); // Re-renderizar quando os dados do gráfico mudarem
 
   // Loading state
   if (isLoading) {
@@ -224,27 +206,9 @@ function Dashboard() {
           <h1 className="text-xl font-semibold text-gray-800">DashBoard</h1>
         </div>
 
-        <div className="flex items-center space-x-4">
-          {/* Notification Badge */}
-          <div className="relative">
-            <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-              <RefreshCw className="w-5 h-5 text-gray-600" />
-            </button>
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              59
-            </span>
-          </div>
-
+        <div className="flex items-center justify-center">
           <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
             <Calendar className="w-5 h-5 text-gray-600" />
-          </button>
-
-          <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-            <List className="w-5 h-5 text-gray-600" />
-          </button>
-
-          <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
-            <User className="w-5 h-5 text-gray-600" />
           </button>
         </div>
 

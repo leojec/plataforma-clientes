@@ -53,4 +53,13 @@ public interface InteracaoRepository extends JpaRepository<Interacao, Long> {
     
     // Método para contar interações criadas após uma data
     Long countByDataCriacaoAfter(LocalDateTime data);
+    
+    // Método para buscar atividades agrupadas por usuário e data para o gráfico
+    @Query("SELECT DATE(i.dataCriacao) as data, u.nome as usuario, COUNT(i) as quantidade " +
+           "FROM Interacao i JOIN i.usuario u " +
+           "WHERE i.dataCriacao >= :dataInicio AND i.dataCriacao <= :dataFim " +
+           "GROUP BY DATE(i.dataCriacao), u.id, u.nome " +
+           "ORDER BY DATE(i.dataCriacao)")
+    List<Object[]> findAtividadesPorUsuarioEData(@Param("dataInicio") LocalDateTime dataInicio, 
+                                                 @Param("dataFim") LocalDateTime dataFim);
 }

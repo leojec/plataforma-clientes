@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api/dashboard")
@@ -65,24 +66,52 @@ public class DashboardController {
     public Map<String, Object> getAtividadesGrafico() {
         Map<String, Object> grafico = new HashMap<>();
         
-        // Buscar atividades dos últimos 30 dias agrupadas por dia e usuário
-        LocalDateTime dataInicio = LocalDateTime.now().minusDays(30);
-        LocalDateTime dataFim = LocalDateTime.now();
+        // Buscar todos os usuários ativos para incluir no gráfico
+        List<com.crmshot.entity.Usuario> usuarios = usuarioRepository.findByAtivoTrue();
         
-        // Dados fictícios para o gráfico (você pode implementar a consulta real depois)
+        // Criar lista de nomes de usuários
+        List<String> nomeUsuarios = new ArrayList<>();
+        for (com.crmshot.entity.Usuario usuario : usuarios) {
+            String nomeFormatado = usuario.getNome().toLowerCase().replace(" ", "_");
+            nomeUsuarios.add(nomeFormatado);
+        }
+        
+        // Se não há usuários cadastrados, usar dados padrão
+        if (nomeUsuarios.isEmpty()) {
+            nomeUsuarios.add("admin");
+        }
+        
+        // Gerar dados fictícios para os últimos 30 dias baseados nos usuários reais
         List<Map<String, Object>> dados = new ArrayList<>();
+        Random random = new Random();
         
-        // Gerar dados para os últimos 30 dias
         for (int i = 29; i >= 0; i--) {
             LocalDateTime data = LocalDateTime.now().minusDays(i);
+            String dataFormatada = data.format(DateTimeFormatter.ofPattern("dd/MM"));
+            
             Map<String, Object> ponto = new HashMap<>();
-            ponto.put("data", data.format(DateTimeFormatter.ofPattern("dd/MM")));
-            ponto.put("simoni", (int)(Math.random() * 30) + 5); // Dados fictícios
-            ponto.put("leonardo", (int)(Math.random() * 15) + 2); // Dados fictícios
+            ponto.put("data", dataFormatada);
+            
+            // Gerar dados aleatórios para cada usuário
+            for (int j = 0; j < nomeUsuarios.size(); j++) {
+                String nomeUsuario = nomeUsuarios.get(j);
+                int quantidade;
+                
+                // Dar valores diferentes para cada usuário
+                if (j == 0) {
+                    quantidade = random.nextInt(20) + 5; // Primeiro usuário: 5-24 atividades
+                } else {
+                    quantidade = random.nextInt(15) + 2; // Outros usuários: 2-16 atividades
+                }
+                
+                ponto.put(nomeUsuario, quantidade);
+            }
+            
             dados.add(ponto);
         }
         
         grafico.put("dados", dados);
+        grafico.put("usuarios", nomeUsuarios);
         return grafico;
     }
 }
