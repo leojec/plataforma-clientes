@@ -39,7 +39,19 @@ public class ExpositorController {
     }
     
     @GetMapping
-    public ResponseEntity<Page<Expositor>> listarExpositores(
+    public ResponseEntity<List<Expositor>> listarExpositores() {
+        try {
+            List<Expositor> expositores = expositorService.listarExpositores();
+            return ResponseEntity.ok(expositores);
+        } catch (Exception e) {
+            System.out.println("Erro ao listar expositores: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    
+    @GetMapping("/paginado")
+    public ResponseEntity<Page<Expositor>> listarExpositoresPaginado(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Expositor.StatusExpositor status,
             @RequestParam(required = false) Long vendedorId,

@@ -33,61 +33,32 @@ import AddClientModal from '../components/AddClientModal';
 function KanbanBoard() {
   const navigate = useNavigate();
   
-  // Buscar expositores do banco de dados
-  const { data: expositoresData, isLoading, refetch } = useQuery(
-    'expositores',
-    () => api.get('/expositores').then(res => res.data),
-    {
-      refetchInterval: 30000,
-    }
-  );
-
-  // Organizar expositores por status
+  // Dados temporários até corrigir o backend
   const [leads, setLeads] = useState({
-    lead: [],
-    emAndamento: [],
+    lead: [
+      {
+        id: 'lead-1',
+        nome: 'TechSol',
+        endereco: 'São Paulo, SP',
+        telefone: '(11) 99999-9999'
+      }
+    ],
+    emAndamento: [
+      {
+        id: 'lead-2',
+        nome: 'InovaDig',
+        endereco: 'Rio de Janeiro, RJ',
+        telefone: '(21) 88888-8888'
+      }
+    ],
     emNegociacao: [],
     standFechado: []
   });
 
-  // Atualizar leads quando os dados do backend chegarem
-  useEffect(() => {
-    if (expositoresData?.content) {
-      const leadsPorStatus = {
-        lead: [],
-        emAndamento: [],
-        emNegociacao: [],
-        standFechado: []
-      };
-
-      expositoresData.content.forEach(expositor => {
-        const leadData = {
-          id: `lead-${expositor.id}`,
-          nome: expositor.nomeFantasia || expositor.razaoSocial,
-          endereco: expositor.endereco || 'Endereço não informado',
-          telefone: expositor.telefone || expositor.celular || 'Telefone não informado',
-          expositorId: expositor.id
-        };
-
-        // Mapear status do expositor para colunas do Kanban
-        switch (expositor.status) {
-          case 'POTENCIAL':
-            leadsPorStatus.lead.push(leadData);
-            break;
-          case 'ATIVO':
-            leadsPorStatus.emAndamento.push(leadData);
-            break;
-          case 'INATIVO':
-            leadsPorStatus.standFechado.push(leadData);
-            break;
-          default:
-            leadsPorStatus.lead.push(leadData);
-        }
-      });
-
-      setLeads(leadsPorStatus);
-    }
-  }, [expositoresData]);
+  // Função para refetch (temporária)
+  const refetch = () => {
+    console.log('Refetch solicitado - dados serão atualizados quando backend estiver funcionando');
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeId, setActiveId] = useState(null);
@@ -329,13 +300,6 @@ function KanbanBoard() {
     }
   ];
 
-  if (isLoading) {
-    return (
-      <div className="h-full flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
 
   return (
     <DndContext
