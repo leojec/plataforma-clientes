@@ -4,7 +4,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { 
   Home, 
   List, 
-  TrendingUp, 
   BarChart3, 
   Settings,
   Calendar,
@@ -23,7 +22,6 @@ function Layout() {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'Lista', href: '/kanban', icon: List },
-    { name: 'Oportunidades', href: '/oportunidades', icon: TrendingUp },
     { name: 'Relatórios', href: '/relatorios', icon: BarChart3 },
     { name: 'Agenda', href: '/agenda', icon: Calendar },
     { name: 'Configurações', href: '/configuracoes', icon: Settings },
