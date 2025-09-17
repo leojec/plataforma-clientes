@@ -13,7 +13,6 @@ import { useQuery } from 'react-query';
 import { api } from '../services/api';
 
 function Dashboard() {
-  const [selectedPeriod, setSelectedPeriod] = useState('Dia');
   const navigate = useNavigate();
 
   // Buscar dados do dashboard da API
@@ -218,22 +217,6 @@ function Dashboard() {
           </button>
         </div>
 
-        {/* Period Selector */}
-        <div className="flex bg-white rounded-lg p-1">
-          {['Dia', 'Semana', 'Mês'].map((period) => (
-            <button
-              key={period}
-              onClick={() => setSelectedPeriod(period)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                selectedPeriod === period
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-600 hover:text-gray-800'
-              }`}
-            >
-              {period}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Main Content */}

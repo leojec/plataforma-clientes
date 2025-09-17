@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, User, Bell, Shield, Database, Palette } from 'lucide-react';
+import { Settings, User, Bell, Shield, Database, Palette, Calendar } from 'lucide-react';
 
 function Configuracoes() {
   const configSections = [
@@ -60,70 +60,80 @@ function Configuracoes() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Configurações</h1>
-          <p className="text-gray-600">Gerencie as configurações do sistema</p>
+    <div className="h-full flex flex-col bg-gray-50">
+      {/* Header */}
+      <div className="bg-blue-100 px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <h1 className="text-xl font-semibold text-gray-800">Configurações</h1>
+          <span className="text-sm text-gray-600">Gerencie as configurações do sistema</span>
+        </div>
+
+        <div className="flex items-center justify-center">
+          <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+            <Calendar className="w-5 h-5 text-gray-600" />
+          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {configSections.map((section, index) => {
-          const Icon = section.icon;
-          return (
-            <div key={index} className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center mb-4">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Icon className="h-6 w-6 text-blue-600" />
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {configSections.map((section, index) => {
+            const Icon = section.icon;
+            return (
+              <div key={index} className="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md transition-shadow">
+                <div className="flex items-center mb-3">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <Icon className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <h3 className="ml-3 text-base font-semibold text-gray-900">
+                    {section.title}
+                  </h3>
                 </div>
-                <h3 className="ml-3 text-lg font-semibold text-gray-900">
-                  {section.title}
-                </h3>
+                <ul className="space-y-1">
+                  {section.items.map((item, itemIndex) => (
+                    <li key={itemIndex} className="text-sm text-gray-600 hover:text-blue-600 cursor-pointer transition-colors">
+                      • {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="space-y-2">
-                {section.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer">
-                    • {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
 
-      {/* Configurações Avançadas */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Configurações Avançadas</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <h4 className="font-medium text-gray-900 mb-2">API Keys</h4>
-            <p className="text-sm text-gray-600 mb-3">Gerencie suas chaves de API</p>
-            <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-              Configurar →
-            </button>
-          </div>
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <h4 className="font-medium text-gray-900 mb-2">Webhooks</h4>
-            <p className="text-sm text-gray-600 mb-3">Configure notificações webhook</p>
-            <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-              Configurar →
-            </button>
-          </div>
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <h4 className="font-medium text-gray-900 mb-2">Logs do Sistema</h4>
-            <p className="text-sm text-gray-600 mb-3">Visualize logs de erro e atividade</p>
-            <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-              Visualizar →
-            </button>
-          </div>
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <h4 className="font-medium text-gray-900 mb-2">Manutenção</h4>
-            <p className="text-sm text-gray-600 mb-3">Modo de manutenção e limpeza</p>
-            <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-              Acessar →
-            </button>
+        {/* Configurações Avançadas */}
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Configurações Avançadas</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <h4 className="font-medium text-gray-900 mb-2">API Keys</h4>
+              <p className="text-sm text-gray-600 mb-3">Gerencie suas chaves de API</p>
+              <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                Configurar →
+              </button>
+            </div>
+            <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <h4 className="font-medium text-gray-900 mb-2">Webhooks</h4>
+              <p className="text-sm text-gray-600 mb-3">Configure notificações webhook</p>
+              <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                Configurar →
+              </button>
+            </div>
+            <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <h4 className="font-medium text-gray-900 mb-2">Logs do Sistema</h4>
+              <p className="text-sm text-gray-600 mb-3">Visualize logs de erro e atividade</p>
+              <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                Visualizar →
+              </button>
+            </div>
+            <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <h4 className="font-medium text-gray-900 mb-2">Manutenção</h4>
+              <p className="text-sm text-gray-600 mb-3">Modo de manutenção e limpeza</p>
+              <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                Acessar →
+              </button>
+            </div>
           </div>
         </div>
       </div>
