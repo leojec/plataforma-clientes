@@ -47,8 +47,25 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-primary-100">
-            <LogIn className="h-6 w-6 text-primary-600" />
+          {/* Logo CRM Shot */}
+          <div className="mx-auto flex items-center justify-center">
+            <div className="w-16 h-16 bg-red-500 rounded-lg flex items-center justify-center relative">
+              {/* Speech bubble icon */}
+              <div className="w-12 h-12 border-4 border-white rounded-lg relative">
+                {/* Growth bars inside */}
+                <div className="absolute bottom-2 left-2 flex items-end space-x-1">
+                  <div className="w-1.5 h-4 bg-white"></div>
+                  <div className="w-1.5 h-6 bg-white"></div>
+                  <div className="w-1.5 h-8 bg-white"></div>
+                </div>
+                {/* Growth arrow */}
+                <div className="absolute top-1 right-1 w-0 h-0 border-l-4 border-b-4 border-white transform rotate-45"></div>
+              </div>
+            </div>
+            <div className="ml-4">
+              <div className="text-gray-900 font-bold text-2xl leading-none">CRM</div>
+              <div className="text-red-500 font-bold text-lg leading-none">SHOT</div>
+            </div>
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             CRM Shot Fair Brasil
