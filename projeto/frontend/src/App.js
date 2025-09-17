@@ -12,6 +12,7 @@ import Oportunidades from './pages/Oportunidades';
 import Relatorios from './pages/Relatorios';
 import Configuracoes from './pages/Configuracoes';
 import LeadDetail from './pages/LeadDetail';
+import Agenda from './pages/Agenda';
 import Layout from './components/Layout';
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ function AppRoutes() {
         <Route path="oportunidades" element={<Oportunidades />} />
         <Route path="relatorios" element={<Relatorios />} />
         <Route path="configuracoes" element={<Configuracoes />} />
+        <Route path="agenda" element={<Agenda />} />
       </Route>
     </Routes>
   );

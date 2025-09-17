@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Calendar, 
   UserPlus,
@@ -13,6 +14,7 @@ import { api } from '../services/api';
 
 function Dashboard() {
   const [selectedPeriod, setSelectedPeriod] = useState('Dia');
+  const navigate = useNavigate();
 
   // Buscar dados do dashboard da API
   const { data: dashboardStats, isLoading, error } = useQuery(
@@ -207,7 +209,11 @@ function Dashboard() {
         </div>
 
         <div className="flex items-center justify-center">
-          <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+          <button 
+            onClick={() => navigate('/agenda')}
+            className="p-2 hover:bg-blue-200 rounded-lg transition-colors"
+            title="Abrir Agenda"
+          >
             <Calendar className="w-5 h-5 text-gray-600" />
           </button>
         </div>

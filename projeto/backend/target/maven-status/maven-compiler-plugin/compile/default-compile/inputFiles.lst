@@ -18,6 +18,7 @@
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/dto/ExpositorRequest.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/AuthController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/dto/LoginResponse.java
+/Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/AgendaController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/repository/UsuarioRepository.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/config/DataLoader.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/entity/Interacao.java

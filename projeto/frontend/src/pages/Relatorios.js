@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
 import { 
@@ -16,6 +17,7 @@ import {
 
 function Relatorios() {
   const [selectedPeriod, setSelectedPeriod] = useState('Mês');
+  const navigate = useNavigate();
 
   // Buscar dados do dashboard (mesmos dados do Dashboard)
   const { data: dashboardStats, isLoading } = useQuery(
@@ -128,7 +130,11 @@ function Relatorios() {
         </div>
 
         <div className="flex items-center justify-center">
-          <button className="p-2 hover:bg-blue-200 rounded-lg transition-colors">
+          <button 
+            onClick={() => navigate('/agenda')}
+            className="p-2 hover:bg-blue-200 rounded-lg transition-colors"
+            title="Abrir Agenda"
+          >
             <Calendar className="w-5 h-5 text-gray-600" />
           </button>
         </div>

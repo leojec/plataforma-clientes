@@ -17,6 +17,7 @@ com/crmshot/controller/AuthController.class
 com/crmshot/controller/DashboardController.class
 com/crmshot/CrmshotApplication.class
 com/crmshot/repository/OportunidadeRepository.class
+com/crmshot/controller/AgendaController.class
 com/crmshot/dto/LoginResponse$UsuarioInfo.class
 com/crmshot/security/JwtUtil.class
 com/crmshot/dto/LoginRequest.class
