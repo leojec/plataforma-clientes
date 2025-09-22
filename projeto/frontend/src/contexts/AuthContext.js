@@ -39,16 +39,15 @@ export function AuthProvider({ children }) {
       let errorMessage = 'Erro ao fazer login';
       
       if (error.response?.data) {
-        if (typeof error.response.data === 'string') {
-          errorMessage = error.response.data;
-        } else if (error.response.data.message) {
-          errorMessage = error.response.data.message;
-        } else if (error.response.data.error) {
-          errorMessage = error.response.data.error;
+        const errorData = error.response.data;
+        if (typeof errorData === 'string') {
+          errorMessage = errorData;
+        } else if (errorData && typeof errorData === 'object') {
+          errorMessage = errorData.message || errorData.error || 'Erro de conexão com o servidor';
         } else {
           errorMessage = 'Erro de conexão com o servidor';
         }
-      } else if (error.message) {
+      } else if (error.message && typeof error.message === 'string') {
         errorMessage = error.message;
       }
       

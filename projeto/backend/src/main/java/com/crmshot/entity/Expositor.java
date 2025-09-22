@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -79,9 +81,11 @@ public class Expositor {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendedor_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Usuario vendedor;
     
     @OneToMany(mappedBy = "expositor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Oportunidade> oportunidades;
     
     @OneToMany(mappedBy = "expositor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

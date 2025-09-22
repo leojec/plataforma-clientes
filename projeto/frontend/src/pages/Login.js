@@ -64,7 +64,8 @@ function Login() {
       setShowCreateUser(false);
       setCreateUserData({ nome: '', email: '', senha: '', confirmarSenha: '' });
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Erro ao criar usuário');
+      const errorMsg = error.response?.data?.message || 'Erro ao criar usuário';
+      toast.error(typeof errorMsg === 'string' ? errorMsg : 'Erro ao criar usuário');
     } finally {
       setCreatingUser(false);
     }
@@ -81,7 +82,8 @@ function Login() {
         toast.success('Login realizado com sucesso!');
         navigate('/');
       } else {
-        toast.error(result.message);
+        const errorMsg = result.message || 'Erro ao fazer login';
+        toast.error(typeof errorMsg === 'string' ? errorMsg : 'Erro ao fazer login');
       }
     } catch (error) {
       const errorMessage = error?.message || 'Erro ao fazer login';

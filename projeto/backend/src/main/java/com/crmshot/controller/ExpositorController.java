@@ -10,7 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -38,11 +42,57 @@ public class ExpositorController {
         }
     }
     
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return ResponseEntity.badRequest().body(errors);
+    }
+    
     @GetMapping
-    public ResponseEntity<List<Expositor>> listarExpositores() {
+    public ResponseEntity<List<Map<String, Object>>> listarExpositores() {
         try {
             List<Expositor> expositores = expositorService.listarExpositores();
-            return ResponseEntity.ok(expositores);
+            
+            // Converter para um formato simples sem referências circulares
+            List<Map<String, Object>> expositoresSimples = expositores.stream()
+                .map(expositor -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", expositor.getId());
+                    map.put("razaoSocial", expositor.getRazaoSocial());
+                    map.put("nomeFantasia", expositor.getNomeFantasia());
+                    map.put("cnpj", expositor.getCnpj());
+                    map.put("email", expositor.getEmail());
+                    map.put("telefone", expositor.getTelefone());
+                    map.put("celular", expositor.getCelular());
+                    map.put("endereco", expositor.getEndereco());
+                    map.put("cidade", expositor.getCidade());
+                    map.put("estado", expositor.getEstado());
+                    map.put("cep", expositor.getCep());
+                    map.put("site", expositor.getSite());
+                    map.put("descricao", expositor.getDescricao());
+                    map.put("status", expositor.getStatus());
+                    map.put("dataCadastro", expositor.getDataCadastro());
+                    map.put("dataAtualizacao", expositor.getDataAtualizacao());
+                    
+                    // Apenas informações básicas do vendedor
+                    if (expositor.getVendedor() != null) {
+                        Map<String, Object> vendedor = new HashMap<>();
+                        vendedor.put("id", expositor.getVendedor().getId());
+                        vendedor.put("nome", expositor.getVendedor().getNome());
+                        vendedor.put("email", expositor.getVendedor().getEmail());
+                        map.put("vendedor", vendedor);
+                    }
+                    
+                    return map;
+                })
+                .collect(java.util.stream.Collectors.toList());
+            
+            return ResponseEntity.ok(expositoresSimples);
         } catch (Exception e) {
             System.out.println("Erro ao listar expositores: " + e.getMessage());
             e.printStackTrace();

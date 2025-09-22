@@ -21,10 +21,18 @@ function Agenda() {
   // Buscar atividades da agenda
   const { data: agendaData, isLoading, refetch, error } = useQuery(
     ['agenda', selectedDate],
-    () => api.get(`/agenda/atividades?data=${selectedDate.toISOString()}&modo=dia`).then(res => res.data),
+    async () => {
+      try {
+        const response = await api.get(`/agenda/atividades?data=${selectedDate.toISOString()}&modo=dia`);
+        return response.data;
+      } catch (err) {
+        console.error('Erro ao buscar atividades:', err);
+        throw new Error('Falha ao carregar atividades');
+      }
+    },
     {
       refetchInterval: 30000,
-      retry: false, // Não tentar novamente em caso de erro
+      retry: false,
       onError: (error) => {
         console.error('Erro ao buscar atividades da agenda:', error);
       }
@@ -32,15 +40,28 @@ function Agenda() {
   );
 
   // Usar dados da API ou dados fictícios como fallback
-  const atividades = agendaData?.atividades || [];
+  const atividades = Array.isArray(agendaData?.atividades) ? agendaData.atividades : [];
+  
+  // Debug para identificar problemas
+  if (agendaData && !Array.isArray(agendaData.atividades)) {
+    console.error('Dados inválidos recebidos da API:', agendaData);
+  }
 
   const formatDate = (date) => {
-    return date.toLocaleDateString('pt-BR', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
+    try {
+      if (!date || !(date instanceof Date)) {
+        return 'Data inválida';
+      }
+      return date.toLocaleDateString('pt-BR', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    } catch (error) {
+      console.error('Erro ao formatar data:', error);
+      return 'Data inválida';
+    }
   };
 
   const getTipoIcon = (tipo) => {
@@ -103,13 +124,14 @@ function Agenda() {
   }
 
   if (error) {
+    console.error('Erro completo:', error);
     return (
       <div className="h-full flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="text-red-500 text-6xl mb-4">⚠️</div>
           <p className="text-red-600 mb-2">Erro ao carregar agenda</p>
           <p className="text-gray-500 text-sm">
-            {typeof error.message === 'string' ? error.message : 'Erro desconhecido'}
+            Erro de conexão ou servidor
           </p>
         </div>
       </div>
@@ -147,7 +169,7 @@ function Agenda() {
               <ChevronLeft className="w-5 h-5 text-gray-600" />
             </button>
             <h2 className="text-lg font-medium text-gray-900">
-              {selectedDate.toLocaleDateString('pt-BR')}
+              {selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'Data inválida'}
             </h2>
             <button
               onClick={() => changeDate(1)}
@@ -194,7 +216,7 @@ function Agenda() {
                     <div className="flex flex-col items-center min-w-0">
                       <div className="flex items-center space-x-1 text-sm font-medium text-gray-900">
                         <Clock className="w-4 h-4" />
-                        <span>{atividade.horario}</span>
+                        <span>{String(atividade.horario || '')}</span>
                       </div>
                     </div>
 
@@ -203,21 +225,21 @@ function Agenda() {
                       <div className="flex items-center space-x-2 mb-2">
                         <span className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${getTipoColor(atividade.tipo)}`}>
                           {getTipoIcon(atividade.tipo)}
-                          <span>{atividade.tipo}</span>
+                          <span>{String(atividade.tipo || '')}</span>
                         </span>
                         <span className="text-sm text-gray-500">•</span>
                         <div className="flex items-center space-x-1 text-sm text-gray-600">
                           <User className="w-3 h-3" />
-                          <span>{atividade.leadNome}</span>
+                          <span>{String(atividade.leadNome || '')}</span>
                         </div>
                       </div>
                       
                       <h4 className="text-sm font-medium text-gray-900 mb-1">
-                        {atividade.titulo}
+                        {String(atividade.titulo || '')}
                       </h4>
                       
                       <p className="text-sm text-gray-600">
-                        {atividade.descricao}
+                        {String(atividade.descricao || '')}
                       </p>
                     </div>
 
@@ -261,7 +283,7 @@ function Agenda() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-600">Total de Atividades</p>
-                <p className="text-xl font-bold text-gray-900">{agendaData?.total || atividades.length}</p>
+                <p className="text-xl font-bold text-gray-900">{Number(agendaData?.total || atividades.length || 0)}</p>
               </div>
             </div>
           </div>
@@ -274,7 +296,7 @@ function Agenda() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Concluídas</p>
                 <p className="text-xl font-bold text-gray-900">
-                  {agendaData?.concluidas || atividades.filter(a => a.status === 'concluida').length}
+                  {Number(agendaData?.concluidas || atividades.filter(a => a?.status === 'concluida').length || 0)}
                 </p>
               </div>
             </div>
@@ -288,7 +310,7 @@ function Agenda() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Pendentes</p>
                 <p className="text-xl font-bold text-gray-900">
-                  {agendaData?.pendentes || atividades.filter(a => a.status === 'agendada').length}
+                  {Number(agendaData?.pendentes || atividades.filter(a => a?.status === 'agendada').length || 0)}
                 </p>
               </div>
             </div>

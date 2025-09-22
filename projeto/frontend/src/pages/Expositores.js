@@ -212,7 +212,8 @@ function ExpositorModal({ expositor, onClose }) {
         onClose();
       },
       onError: (error) => {
-        toast.error('Erro ao criar expositor: ' + (error.response?.data?.message || error.message));
+        const errorMsg = error.response?.data?.message || error.message || 'Erro ao criar expositor';
+        toast.error(typeof errorMsg === 'string' ? 'Erro ao criar expositor: ' + errorMsg : 'Erro ao criar expositor');
       }
     }
   );

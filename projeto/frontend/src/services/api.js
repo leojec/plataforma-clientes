@@ -27,6 +27,16 @@ api.interceptors.response.use(
       localStorage.removeItem('token');
       window.location.href = '/login';
     }
+    
+    // Garantir que o erro seja uma string ou objeto simples
+    if (error.response?.data) {
+      const errorData = error.response.data;
+      if (typeof errorData === 'object' && errorData !== null) {
+        // Se for um objeto complexo, converter para string
+        error.message = errorData.message || errorData.error || 'Erro do servidor';
+      }
+    }
+    
     return Promise.reject(error);
   }
 );

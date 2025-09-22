@@ -40,8 +40,8 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
     e.preventDefault();
     
     // Validação básica
-    if (!formData.razaoSocial || !formData.telefone || !formData.email) {
-      toast.error('Preencha os campos obrigatórios: Razão Social, Telefone e E-mail');
+    if (!formData.razaoSocial || !formData.cnpj || !formData.email) {
+      toast.error('Preencha os campos obrigatórios: Razão Social, CNPJ e E-mail');
       return;
     }
 
@@ -101,7 +101,24 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
       
     } catch (error) {
       console.error('Erro ao cadastrar expositor:', error);
-      toast.error(error.response?.data || 'Erro ao cadastrar expositor');
+      
+      // Tratar erros de validação do backend
+      if (error.response?.status === 400) {
+        const errorData = error.response.data;
+        
+        if (typeof errorData === 'object' && errorData !== null) {
+          // Erro de validação - mostrar todos os campos com erro
+          const errorMessages = Object.values(errorData).join(', ');
+          toast.error(`Erro de validação: ${errorMessages}`);
+        } else if (typeof errorData === 'string') {
+          toast.error(errorData);
+        } else {
+          toast.error('Erro de validação nos dados enviados');
+        }
+      } else {
+        const errorMsg = error.response?.data?.message || error.message || 'Erro ao cadastrar expositor';
+        toast.error(typeof errorMsg === 'string' ? errorMsg : 'Erro ao cadastrar expositor');
+      }
     } finally {
       setLoading(false);
     }

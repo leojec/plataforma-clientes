@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { api } from '../services/api';
 import { 
   DndContext, 
@@ -32,33 +32,80 @@ import AddClientModal from '../components/AddClientModal';
 
 function KanbanBoard() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   
-  // Dados temporários até corrigir o backend
+  // Estado para os leads
   const [leads, setLeads] = useState({
-    lead: [
-      {
-        id: 'lead-1',
-        nome: 'TechSol',
-        endereco: 'São Paulo, SP',
-        telefone: '(11) 99999-9999'
-      }
-    ],
-    emAndamento: [
-      {
-        id: 'lead-2',
-        nome: 'InovaDig',
-        endereco: 'Rio de Janeiro, RJ',
-        telefone: '(21) 88888-8888'
-      }
-    ],
+    lead: [],
+    emAndamento: [],
     emNegociacao: [],
     standFechado: []
   });
 
-  // Função para refetch (temporária)
-  const refetch = () => {
-    console.log('Refetch solicitado - dados serão atualizados quando backend estiver funcionando');
-  };
+  // Buscar expositores do backend
+  const { data: expositores, isLoading, refetch } = useQuery(
+    'expositores',
+    () => api.get('/expositores').then(res => res.data),
+    {
+      onSuccess: (data) => {
+        console.log('✅ Expositores carregados com sucesso:', data);
+        // Organizar expositores por status
+        const leadsOrganizados = {
+          lead: [],
+          emAndamento: [],
+          emNegociacao: [],
+          standFechado: []
+        };
+
+        data.forEach(expositor => {
+          const leadCard = {
+            id: `lead-${expositor.id}`,
+            nome: expositor.nomeFantasia || expositor.razaoSocial,
+            endereco: `${expositor.cidade || ''}, ${expositor.estado || ''}`.replace(/^,\s*|,\s*$/g, ''),
+            telefone: expositor.telefone || expositor.celular || 'Sem telefone',
+            email: expositor.email,
+            cnpj: expositor.cnpj,
+            status: expositor.status
+          };
+
+          // Mapear status do backend para colunas do kanban
+          switch (expositor.status) {
+            case 'POTENCIAL':
+              leadsOrganizados.lead.push(leadCard);
+              break;
+            case 'ATIVO':
+              leadsOrganizados.emAndamento.push(leadCard);
+              break;
+            case 'INATIVO':
+              leadsOrganizados.emNegociacao.push(leadCard);
+              break;
+            default:
+              leadsOrganizados.lead.push(leadCard);
+          }
+        });
+
+        console.log('🎯 Estado final dos leads organizados:', leadsOrganizados);
+        setLeads(leadsOrganizados);
+      },
+      onError: (error) => {
+        console.error('Erro ao carregar expositores:', error);
+        // Em caso de erro, usar dados temporários
+        setLeads({
+          lead: [
+            {
+              id: 'lead-1',
+              nome: 'TechSol',
+              endereco: 'São Paulo, SP',
+              telefone: '(11) 99999-9999'
+            }
+          ],
+          emAndamento: [],
+          emNegociacao: [],
+          standFechado: []
+        });
+      }
+    }
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeId, setActiveId] = useState(null);
@@ -215,8 +262,10 @@ function KanbanBoard() {
   };
 
   const handleAddClient = (newExpositor) => {
-    // Refetch dos dados para atualizar com dados reais do banco
-    refetch();
+    console.log('🎉 Novo expositor adicionado, atualizando lista...');
+    
+    // Invalidar cache e refetch
+    queryClient.invalidateQueries('expositores');
   };
 
   // Componente LeadCard (simplificado para teste)
@@ -300,6 +349,17 @@ function KanbanBoard() {
     }
   ];
 
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando leads...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <DndContext
