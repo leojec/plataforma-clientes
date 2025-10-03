@@ -113,12 +113,48 @@ public class ExpositorController {
     
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarExpositor(@PathVariable Long id) {
-        Optional<Expositor> expositor = expositorService.buscarPorId(id);
-        
-        if (expositor.isPresent()) {
-            return ResponseEntity.ok(expositor.get());
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            Optional<Expositor> expositorOpt = expositorService.buscarPorId(id);
+            
+            if (expositorOpt.isPresent()) {
+                Expositor expositor = expositorOpt.get();
+                
+                // Converter para um formato simples sem referências circulares
+                Map<String, Object> expositorSimples = new HashMap<>();
+                expositorSimples.put("id", expositor.getId());
+                expositorSimples.put("razaoSocial", expositor.getRazaoSocial());
+                expositorSimples.put("nomeFantasia", expositor.getNomeFantasia());
+                expositorSimples.put("cnpj", expositor.getCnpj());
+                expositorSimples.put("email", expositor.getEmail());
+                expositorSimples.put("telefone", expositor.getTelefone());
+                expositorSimples.put("celular", expositor.getCelular());
+                expositorSimples.put("endereco", expositor.getEndereco());
+                expositorSimples.put("cidade", expositor.getCidade());
+                expositorSimples.put("estado", expositor.getEstado());
+                expositorSimples.put("cep", expositor.getCep());
+                expositorSimples.put("site", expositor.getSite());
+                expositorSimples.put("descricao", expositor.getDescricao());
+                expositorSimples.put("status", expositor.getStatus());
+                expositorSimples.put("dataCadastro", expositor.getDataCadastro());
+                expositorSimples.put("dataAtualizacao", expositor.getDataAtualizacao());
+                
+                // Apenas informações básicas do vendedor
+                if (expositor.getVendedor() != null) {
+                    Map<String, Object> vendedor = new HashMap<>();
+                    vendedor.put("id", expositor.getVendedor().getId());
+                    vendedor.put("nome", expositor.getVendedor().getNome());
+                    vendedor.put("email", expositor.getVendedor().getEmail());
+                    expositorSimples.put("vendedor", vendedor);
+                }
+                
+                return ResponseEntity.ok(expositorSimples);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar expositor por ID: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
     
@@ -159,5 +195,68 @@ public class ExpositorController {
     public ResponseEntity<List<Expositor>> listarExpositoresPorVendedor(@PathVariable Long vendedorId) {
         List<Expositor> expositores = expositorService.listarExpositoresPorVendedor(vendedorId);
         return ResponseEntity.ok(expositores);
+    }
+    
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Map<String, Object>> atualizarStatus(@PathVariable Long id, @RequestBody Map<String, String> statusData) {
+        try {
+            String novoStatus = statusData.get("status");
+            
+            if (novoStatus == null || novoStatus.trim().isEmpty()) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("erro", "Status não pode ser vazio");
+                return ResponseEntity.badRequest().body(errorResponse);
+            }
+            
+            Optional<Expositor> expositorOpt = expositorService.buscarPorId(id);
+            
+            if (!expositorOpt.isPresent()) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("erro", "Expositor não encontrado");
+                return ResponseEntity.notFound().build();
+            }
+            
+            Expositor expositor = expositorOpt.get();
+            Expositor.StatusExpositor statusAnterior = expositor.getStatus();
+            
+            // Mapear status do frontend para enum do backend
+            Expositor.StatusExpositor novoStatusEnum;
+            switch (novoStatus) {
+                case "Lead":
+                    novoStatusEnum = Expositor.StatusExpositor.POTENCIAL;
+                    break;
+                case "Em Andamento":
+                    novoStatusEnum = Expositor.StatusExpositor.ATIVO;
+                    break;
+                case "Em Negociação":
+                    novoStatusEnum = Expositor.StatusExpositor.INATIVO;
+                    break;
+                case "Stand Fechado":
+                    novoStatusEnum = Expositor.StatusExpositor.BLOQUEADO;
+                    break;
+                default:
+                    Map<String, Object> errorResponse = new HashMap<>();
+                    errorResponse.put("erro", "Status inválido: " + novoStatus);
+                    return ResponseEntity.badRequest().body(errorResponse);
+            }
+            
+            expositor.setStatus(novoStatusEnum);
+            expositorService.atualizarExpositor(expositor);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("sucesso", true);
+            response.put("mensagem", "Status atualizado com sucesso");
+            response.put("id", id);
+            response.put("statusAnterior", statusAnterior.name());
+            response.put("novoStatus", novoStatusEnum.name());
+            response.put("statusFrontend", novoStatus);
+            
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("erro", "Erro ao atualizar status: " + e.getMessage());
+            return ResponseEntity.internalServerError().body(errorResponse);
+        }
     }
 }

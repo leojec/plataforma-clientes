@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSidebar } from '../hooks/useSidebar';
 import { 
   Calendar, 
   UserPlus,
@@ -7,13 +8,16 @@ import {
   UserMinus,
   Hand,
   CheckCircle,
-  DollarSign
+  DollarSign,
+  TrendingUp,
+  TrendingDown
 } from 'lucide-react';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
 
 function Dashboard() {
   const navigate = useNavigate();
+  const { sidebarExpanded } = useSidebar();
 
   // Buscar dados do dashboard da API
   const { data: dashboardStats, isLoading, error } = useQuery(
@@ -204,36 +208,64 @@ function Dashboard() {
   return (
     <div className="h-full flex flex-col bg-gray-50">
       {/* Header */}
-      <div className="bg-blue-100 px-6 py-4 flex items-center justify-between">
+      <div className={`bg-gradient-to-r from-blue-50 to-indigo-50 py-6 flex items-center justify-between transition-all duration-200 ease-out border-b border-blue-100 ${sidebarExpanded ? 'px-6' : 'px-8'}`}>
         <div className="flex items-center space-x-4">
-          <h1 className="text-xl font-semibold text-gray-800">DashBoard</h1>
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+            <Calendar className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Dashboard</h1>
+            <p className="text-sm text-gray-600 mt-0.5">Visão geral do seu negócio</p>
+          </div>
         </div>
 
-        <div className="flex items-center justify-center">
+        <div className="flex items-center space-x-3">
           <button 
             onClick={() => navigate('/agenda')}
-            className="p-2 hover:bg-blue-200 rounded-lg transition-colors"
+            className="btn-ghost flex items-center space-x-2"
             title="Abrir Agenda"
           >
-            <Calendar className="w-5 h-5 text-gray-600" />
+            <Calendar className="w-4 h-4" />
+            <span className="hidden sm:inline">Agenda</span>
           </button>
         </div>
-
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+      <div className={`flex-1 space-y-6 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-6' : 'p-8'}`}>
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={`grid gap-8 transition-all duration-200 ease-out grid-cols-1 md:grid-cols-2 lg:grid-cols-3`}>
           {summaryCards.map((card) => (
-            <div key={card.id} className="bg-white rounded-lg shadow-sm p-6">
-              <div className="flex items-center">
-                <div className={`p-3 rounded-lg ${card.color}`}>
-                  <card.icon className="w-6 h-6 text-white" />
+            <div key={card.id} className="dashboard-card p-8 fade-in min-h-[200px]">
+              <div className="flex flex-col h-full">
+                {/* Header com ícone e trend */}
+                <div className="flex items-start justify-between mb-6">
+                  <div className={`p-4 rounded-2xl shadow-lg ${card.color}`}>
+                    <card.icon className="w-8 h-8 text-white" />
+                  </div>
+                  
+                  {/* Trend indicator */}
+                  <div className="flex items-center">
+                    <span className={`badge ${card.tendencia === 'up' ? 'badge-success' : 'badge-danger'} flex items-center space-x-1 px-3 py-1`}>
+                      {card.tendencia === 'up' ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                      <span className="text-xs font-medium">{card.variacao}</span>
+                    </span>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">{card.title}</p>
-                  <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+                
+                {/* Conteúdo principal */}
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-700 mb-4 leading-tight">{card.title}</h3>
+                  <p className="text-4xl font-bold text-gray-900 mb-2">{card.value}</p>
+                  <p className="text-sm text-gray-500">vs. período anterior</p>
+                </div>
+                
+                {/* Footer com gradiente sutil */}
+                <div className="mt-6 pt-4 border-t border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Última atualização</span>
+                    <span className="text-xs text-gray-400">Agora</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -241,8 +273,18 @@ function Dashboard() {
         </div>
 
         {/* Chart */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div id="chartContainer" style={{ height: "400px" }}></div>
+        <div className="card p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Atividades dos Últimos 30 Dias</h3>
+              <p className="text-sm text-gray-600 mt-1">Performance da equipe</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <span className="text-sm text-gray-600">Atividades</span>
+            </div>
+          </div>
+          <div id="chartContainer" style={{ height: "400px" }} className="rounded-lg"></div>
         </div>
       </div>
     </div>

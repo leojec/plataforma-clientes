@@ -51,6 +51,9 @@ public interface InteracaoRepository extends JpaRepository<Interacao, Long> {
     @Query("SELECT i FROM Interacao i WHERE i.usuario.id = :usuarioId AND i.dataProximaAcao IS NOT NULL AND i.dataProximaAcao <= :dataLimite AND i.concluida = false")
     List<Interacao> findProximasAcoesByUsuario(@Param("usuarioId") Long usuarioId, @Param("dataLimite") LocalDateTime dataLimite);
     
+    @Query("SELECT i FROM Interacao i WHERE i.dataProximaAcao IS NOT NULL AND DATE(i.dataProximaAcao) = DATE(:dataConsulta)")
+    List<Interacao> findByDataProximaAcao(@Param("dataConsulta") LocalDateTime dataConsulta);
+    
     // Método para contar interações criadas após uma data
     Long countByDataCriacaoAfter(LocalDateTime data);
     

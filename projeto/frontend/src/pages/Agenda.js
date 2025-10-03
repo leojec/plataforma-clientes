@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
+import { useSidebar } from '../hooks/useSidebar';
 import { 
   Calendar, 
   Clock, 
@@ -17,6 +18,7 @@ import {
 
 function Agenda() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const { sidebarExpanded } = useSidebar();
 
   // Buscar atividades da agenda
   const { data: agendaData, isLoading, refetch, error } = useQuery(
@@ -141,46 +143,48 @@ function Agenda() {
   return (
     <div className="h-full flex flex-col bg-gray-50">
       {/* Header */}
-      <div className="bg-blue-100 px-6 py-4 flex items-center justify-between">
+      <div className={`bg-gradient-to-r from-blue-50 to-indigo-50 py-6 flex items-center justify-between transition-all duration-200 ease-out border-b border-blue-100 ${sidebarExpanded ? 'px-6' : 'px-8'}`}>
         <div className="flex items-center space-x-4">
-          <h1 className="text-xl font-semibold text-gray-800">Agenda</h1>
-          <span className="text-sm text-gray-600">
-            {formatDate(selectedDate)}
-          </span>
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+            <Calendar className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Agenda</h1>
+            <p className="text-sm text-gray-600 mt-0.5">{formatDate(selectedDate)}</p>
+          </div>
         </div>
 
-        <div className="flex items-center justify-center">
-          <button className="p-2 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors">
-            <Calendar className="w-5 h-5 text-white" />
+        <div className="flex items-center space-x-3">
+          <button className="btn-primary p-2">
+            <Calendar className="w-4 h-4" />
           </button>
         </div>
-
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className={`flex-1 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-6' : 'p-8'}`}>
         {/* Date Navigation */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => changeDate(-1)}
-              className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+              className="btn-ghost p-2"
             >
-              <ChevronLeft className="w-5 h-5 text-gray-600" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
-            <h2 className="text-lg font-medium text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-900">
               {selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'Data inválida'}
             </h2>
             <button
               onClick={() => changeDate(1)}
-              className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+              className="btn-ghost p-2"
             >
-              <ChevronRight className="w-5 h-5 text-gray-600" />
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
 
           <div className="flex items-center space-x-2">
-            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+            <button className="btn-secondary flex items-center space-x-2">
               <Filter className="w-4 h-4" />
               <span>Filtros</span>
             </button>
@@ -188,9 +192,9 @@ function Agenda() {
         </div>
 
         {/* Timeline de Atividades */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900">
+        <div className="card">
+          <div className="card-header">
+            <h3 className="text-lg font-semibold text-gray-900">
               Atividades do Dia
             </h3>
           </div>
@@ -275,10 +279,10 @@ function Agenda() {
         </div>
 
         {/* Resumo do Dia */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          <div className="bg-white rounded-lg p-4 shadow-sm border">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div className="card p-4 fade-in">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-100 rounded-lg">
+              <div className="p-3 bg-blue-100 rounded-xl shadow-lg">
                 <Calendar className="w-5 h-5 text-blue-600" />
               </div>
               <div>
@@ -288,9 +292,9 @@ function Agenda() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border">
+          <div className="card p-4 fade-in">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-green-100 rounded-lg">
+              <div className="p-3 bg-green-100 rounded-xl shadow-lg">
                 <Clock className="w-5 h-5 text-green-600" />
               </div>
               <div>
@@ -302,9 +306,9 @@ function Agenda() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border">
+          <div className="card p-4 fade-in">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-yellow-100 rounded-lg">
+              <div className="p-3 bg-yellow-100 rounded-xl shadow-lg">
                 <User className="w-5 h-5 text-yellow-600" />
               </div>
               <div>

@@ -85,10 +85,11 @@ public class Expositor {
     private Usuario vendedor;
     
     @OneToMany(mappedBy = "expositor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference("expositor-oportunidades")
     private List<Oportunidade> oportunidades;
     
     @OneToMany(mappedBy = "expositor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference("expositor-interacoes")
     private List<Interacao> interacoes;
     
     // Construtores

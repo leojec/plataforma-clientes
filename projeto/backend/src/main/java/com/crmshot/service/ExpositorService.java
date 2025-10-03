@@ -74,6 +74,10 @@ public class ExpositorService {
         return expositorRepository.save(expositor);
     }
     
+    public Expositor atualizarExpositor(Expositor expositor) {
+        return expositorRepository.save(expositor);
+    }
+    
     public List<Expositor> listarExpositores() {
         return expositorRepository.findAll();
     }

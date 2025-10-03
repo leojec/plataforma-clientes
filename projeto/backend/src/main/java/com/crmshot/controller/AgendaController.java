@@ -29,6 +29,37 @@ public class AgendaController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @GetMapping("/atividades/lead/{leadId}")
+    public ResponseEntity<List<Map<String, Object>>> getAtividadesPorLead(@PathVariable Long leadId) {
+        try {
+            // Buscar todas as interações do lead
+            List<Interacao> interacoes = interacaoRepository.findByExpositorId(leadId);
+            
+            List<Map<String, Object>> atividades = new ArrayList<>();
+            
+            // Converter interações para formato da agenda
+            for (Interacao interacao : interacoes) {
+                Map<String, Object> atividade = new HashMap<>();
+                atividade.put("id", interacao.getId());
+                atividade.put("data", interacao.getDataCriacao() != null ? 
+                    interacao.getDataCriacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "");
+                atividade.put("tipo", mapTipoInteracao(interacao.getTipo()));
+                atividade.put("descricao", interacao.getDescricao());
+                atividade.put("agendamento", interacao.getDataProximaAcao() != null ? 
+                    "Sim - " + interacao.getDataProximaAcao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "Não");
+                atividade.put("usuario", interacao.getUsuario() != null ? interacao.getUsuario().getNome() : "Administrador");
+                atividade.put("link", ""); // Campo para links futuros
+                atividades.add(atividade);
+            }
+            
+            return ResponseEntity.ok(atividades);
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar atividades do lead: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @GetMapping("/atividades")
     public Map<String, Object> getAtividadesAgenda(
             @RequestParam(required = false) String data,
@@ -44,11 +75,8 @@ public class AgendaController {
         LocalDateTime inicioData = dataConsulta.atStartOfDay();
         LocalDateTime fimData = dataConsulta.plusDays(1).atStartOfDay();
         
-        // Buscar todas as interações (atividades) do dia
-        List<Interacao> interacoes = interacaoRepository.findAll().stream()
-            .filter(i -> i.getDataProximaAcao() != null && 
-                        i.getDataProximaAcao().toLocalDate().equals(dataConsulta))
-            .toList();
+        // Buscar todas as interações (atividades) do dia usando query otimizada
+        List<Interacao> interacoes = interacaoRepository.findByDataProximaAcao(dataConsulta.atStartOfDay());
         
         List<Map<String, Object>> atividades = new ArrayList<>();
         
@@ -76,32 +104,7 @@ public class AgendaController {
             atividades.add(atividade);
         }
         
-        // Se não há atividades reais, adicionar algumas fictícias para demonstração
-        if (atividades.isEmpty()) {
-            Map<String, Object> atividade1 = new HashMap<>();
-            atividade1.put("id", 1);
-            atividade1.put("titulo", "Ligação - João Silva");
-            atividade1.put("descricao", "Follow-up da proposta apresentada");
-            atividade1.put("tipo", "Ligação");
-            atividade1.put("horario", "09:00");
-            atividade1.put("data", dataConsulta.toString());
-            atividade1.put("leadNome", "João Silva");
-            atividade1.put("leadId", "lead-1");
-            atividade1.put("status", "agendada");
-            atividades.add(atividade1);
-            
-            Map<String, Object> atividade2 = new HashMap<>();
-            atividade2.put("id", 2);
-            atividade2.put("titulo", "Reunião - Maria Santos");
-            atividade2.put("descricao", "Apresentação de nova proposta");
-            atividade2.put("tipo", "Reunião");
-            atividade2.put("horario", "14:30");
-            atividade2.put("data", dataConsulta.toString());
-            atividade2.put("leadNome", "Maria Santos");
-            atividade2.put("leadId", "lead-2");
-            atividade2.put("status", "agendada");
-            atividades.add(atividade2);
-        }
+        // Não adicionar dados fictícios - mostrar apenas atividades reais cadastradas
         
         response.put("atividades", atividades);
         response.put("total", atividades.size());
@@ -145,13 +148,24 @@ public class AgendaController {
             
             // Buscar expositor (lead)
             Long expositorId = null;
-            if (leadId != null && leadId.startsWith("lead-")) {
-                try {
-                    expositorId = Long.parseLong(leadId.replace("lead-", ""));
-                } catch (NumberFormatException e) {
-                    // Se não conseguir converter, usar ID 1 como padrão
-                    expositorId = 1L;
+            if (leadId != null) {
+                if (leadId.startsWith("lead-")) {
+                    try {
+                        expositorId = Long.parseLong(leadId.replace("lead-", ""));
+                    } catch (NumberFormatException e) {
+                        // Se não conseguir converter, usar ID 1 como padrão
+                        expositorId = 1L;
+                    }
+                } else {
+                    // Se não tem prefixo "lead-", tentar converter diretamente
+                    try {
+                        expositorId = Long.parseLong(leadId);
+                    } catch (NumberFormatException e) {
+                        expositorId = 1L;
+                    }
                 }
+            } else {
+                expositorId = 1L;
             }
             
             Optional<Expositor> expositorOpt = expositorRepository.findById(expositorId != null ? expositorId : 1L);

@@ -6,6 +6,7 @@ com/crmshot/entity/Usuario$PerfilUsuario.class
 com/crmshot/controller/ExpositorController.class
 com/crmshot/security/JwtAuthenticationFilter.class
 com/crmshot/controller/TestController.class
+com/crmshot/controller/RelatoriosController.class
 com/crmshot/service/ExpositorService.class
 com/crmshot/dto/ExpositorRequest.class
 com/crmshot/repository/InteracaoRepository.class
@@ -27,5 +28,6 @@ com/crmshot/entity/Expositor$StatusExpositor.class
 com/crmshot/entity/Oportunidade$StatusOportunidade.class
 com/crmshot/controller/AgendaController$1.class
 com/crmshot/entity/Oportunidade.class
+com/crmshot/controller/OportunidadeController.class
 com/crmshot/controller/SimpleController.class
 com/crmshot/config/DataLoader.class

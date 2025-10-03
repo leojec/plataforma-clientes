@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSidebar } from '../hooks/useSidebar';
 import { useQuery, useQueryClient } from 'react-query';
 import { api } from '../services/api';
 import { 
@@ -26,13 +27,15 @@ import {
   MapPin, 
   Calendar,
   Filter,
-  Plus
+  Plus,
+  List
 } from 'lucide-react';
 import AddClientModal from '../components/AddClientModal';
 
 function KanbanBoard() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { sidebarExpanded } = useSidebar();
   
   // Estado para os leads
   const [leads, setLeads] = useState({
@@ -42,11 +45,13 @@ function KanbanBoard() {
     standFechado: []
   });
 
-  // Buscar expositores do backend
-  const { data: expositores, isLoading, refetch } = useQuery(
+  // Buscar expositores do backend (apenas dados reais)
+  const { data: expositores, isLoading, isError, error, refetch } = useQuery(
     'expositores',
     () => api.get('/expositores').then(res => res.data),
     {
+      refetchOnWindowFocus: false,
+      retry: 1,
       onSuccess: (data) => {
         console.log('✅ Expositores carregados com sucesso:', data);
         // Organizar expositores por status
@@ -59,7 +64,7 @@ function KanbanBoard() {
 
         data.forEach(expositor => {
           const leadCard = {
-            id: `lead-${expositor.id}`,
+            id: expositor.id?.toString?.() || `${expositor.id}`,
             nome: expositor.nomeFantasia || expositor.razaoSocial,
             endereco: `${expositor.cidade || ''}, ${expositor.estado || ''}`.replace(/^,\s*|,\s*$/g, ''),
             telefone: expositor.telefone || expositor.celular || 'Sem telefone',
@@ -68,7 +73,7 @@ function KanbanBoard() {
             status: expositor.status
           };
 
-          // Mapear status do backend para colunas do kanban
+          // Mapear status reais do backend para colunas do kanban
           switch (expositor.status) {
             case 'POTENCIAL':
               leadsOrganizados.lead.push(leadCard);
@@ -79,6 +84,9 @@ function KanbanBoard() {
             case 'INATIVO':
               leadsOrganizados.emNegociacao.push(leadCard);
               break;
+            case 'BLOQUEADO':
+              leadsOrganizados.standFechado.push(leadCard);
+              break;
             default:
               leadsOrganizados.lead.push(leadCard);
           }
@@ -88,21 +96,7 @@ function KanbanBoard() {
         setLeads(leadsOrganizados);
       },
       onError: (error) => {
-        console.error('Erro ao carregar expositores:', error);
-        // Em caso de erro, usar dados temporários
-        setLeads({
-          lead: [
-            {
-              id: 'lead-1',
-              nome: 'TechSol',
-              endereco: 'São Paulo, SP',
-              telefone: '(11) 99999-9999'
-            }
-          ],
-          emAndamento: [],
-          emNegociacao: [],
-          standFechado: []
-        });
+        console.error('❌ Erro ao carregar expositores (somente dados reais):', error);
       }
     }
   );
@@ -178,12 +172,18 @@ function KanbanBoard() {
     const handleStatusChange = (event) => {
       console.log('📨 Evento recebido:', event.detail);
       const { leadId, newStatus } = event.detail;
+      
+      // Mover o lead na interface
       moveLeadToColumn(leadId, newStatus);
+      
+      // Invalidar cache e recarregar dados do backend
+      console.log('🔄 Invalidando cache e recarregando dados...');
+      queryClient.invalidateQueries('expositores');
     };
 
     window.addEventListener('statusChanged', handleStatusChange);
     return () => window.removeEventListener('statusChanged', handleStatusChange);
-  }, []);
+  }, [queryClient]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -271,7 +271,7 @@ function KanbanBoard() {
   // Componente LeadCard (simplificado para teste)
   const LeadCard = ({ lead, columnId }) => {
     const getResponsavelColor = (responsavel) => {
-      return responsavel === 'Simoni Jarschel' ? 'bg-blue-500' : 'bg-green-500';
+      return responsavel ? 'bg-blue-500' : 'bg-green-500';
     };
 
     const handleCardClick = () => {
@@ -370,32 +370,37 @@ function KanbanBoard() {
     >
       <div className="h-full flex flex-col bg-gray-50">
         {/* Header com fundo azul igual ao Dashboard */}
-        <div className="bg-blue-100 px-4 sm:px-6 py-4 border-b border-gray-200">
+        <div className={`bg-gradient-to-r from-blue-50 to-indigo-50 py-6 border-b border-blue-100 transition-all duration-200 ease-out ${sidebarExpanded ? 'px-4 sm:px-6' : 'px-6 sm:px-8'}`}>
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Pipeline de Vendas</h1>
-              <p className="text-sm sm:text-base text-gray-600">Gerencie seus leads e oportunidades</p>
+            <div className="flex items-center space-x-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <List className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Pipeline de Vendas</h1>
+                <p className="text-sm text-gray-600 mt-0.5">Gerencie seus leads e oportunidades</p>
+              </div>
             </div>
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 transition-colors w-full sm:w-auto"
+              className="btn-success flex items-center space-x-2 w-full sm:w-auto"
             >
-              <Plus className="h-5 w-5" />
+              <Plus className="h-4 w-4" />
               <span>Adicionar Cliente</span>
             </button>
           </div>
         </div>
 
         {/* Kanban Board - Área principal */}
-        <div className="flex-1 p-4 sm:p-6 overflow-hidden">
+        <div className={`flex-1 overflow-hidden transition-all duration-200 ease-out ${sidebarExpanded ? 'p-4 sm:p-6' : 'p-6 sm:p-8'}`}>
           <div className="h-full overflow-x-auto">
-            <div className="flex space-x-4 sm:space-x-6 min-w-max h-full">
+            <div className={`flex min-w-max h-full transition-all duration-200 ease-out ${sidebarExpanded ? 'space-x-4 sm:space-x-6' : 'space-x-6 sm:space-x-8'}`}>
               {columns.map((column) => (
-                <div key={column.id} className={`flex-shrink-0 w-72 sm:w-80 ${column.bgColor} rounded-lg border-2 ${column.borderColor} flex flex-col`}>
+                <div key={column.id} className={`flex-shrink-0 w-72 sm:w-80 ${column.bgColor} rounded-xl border-2 ${column.borderColor} flex flex-col shadow-soft`}>
                   {/* Column Header */}
                   <div className="p-4 border-b border-gray-200 flex-shrink-0">
                     <div className="flex items-center justify-between">
-                      <h2 className="font-semibold text-gray-900">
+                      <h2 className="text-sm font-semibold text-gray-900">
                         {column.title} ({column.count})
                       </h2>
                       <button className="p-1 hover:bg-gray-200 rounded">
@@ -405,7 +410,7 @@ function KanbanBoard() {
                   </div>
 
                   {/* Column Content */}
-                  <div className="flex-1 p-4 overflow-y-auto">
+                  <div className={`flex-1 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-4' : 'p-6'}`}>
                     {leads[column.id].map((lead) => (
                       <LeadCard key={lead.id} lead={lead} columnId={column.id} />
                     ))}
