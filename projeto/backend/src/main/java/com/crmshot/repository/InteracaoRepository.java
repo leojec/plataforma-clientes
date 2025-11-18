@@ -65,4 +65,29 @@ public interface InteracaoRepository extends JpaRepository<Interacao, Long> {
            "ORDER BY DATE(i.dataCriacao)")
     List<Object[]> findAtividadesPorUsuarioEData(@Param("dataInicio") LocalDateTime dataInicio, 
                                                  @Param("dataFim") LocalDateTime dataFim);
+    
+    // Método para somar o valor das propostas em aberto
+    @Query("SELECT COALESCE(SUM(i.valorProposta), 0.0) FROM Interacao i " +
+           "WHERE i.tipo = 'PROPOSTA' AND (i.concluida = false OR i.concluida IS NULL)")
+    Double somarValorPropostasAbertas();
+    
+    // Método para somar o valor das propostas concluídas (ganhas) - inclui PROPOSTA concluída e FECHADO
+    @Query("SELECT COALESCE(SUM(i.valorProposta), 0.0) FROM Interacao i " +
+           "WHERE ((i.tipo = 'PROPOSTA' AND i.concluida = true) OR i.tipo = 'FECHADO')")
+    Double somarValorPropostasGanhas();
+    
+    // Método para contar propostas em aberto
+    @Query("SELECT COUNT(i) FROM Interacao i " +
+           "WHERE i.tipo = 'PROPOSTA' AND (i.concluida = false OR i.concluida IS NULL)")
+    Long contarPropostasAbertas();
+    
+    // Método para contar propostas ganhas - inclui PROPOSTA concluída e FECHADO
+    @Query("SELECT COUNT(i) FROM Interacao i " +
+           "WHERE ((i.tipo = 'PROPOSTA' AND i.concluida = true) OR i.tipo = 'FECHADO')")
+    Long contarPropostasGanhas();
+    
+    // Método para somar metros quadrados de atividades FECHADO
+    @Query("SELECT COALESCE(SUM(i.metrosQuadrados), 0.0) FROM Interacao i " +
+           "WHERE i.tipo = 'FECHADO'")
+    Double somarMetrosQuadradosVendidos();
 }

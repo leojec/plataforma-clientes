@@ -128,6 +128,10 @@ public class AgendaController {
                 return "Reunião";
             case WHATSAPP:
                 return "Contato WhatsApp";
+            case PROPOSTA:
+                return "Proposta";
+            case FECHADO:
+                return "Fechado";
             default:
                 return "Outros";
         }
@@ -142,6 +146,10 @@ public class AgendaController {
             String dataAgendamento = (String) atividadeData.get("dataAgendamento");
             String horarioAgendamento = (String) atividadeData.get("horarioAgendamento");
             String leadId = (String) atividadeData.get("leadId");
+            
+            // Campos específicos de Proposta
+            Object valorPropostaObj = atividadeData.get("valorProposta");
+            Object metrosQuadradosObj = atividadeData.get("metrosQuadrados");
             
             // Mapear tipo de atividade
             Interacao.TipoInteracao tipo = mapStringToTipoInteracao(tipoAtividade);
@@ -192,7 +200,47 @@ public class AgendaController {
                 (expositorOpt.get().getNomeFantasia() != null ? 
                     expositorOpt.get().getNomeFantasia() : 
                     expositorOpt.get().getRazaoSocial()));
-            novaInteracao.setDescricao(descricao);
+            
+            // Se for PROPOSTA ou FECHADO, processar campos específicos
+            if (tipo == Interacao.TipoInteracao.PROPOSTA || tipo == Interacao.TipoInteracao.FECHADO) {
+                // Processar valor da proposta
+                if (valorPropostaObj != null) {
+                    try {
+                        String valorStr = valorPropostaObj.toString().replace(",", ".");
+                        Double valor = Double.parseDouble(valorStr);
+                        novaInteracao.setValorProposta(valor);
+                    } catch (NumberFormatException e) {
+                        novaInteracao.setValorProposta(0.0);
+                    }
+                }
+                
+                // Processar metros quadrados
+                if (metrosQuadradosObj != null) {
+                    try {
+                        String metrosStr = metrosQuadradosObj.toString().replace(",", ".");
+                        Double metros = Double.parseDouble(metrosStr);
+                        novaInteracao.setMetrosQuadrados(metros);
+                    } catch (NumberFormatException e) {
+                        novaInteracao.setMetrosQuadrados(0.0);
+                    }
+                }
+                
+                // Para proposta/fechado, a descrição é opcional, usar valor formatado se não tiver descrição
+                if (descricao == null || descricao.isEmpty()) {
+                    String tipoNome = (tipo == Interacao.TipoInteracao.FECHADO) ? "Negócio fechado" : "Proposta";
+                    descricao = String.format("%s no valor de R$ %.2f para área de %.2f m²", 
+                        tipoNome,
+                        novaInteracao.getValorProposta(), 
+                        novaInteracao.getMetrosQuadrados());
+                }
+                
+                // Se for FECHADO, marcar como concluído automaticamente
+                if (tipo == Interacao.TipoInteracao.FECHADO) {
+                    novaInteracao.setConcluida(true);
+                }
+            }
+            
+            novaInteracao.setDescricao(descricao != null ? descricao : "Sem descrição");
             
             // Configurar data e horário da próxima ação
             if (dataAgendamento != null && horarioAgendamento != null) {
@@ -273,6 +321,10 @@ public class AgendaController {
                 return Interacao.TipoInteracao.REUNIAO;
             case "Contato WhatsApp":
                 return Interacao.TipoInteracao.WHATSAPP;
+            case "Proposta":
+                return Interacao.TipoInteracao.PROPOSTA;
+            case "Fechado":
+                return Interacao.TipoInteracao.FECHADO;
             default:
                 return Interacao.TipoInteracao.OUTROS;
         }

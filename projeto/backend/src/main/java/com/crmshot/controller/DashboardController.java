@@ -43,20 +43,22 @@ public class DashboardController {
         long qtdAtividades = interacaoRepository.countByDataCriacaoAfter(dataLimite);
         stats.put("qtdAtividades", qtdAtividades);
 
-        // Quantidade de perdas (oportunidades perdidas) - usando 0 por enquanto
-        long qtdPerdas = 0; // oportunidadeRepository.countByStatus(Oportunidade.StatusOportunidade.PERDIDA);
-        stats.put("qtdPerdas", qtdPerdas);
+        // Quantidade de m² vendidos (soma de metros quadrados das atividades FECHADO)
+        Double metrosQuadradosVendidos = interacaoRepository.somarMetrosQuadradosVendidos();
+        stats.put("metrosQuadradosVendidos", metrosQuadradosVendidos != null ? metrosQuadradosVendidos : 0.0);
 
-        // Valor de propostas em aberto - usando 0 por enquanto
-        BigDecimal valorPropostasAbertas = BigDecimal.ZERO;
+        // Valor de propostas em aberto (propostas não concluídas)
+        Double valorPropostasAbertasDouble = interacaoRepository.somarValorPropostasAbertas();
+        BigDecimal valorPropostasAbertas = BigDecimal.valueOf(valorPropostasAbertasDouble != null ? valorPropostasAbertasDouble : 0.0);
         stats.put("valorPropostasAbertas", valorPropostasAbertas);
 
-        // Quantidade de ganhos (oportunidades fechadas) - usando 0 por enquanto
-        long qtdGanhos = 0; // oportunidadeRepository.countByStatus(Oportunidade.StatusOportunidade.FECHADA);
+        // Quantidade de ganhos (propostas concluídas)
+        long qtdGanhos = interacaoRepository.contarPropostasGanhas();
         stats.put("qtdGanhos", qtdGanhos);
 
-        // Valor ganho (oportunidades fechadas) - usando 0 por enquanto
-        BigDecimal valorGanho = BigDecimal.ZERO;
+        // Valor ganho (propostas concluídas)
+        Double valorGanhoDouble = interacaoRepository.somarValorPropostasGanhas();
+        BigDecimal valorGanho = BigDecimal.valueOf(valorGanhoDouble != null ? valorGanhoDouble : 0.0);
         stats.put("valorGanho", valorGanho);
 
         return stats;

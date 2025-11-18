@@ -1,19 +1,12 @@
 package com.crmshot.config;
 
 import com.crmshot.entity.Usuario;
-import com.crmshot.entity.Expositor;
-import com.crmshot.entity.Oportunidade;
-import com.crmshot.entity.Interacao;
 import com.crmshot.repository.UsuarioRepository;
-import com.crmshot.repository.ExpositorRepository;
-import com.crmshot.repository.OportunidadeRepository;
-import com.crmshot.repository.InteracaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Component
@@ -21,15 +14,6 @@ public class DataLoader implements CommandLineRunner {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private ExpositorRepository expositorRepository;
-
-    @Autowired
-    private OportunidadeRepository oportunidadeRepository;
-
-    @Autowired
-    private InteracaoRepository interacaoRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

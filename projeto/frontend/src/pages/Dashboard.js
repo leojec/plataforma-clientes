@@ -10,7 +10,8 @@ import {
   CheckCircle,
   DollarSign,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Maximize2
 } from 'lucide-react';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
@@ -58,11 +59,11 @@ function Dashboard() {
     },
     {
       id: 3,
-      title: 'QTD.PERDA',
-      value: dashboardStats?.qtdPerdas || 0,
-      icon: UserMinus,
-      color: 'bg-red-500',
-      iconBg: 'bg-red-100'
+      title: 'M² VENDIDOS',
+      value: `${(dashboardStats?.metrosQuadradosVendidos || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m²`,
+      icon: Maximize2,
+      color: 'bg-purple-600',
+      iconBg: 'bg-purple-100'
     },
     {
       id: 4,

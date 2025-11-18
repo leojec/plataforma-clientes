@@ -392,11 +392,11 @@ function KanbanBoard() {
         </div>
 
         {/* Kanban Board - Área principal */}
-        <div className={`flex-1 overflow-hidden transition-all duration-200 ease-out ${sidebarExpanded ? 'p-4 sm:p-6' : 'p-6 sm:p-8'}`}>
+        <div className={`flex-1 overflow-hidden transition-all duration-200 ease-out ${sidebarExpanded ? 'p-3 sm:p-4' : 'p-4 sm:p-6'}`}>
           <div className="h-full overflow-x-auto">
-            <div className={`flex min-w-max h-full transition-all duration-200 ease-out ${sidebarExpanded ? 'space-x-4 sm:space-x-6' : 'space-x-6 sm:space-x-8'}`}>
+            <div className={`flex min-w-max h-full transition-all duration-200 ease-out ${sidebarExpanded ? 'space-x-3' : 'space-x-4'}`}>
               {columns.map((column) => (
-                <div key={column.id} className={`flex-shrink-0 w-72 sm:w-80 ${column.bgColor} rounded-xl border-2 ${column.borderColor} flex flex-col shadow-soft`}>
+                <div key={column.id} className={`flex-shrink-0 w-80 lg:w-96 ${column.bgColor} rounded-xl border-2 ${column.borderColor} flex flex-col shadow-soft`}>
                   {/* Column Header */}
                   <div className="p-4 border-b border-gray-200 flex-shrink-0">
                     <div className="flex items-center justify-between">
@@ -410,7 +410,7 @@ function KanbanBoard() {
                   </div>
 
                   {/* Column Content */}
-                  <div className={`flex-1 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-4' : 'p-6'}`}>
+                  <div className={`flex-1 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-3' : 'p-4'}`}>
                     {leads[column.id].map((lead) => (
                       <LeadCard key={lead.id} lead={lead} columnId={column.id} />
                     ))}

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { api } from '../services/api';
 
 function AddClientModal({ isOpen, onClose, onAddClient }) {
   const [loading, setLoading] = useState(false);
+  const [buscandoCNPJ, setBuscandoCNPJ] = useState(false);
   const [formData, setFormData] = useState({
     cnpj: '',
     telefone: '',
@@ -34,6 +35,92 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
       ...prev,
       [name]: value
     }));
+  };
+
+  // Função para formatar CNPJ
+  const formatarCNPJ = (cnpj) => {
+    const apenasNumeros = cnpj.replace(/\D/g, '');
+    return apenasNumeros.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+  };
+
+  // Função para buscar dados do CNPJ
+  const buscarDadosCNPJ = async (cnpj) => {
+    // Remover formatação do CNPJ
+    const cnpjLimpo = cnpj.replace(/\D/g, '');
+    
+    // Validar se tem 14 dígitos
+    if (cnpjLimpo.length !== 14) {
+      return;
+    }
+
+    setBuscandoCNPJ(true);
+    
+    try {
+      // Usar endpoint do backend para buscar CNPJ
+      const response = await api.get(`/cnpj/${cnpjLimpo}`);
+      const dados = response.data;
+      
+      if (dados.status === 'ERROR') {
+        toast.error(dados.message || 'CNPJ inválido ou não encontrado');
+        return;
+      }
+
+      // Preencher formulário com os dados retornados
+      setFormData(prev => ({
+        ...prev,
+        cnpj: formatarCNPJ(cnpjLimpo),
+        razaoSocial: dados.nome || '',
+        nomeFantasia: dados.fantasia || '',
+        telefone: dados.telefone ? dados.telefone.replace(/\D/g, '') : '',
+        email: dados.email || '',
+        logradouro: dados.logradouro || '',
+        numero: dados.numero || '',
+        complemento: dados.complemento || '',
+        bairro: dados.bairro || '',
+        cidade: dados.municipio || '',
+        uf: dados.uf || '',
+        cnaePrincipal: dados.atividade_principal?.[0]?.code || '',
+        textoCnaePrincipal: dados.atividade_principal?.[0]?.text || '',
+        dtInicioAtividade: dados.abertura ? formatarDataParaInput(dados.abertura) : '',
+        faturamentoEstimado: dados.capital_social || '',
+        quadroFuncionarios: dados.qsa?.length ? `${dados.qsa.length} sócios` : ''
+      }));
+
+      toast.success('Dados da empresa carregados com sucesso!');
+      
+    } catch (error) {
+      console.error('Erro ao buscar CNPJ:', error);
+      toast.error('Erro ao buscar dados do CNPJ. Tente novamente.');
+    } finally {
+      setBuscandoCNPJ(false);
+    }
+  };
+
+  // Função auxiliar para formatar data
+  const formatarDataParaInput = (data) => {
+    // Recebe data no formato DD/MM/YYYY e converte para YYYY-MM-DD
+    const partes = data.split('/');
+    if (partes.length === 3) {
+      return `${partes[2]}-${partes[1]}-${partes[0]}`;
+    }
+    return '';
+  };
+
+  // Handler específico para o campo CNPJ
+  const handleCNPJChange = (e) => {
+    const { value } = e.target;
+    const cnpjLimpo = value.replace(/\D/g, '');
+    
+    // Atualizar o campo
+    setFormData(prev => ({
+      ...prev,
+      cnpj: value
+    }));
+
+    // Se completou 14 dígitos, buscar automaticamente
+    if (cnpjLimpo.length === 14 && !buscandoCNPJ) {
+      buscarDadosCNPJ(value);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -150,16 +237,37 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
               <h3 className="text-lg font-medium text-gray-900 mb-4">Identificação da Empresa</h3>
             </div>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">CNPJ</label>
-              <input
-                type="text"
-                name="cnpj"
-                value={formData.cnpj}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="00.000.000/0000-00"
-              />
+            <div className="relative">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                CNPJ
+                {buscandoCNPJ && (
+                  <span className="ml-2 text-xs text-blue-600">
+                    🔍 Buscando dados...
+                  </span>
+                )}
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  name="cnpj"
+                  value={formData.cnpj}
+                  onChange={handleCNPJChange}
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="00.000.000/0000-00"
+                  maxLength="18"
+                />
+                {buscandoCNPJ && (
+                  <div className="absolute right-3 top-2.5">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                  </div>
+                )}
+                {!buscandoCNPJ && formData.cnpj.length > 0 && (
+                  <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+                )}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Digite o CNPJ completo para buscar dados automaticamente
+              </p>
             </div>
 
             <div>

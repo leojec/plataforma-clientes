@@ -18,16 +18,18 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Aceleração por hardware para elementos animados */
-  .sidebar-transition {
+  /* Otimizações de performance para animações */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Melhorar performance de animações usando GPU */
+  .sidebar-smooth,
+  [class*="sidebar"] {
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
-  }
-  
-  /* Curva de animação customizada para sidebar */
-  .sidebar-smooth {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   body {

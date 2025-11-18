@@ -16,7 +16,8 @@ import {
   RefreshCw,
   TrendingUp,
   TrendingDown,
-  BarChart3
+  BarChart3,
+  Maximize2
 } from 'lucide-react';
 
 function Relatorios() {
@@ -63,10 +64,24 @@ function Relatorios() {
     }
   );
 
-  // Buscar resumo executivo
+  // Buscar resumo executivo (usando dados do dashboard)
   const { data: resumoExecutivo, isLoading: isLoadingResumo } = useQuery(
     'resumoExecutivo',
-    () => api.get('/relatorios/resumo-executivo').then(res => res.data),
+    async () => {
+      const stats = await api.get('/dashboard/stats').then(res => res.data);
+      const totalExpositores = await api.get('/expositores').then(res => res.data.length).catch(() => 0);
+      const totalInteracoes = stats.qtdAtividades || 0;
+      
+      return {
+        totalExpositores,
+        totalOportunidades: (stats.qtdGanhos || 0) + (await api.get('/expositores').then(res => res.data.filter(e => e.status === 'ATIVO').length).catch(() => 0)),
+        totalInteracoes,
+        valorEmAberto: stats.valorPropostasAbertas || 0,
+        valorTotalEstimado: (stats.valorPropostasAbertas || 0) + (stats.valorGanho || 0),
+        valorGanho: stats.valorGanho || 0,
+        metrosVendidos: stats.metrosQuadradosVendidos || 0
+      };
+    },
     {
       refetchInterval: 60000,
     }
@@ -156,11 +171,11 @@ function Relatorios() {
     },
     {
       id: 5,
-      title: 'VALOR TOTAL ESTIMADO',
-      value: `R$ ${(resumoExecutivo?.valorTotalEstimado || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
-      icon: CheckCircle,
-      color: 'bg-green-500',
-      iconBg: 'bg-green-100'
+      title: 'M² FECHADO',
+      value: `${(resumoExecutivo?.metrosVendidos || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m²`,
+      icon: Maximize2,
+      color: 'bg-purple-600',
+      iconBg: 'bg-purple-100'
     },
     {
       id: 6,

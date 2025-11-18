@@ -2,8 +2,8 @@
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/security/JwtUtil.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/security/JwtAuthenticationFilter.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/RelatoriosController.java
+/Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/ChatController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/OportunidadeController.java
-/Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/TestController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/CrmshotApplication.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/dto/ExpositorRequest.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/AuthController.java
@@ -16,8 +16,8 @@
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/repository/InteracaoRepository.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/repository/OportunidadeRepository.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/dto/LoginRequest.java
-/Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/SimpleController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/DashboardController.java
+/Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/CnpjController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/service/ExpositorService.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/config/SecurityConfig.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/entity/Oportunidade.java

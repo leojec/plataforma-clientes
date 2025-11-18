@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import ChatBot from './ChatBot';
 import { 
   Home, 
   List, 
@@ -41,20 +42,23 @@ function Layout() {
   // Determinar se a sidebar deve estar expandida (hover ou não collapsed)
   const isExpanded = !sidebarCollapsed || sidebarHovered;
   
-  // Delay para hover para evitar animações muito bruscas
+  // Delay mínimo apenas no hover out para evitar flickering
   const [hoverTimeout, setHoverTimeout] = useState(null);
   
   const handleMouseEnter = () => {
+    // Cancelar timeout pendente e expandir imediatamente
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
     }
     setSidebarHovered(true);
   };
   
   const handleMouseLeave = () => {
+    // Delay ultra-curto apenas para evitar flickering ao mover entre elementos
     const timeout = setTimeout(() => {
       setSidebarHovered(false);
-    }, 30); // Delay mínimo para evitar flickering mas manter fluidez
+    }, 10); // Reduzido de 30ms para 10ms
     setHoverTimeout(timeout);
   };
 
@@ -90,10 +94,11 @@ function Layout() {
       {/* Sidebar Desktop - CRM Shot Style */}
       <div className="hidden md:flex md:flex-shrink-0">
         <div 
-          className={`flex flex-col bg-slate-800 transition-all duration-200 sidebar-transition sidebar-smooth ${isExpanded ? 'w-64' : 'w-16'} relative`}
+          className={`flex flex-col bg-slate-800 relative ${isExpanded ? 'w-64' : 'w-16'}`}
           style={{
-            transitionProperty: 'width, transform',
-            willChange: 'width, transform'
+            transition: 'width 180ms cubic-bezier(0.4, 0, 0.2, 1)',
+            willChange: 'width',
+            overflow: 'hidden'
           }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -163,6 +168,9 @@ function Layout() {
           </div>
         </main>
       </div>
+      
+      {/* ChatBot */}
+      <ChatBot />
     </div>
   );
 }
@@ -171,9 +179,9 @@ function SidebarContent({ navigation, isCurrentPath, collapsed, expanded, onTogg
   return (
     <div className="flex flex-col h-full bg-slate-800">
       {/* Header com Logo CRM Shot */}
-      <div className="flex items-center justify-between px-4 py-5 border-b border-slate-700">
+      <div className={`flex items-center py-5 border-b border-slate-700 relative ${expanded ? 'px-4 justify-between' : 'justify-center'}`}>
         {/* Logo CRM Shot */}
-        <div className="flex items-center min-w-0">
+        <div className="flex items-center">
           <div className="w-9 h-9 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center relative flex-shrink-0 shadow-lg">
             {/* Speech bubble icon */}
             <div className="w-7 h-7 border-2 border-white rounded-lg relative">
@@ -189,88 +197,91 @@ function SidebarContent({ navigation, isCurrentPath, collapsed, expanded, onTogg
           </div>
           
           {/* Texto do logo com animação */}
-          <div 
-            className={`ml-3 transition-all duration-200 ease-in-out overflow-hidden ${expanded ? 'w-auto opacity-100' : 'w-0 opacity-0'}`}
-            style={{
-              transitionProperty: 'width, opacity, transform',
-              willChange: 'width, opacity, transform'
-            }}
-          >
-            <div className="text-white font-bold text-base leading-none whitespace-nowrap tracking-tight">CRM</div>
-            <div className="text-red-300 font-bold text-xs leading-none whitespace-nowrap tracking-wider">SHOT</div>
-          </div>
+          {expanded && (
+            <div 
+              className="ml-3 whitespace-nowrap transition-opacity duration-200"
+              style={{ 
+                opacity: expanded ? 1 : 0,
+                transitionDelay: expanded ? '50ms' : '0ms'
+              }}
+            >
+              <div className="text-white font-bold text-base leading-none tracking-tight">CRM</div>
+              <div className="text-red-300 font-bold text-xs leading-none tracking-wider">SHOT</div>
+            </div>
+          )}
         </div>
         
-        {/* Botão para minimizar/expandir - só aparece quando não está em hover */}
-        <button
-          onClick={onToggleCollapse}
-          className={`p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all duration-200 ease-out backdrop-blur-sm ${expanded && !collapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
-          title={collapsed ? "Expandir sidebar" : "Minimizar sidebar"}
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </button>
+        {/* Botão para minimizar/expandir - só aparece quando expandido */}
+        {expanded && !collapsed && (
+          <button
+            onClick={onToggleCollapse}
+            className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors duration-200"
+            title="Minimizar sidebar"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+        )}
       </div>
 
       {/* Barra de Pesquisa */}
-      <div className="px-4 py-4 border-b border-slate-700">
-        <div className="relative">
-          {expanded ? (
-            <>
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Buscar..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-200 ease-in-out backdrop-blur-sm"
-                style={{
-                  transitionProperty: 'all',
-                  willChange: 'background-color, border-color'
-                }}
-              />
-            </>
-          ) : (
-            <button
-              className="w-full p-2.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-slate-400 hover:text-white hover:bg-slate-600/50 transition-all duration-200 ease-out backdrop-blur-sm"
-              title="Buscar"
-            >
-              <Search className="h-4 w-4 mx-auto" />
-            </button>
-          )}
-        </div>
+      <div className={`py-4 border-b border-slate-700 ${expanded ? 'px-4' : 'flex justify-center'}`}>
+        {expanded ? (
+          <div 
+            className="relative transition-opacity duration-200"
+            style={{ 
+              opacity: expanded ? 1 : 0,
+              transitionDelay: expanded ? '50ms' : '0ms'
+            }}
+          >
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Buscar..."
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-colors duration-200"
+            />
+          </div>
+        ) : (
+          <button
+            className="w-10 h-10 flex items-center justify-center bg-slate-700/50 border border-slate-600/50 rounded-xl text-slate-400 hover:text-white hover:bg-slate-600/50 transition-colors duration-200"
+            title="Buscar"
+          >
+            <Search className="h-4 w-4" />
+          </button>
+        )}
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 px-4 py-4 space-y-1">
+      <nav className={`flex-1 py-4 space-y-1 ${expanded ? 'px-4' : 'px-3'}`}>
         {navigation.map((item) => {
           const Icon = item.icon;
+          const isActive = isCurrentPath(item.href);
           return (
             <Link
               key={item.name}
               to={item.href}
               className={`${
-                isCurrentPath(item.href)
-                  ? 'bg-blue-500/20 text-blue-100 border border-blue-400/30'
+                isActive
+                  ? 'bg-blue-500/20 text-blue-100 border-blue-400/30'
                   : 'text-slate-300 hover:bg-slate-700/50 hover:text-white hover:border-slate-600/50'
-              } group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ease-in-out border border-transparent backdrop-blur-sm`}
+              } group flex items-center ${expanded ? 'justify-start px-3' : 'justify-center px-0'} py-2.5 text-sm font-medium rounded-xl transition-colors duration-200 border border-transparent`}
               title={!expanded ? item.name : undefined}
             >
               <Icon
                 className={`${
-                  isCurrentPath(item.href) ? 'text-blue-200' : 'text-slate-400 group-hover:text-white'
-                } h-5 w-5 flex-shrink-0 transition-all duration-200 ease-in-out ${expanded ? 'mr-3' : 'mr-0'}`}
-                style={{
-                  transitionProperty: 'margin-right, color',
-                  willChange: 'margin-right, color'
-                }}
+                  isActive ? 'text-blue-200' : 'text-slate-400 group-hover:text-white'
+                } h-5 w-5 flex-shrink-0 transition-colors duration-200`}
               />
-              <span 
-                className={`transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap font-medium ${expanded ? 'w-auto opacity-100 translate-x-0' : 'w-0 opacity-0 -translate-x-1'}`}
-                style={{
-                  transitionProperty: 'width, opacity, transform',
-                  willChange: 'width, opacity, transform'
-                }}
-              >
-                {item.name}
-              </span>
+              {expanded && (
+                <span 
+                  className="ml-3 whitespace-nowrap font-medium transition-opacity duration-200"
+                  style={{ 
+                    opacity: expanded ? 1 : 0,
+                    transitionDelay: expanded ? '50ms' : '0ms'
+                  }}
+                >
+                  {item.name}
+                </span>
+              )}
             </Link>
           );
         })}

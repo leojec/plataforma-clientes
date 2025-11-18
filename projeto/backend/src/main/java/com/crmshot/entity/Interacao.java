@@ -40,9 +40,8 @@ public class Interacao {
     @Column(name = "assunto", nullable = false)
     private String assunto;
     
-    @NotBlank
     @Size(max = 2000)
-    @Column(name = "descricao", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
     
     @Column(name = "data_interacao", nullable = false)
@@ -62,6 +61,13 @@ public class Interacao {
     
     @Column(name = "concluida")
     private Boolean concluida = false;
+    
+    // Campos específicos para PROPOSTA
+    @Column(name = "valor_proposta")
+    private Double valorProposta;
+    
+    @Column(name = "metros_quadrados")
+    private Double metrosQuadrados;
     
     // Construtores
     public Interacao() {
@@ -188,12 +194,30 @@ public class Interacao {
         this.concluida = concluida;
     }
     
+    public Double getValorProposta() {
+        return valorProposta;
+    }
+    
+    public void setValorProposta(Double valorProposta) {
+        this.valorProposta = valorProposta;
+    }
+    
+    public Double getMetrosQuadrados() {
+        return metrosQuadrados;
+    }
+    
+    public void setMetrosQuadrados(Double metrosQuadrados) {
+        this.metrosQuadrados = metrosQuadrados;
+    }
+    
     public enum TipoInteracao {
         LIGACAO,
         EMAIL,
         REUNIAO,
         VISITA,
         WHATSAPP,
+        PROPOSTA,
+        FECHADO,
         OUTROS
     }
 }
