@@ -14,6 +14,7 @@
     <name>crmshot-backend</name>
     <description>CRM Shot Fair Brasil - Backend</description>
     <properties>
+        <sonar.organization>leojec</sonar.organization>
         <java.version>17</java.version>
     </properties>
     <dependencies>
