@@ -136,5 +136,72 @@ describe('AuthContext', () => {
     
     consoleError.mockRestore();
   });
+
+  it('deve tratar erro de login com mensagem de string', async () => {
+    api.post.mockRejectedValue({
+      response: {
+        data: 'Erro de autenticação'
+      }
+    });
+    
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+    
+    await waitFor(() => {
+      const loginButton = screen.getByText('Login');
+      loginButton.click();
+    });
+    
+    await waitFor(() => {
+      expect(api.post).toHaveBeenCalled();
+    });
+  });
+
+  it('deve tratar erro de login com objeto de erro', async () => {
+    api.post.mockRejectedValue({
+      response: {
+        data: { message: 'Erro de conexão' }
+      }
+    });
+    
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+    
+    await waitFor(() => {
+      const loginButton = screen.getByText('Login');
+      loginButton.click();
+    });
+    
+    await waitFor(() => {
+      expect(api.post).toHaveBeenCalled();
+    });
+  });
+
+  it('deve tratar erro de login sem response', async () => {
+    api.post.mockRejectedValue({
+      message: 'Network error'
+    });
+    
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>
+    );
+    
+    await waitFor(() => {
+      const loginButton = screen.getByText('Login');
+      loginButton.click();
+    });
+    
+    await waitFor(() => {
+      expect(api.post).toHaveBeenCalled();
+    });
+  });
 });
 

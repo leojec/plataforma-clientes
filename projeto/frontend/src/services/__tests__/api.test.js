@@ -94,5 +94,78 @@ describe('API Service', () => {
     
     expect(result).toBe(response);
   });
+
+  it('deve tratar erro 401 e redirecionar', () => {
+    const error = {
+      response: {
+        status: 401,
+        data: { message: 'Unauthorized' }
+      }
+    };
+    
+    delete window.location;
+    window.location = { href: '' };
+    
+    const interceptor = api.interceptors.response.handlers[0].rejected;
+    
+    interceptor(error).catch(() => {});
+    
+    expect(localStorage.getItem('token')).toBeNull();
+    expect(window.location.href).toBe('/login');
+  });
+
+  it('deve tratar erro com data como objeto', () => {
+    const error = {
+      response: {
+        status: 500,
+        data: { message: 'Server error', error: 'Internal error' }
+      }
+    };
+    
+    const interceptor = api.interceptors.response.handlers[0].rejected;
+    
+    return interceptor(error).catch((err) => {
+      expect(err.message).toBe('Server error');
+    });
+  });
+
+  it('deve tratar erro com data como string', () => {
+    const error = {
+      response: {
+        status: 400,
+        data: 'Bad request'
+      }
+    };
+    
+    const interceptor = api.interceptors.response.handlers[0].rejected;
+    
+    return interceptor(error).catch((err) => {
+      expect(err).toBeDefined();
+    });
+  });
+
+  it('deve tratar erro sem response.data', () => {
+    const error = {
+      response: {
+        status: 500
+      }
+    };
+    
+    const interceptor = api.interceptors.response.handlers[0].rejected;
+    
+    return interceptor(error).catch((err) => {
+      expect(err).toBeDefined();
+    });
+  });
+
+  it('deve tratar erro no request interceptor', () => {
+    const error = new Error('Request error');
+    
+    const interceptor = api.interceptors.request.handlers[0].rejected;
+    
+    return interceptor(error).catch((err) => {
+      expect(err).toBe(error);
+    });
+  });
 });
 
