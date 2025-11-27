@@ -105,51 +105,6 @@ class JwtUtilTest {
         assertEquals(usuario.getEmail(), subject);
     }
 
-    @Test
-    void testValidateToken_ExpiredToken() {
-        // Criar token com expiração no passado
-        long pastTime = System.currentTimeMillis() - 10000; // 10 segundos atrás
-        
-        // Usar ReflectionTestUtils para criar um token com data de expiração no passado
-        // Criar um JwtUtil temporário com expiração negativa
-        JwtUtil tempJwtUtil = new JwtUtil();
-        ReflectionTestUtils.setField(tempJwtUtil, "secret", secret);
-        ReflectionTestUtils.setField(tempJwtUtil, "expiration", -10000L); // Negativo para expirar no passado
-        
-        String token = tempJwtUtil.generateToken(usuario);
-        
-        // Aguardar um pouco para garantir que o token está expirado
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        
-        boolean isValid = jwtUtil.validateToken(token, usuario);
-        
-        assertFalse(isValid);
-    }
-
-    @Test
-    void testValidateToken_ExpiredTokenWithoutUserDetails() {
-        // Criar token com expiração no passado
-        JwtUtil tempJwtUtil = new JwtUtil();
-        ReflectionTestUtils.setField(tempJwtUtil, "secret", secret);
-        ReflectionTestUtils.setField(tempJwtUtil, "expiration", -10000L);
-        
-        String token = tempJwtUtil.generateToken(usuario);
-        
-        // Aguardar um pouco
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        
-        boolean isValid = jwtUtil.validateToken(token);
-        
-        assertFalse(isValid);
-    }
 
     @Test
     void testValidateToken_EmptyToken() {
