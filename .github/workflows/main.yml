@@ -211,10 +211,17 @@ jobs:
             --include "service-worker.js"
       
       - name: Invalidar cache do CloudFront
-        if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        env:
+          CLOUDFRONT_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
+          if [ -z "$CLOUDFRONT_ID" ]; then
+            echo "⏭️ CloudFront não configurado, pulando invalidação..."
+            exit 0
+          fi
+          
+          echo "🔄 Criando invalidação no CloudFront..."
           INVALIDATION_ID=$(aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --distribution-id "$CLOUDFRONT_ID" \
             --paths "/*" \
             --query 'Invalidation.Id' \
             --output text)
@@ -223,7 +230,7 @@ jobs:
           
           echo "⏳ Aguardando conclusão da invalidação..."
           aws cloudfront wait invalidation-completed \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --distribution-id "$CLOUDFRONT_ID" \
             --id "$INVALIDATION_ID" || true
       
       - name: Deploy concluído
