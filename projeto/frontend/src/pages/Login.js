@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff, LogIn, UserPlus, X } from 'lucide-react';
+import { Eye, EyeOff, X } from 'lucide-react';
 import { api } from '../services/api';
 
 function Login() {

@@ -177,7 +177,7 @@ function Dashboard() {
 
     // Aguarda um pouco para garantir que o CanvasJS esteja carregado
     setTimeout(initializeChart, 500);
-  }, [graficoData]); // Re-renderizar quando os dados do gráfico mudarem
+  }, [graficoData, chartData]); // Re-renderizar quando os dados do gráfico mudarem
 
   // Loading state
   if (isLoading) {

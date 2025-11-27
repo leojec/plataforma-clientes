@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { api } from '../services/api';
-import { Plus, Search, Edit, Trash2, Eye } from 'lucide-react';
+import { Plus, Search, Edit, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 function Expositores() {
@@ -10,7 +10,7 @@ function Expositores() {
   const [editingExpositor, setEditingExpositor] = useState(null);
   const queryClient = useQueryClient();
 
-  const { data: expositores, isLoading } = useQuery(
+  const { data: expositores = [], isLoading } = useQuery(
     ['expositores', searchTerm],
     async () => {
       const response = await api.get('/expositores', {

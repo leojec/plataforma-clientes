@@ -37,7 +37,7 @@ function LeadDetail() {
   );
 
   // Buscar atividades do lead
-  const { data: atividadesData, isLoading: isLoadingAtividades, refetch: refetchAtividades } = useQuery(
+  const { isLoading: isLoadingAtividades, refetch: refetchAtividades } = useQuery(
     ['atividades', id],
     async () => {
       const res = await api.get(`/agenda/atividades/lead/${id}`);
@@ -76,20 +76,6 @@ function LeadDetail() {
       </div>
     );
   }
-
-  const leadInfo = {
-    id: leadData.id,
-    nome: leadData.nomeFantasia || leadData.razaoSocial,
-    empresa: leadData.razaoSocial || '',
-    email: leadData.email || '',
-    telefone: leadData.telefone || leadData.celular || '',
-    endereco: [leadData.endereco, leadData.cidade, leadData.estado].filter(Boolean).join(' - '),
-    status: leadData.status,
-    vendedor: leadData.vendedor?.nome || 'Não atribuído',
-    dataCriacao: leadData.dataCadastro ? new Date(leadData.dataCadastro).toLocaleDateString('pt-BR') : '',
-    valorEstimado: ''
-  };
-
 
   const tabs = [
     { id: 'atividades', label: 'Atividades' },

@@ -11,11 +11,9 @@ import {
   CheckSquare,
   UserMinus,
   Hand,
-  CheckCircle,
   Filter,
   RefreshCw,
   TrendingUp,
-  TrendingDown,
   BarChart3,
   Maximize2
 } from 'lucide-react';
@@ -28,7 +26,7 @@ function Relatorios() {
   const [filtroStatus, setFiltroStatus] = useState('todos');
 
   // Buscar dados reais do sistema
-  const { data: dashboardStats, isLoading: isLoadingStats } = useQuery(
+  const { isLoading: isLoadingStats } = useQuery(
     'dashboardStats',
     () => api.get('/dashboard/stats').then(res => res.data),
     {
@@ -102,7 +100,7 @@ function Relatorios() {
   );
 
   // Buscar dados do gráfico de atividades
-  const { data: graficoAtividades, isLoading: isLoadingGrafico } = useQuery(
+  const { isLoading: isLoadingGrafico } = useQuery(
     'graficoAtividades',
     () => api.get('/dashboard/atividades-grafico').then(res => res.data),
     {

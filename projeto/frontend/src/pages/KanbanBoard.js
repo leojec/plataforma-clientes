@@ -13,15 +13,8 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import {
-  arrayMove,
-  SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import {
-  useSortable,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { 
   Phone, 
   MapPin, 
