@@ -1,0 +1,250 @@
+name: CI/CD - Deploy para AWS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'projeto/backend/**'
+      - 'projeto/frontend/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Detectar mudanças
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'projeto/backend/**'
+            frontend:
+              - 'projeto/frontend/**'
+
+  test-and-deploy-backend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./projeto/backend
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      
+      - name: Compilar e rodar testes
+        run: |
+          mvn clean compile test
+      
+      - name: Build do JAR
+        run: |
+          mvn clean package -DskipTests
+      
+      - name: Verificar JAR gerado
+        run: |
+          if [ ! -f "target/crmshot-backend-0.0.1-SNAPSHOT.jar" ]; then
+            echo "❌ Erro: JAR não foi gerado!"
+            exit 1
+          fi
+          echo "✅ JAR gerado com sucesso!"
+          ls -lh target/crmshot-backend-0.0.1-SNAPSHOT.jar
+      
+      - name: Configurar credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      
+      - name: Preparar arquivos para deploy
+        run: |
+          # Gerar label de versão único
+          VERSION_LABEL="v$(date +%Y%m%d-%H%M%S)-${GITHUB_SHA:0:7}"
+          echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
+          
+          # Criar diretório temporário
+          mkdir -p deploy-package
+          
+          # Copiar JAR
+          cp target/crmshot-backend-0.0.1-SNAPSHOT.jar deploy-package/
+          
+          # Copiar arquivos de configuração do Elastic Beanstalk
+          cp -r .ebextensions deploy-package/ 2>/dev/null || true
+          cp Procfile deploy-package/ 2>/dev/null || true
+          
+          # Criar ZIP para deploy
+          cd deploy-package
+          zip -r ../deploy-backend.zip .
+          cd ..
+      
+      - name: Upload pacote para S3
+        run: |
+          aws s3 cp deploy-backend.zip \
+            s3://${{ secrets.S3_BUCKET_BACKEND }}/deploy-backend-${{ env.VERSION_LABEL }}.zip
+      
+      - name: Criar versão da aplicação no Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name ${{ secrets.EB_APPLICATION_NAME }} \
+            --version-label "${{ env.VERSION_LABEL }}" \
+            --source-bundle S3Bucket=${{ secrets.S3_BUCKET_BACKEND }},S3Key=deploy-backend-${{ env.VERSION_LABEL }}.zip \
+            --description "Deploy automático via GitHub Actions - Commit: ${GITHUB_SHA}" \
+            --region us-east-2
+      
+      - name: Atualizar ambiente do Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk update-environment \
+            --application-name ${{ secrets.EB_APPLICATION_NAME }} \
+            --environment-name ${{ secrets.EB_ENVIRONMENT_NAME }} \
+            --version-label "${{ env.VERSION_LABEL }}" \
+            --region us-east-2
+      
+      - name: Aguardar atualização do ambiente
+        run: |
+          echo "⏳ Aguardando atualização do ambiente..."
+          aws elasticbeanstalk wait environment-updated \
+            --application-name ${{ secrets.EB_APPLICATION_NAME }} \
+            --environment-names ${{ secrets.EB_ENVIRONMENT_NAME }} \
+            --region us-east-2 \
+            --max-attempts 60 \
+            --delay 10 || true
+      
+      - name: Verificar status do deploy
+        run: |
+          STATUS=$(aws elasticbeanstalk describe-environment-health \
+            --application-name ${{ secrets.EB_APPLICATION_NAME }} \
+            --environment-name ${{ secrets.EB_ENVIRONMENT_NAME }} \
+            --attribute-names Status \
+            --region us-east-2 \
+            --query 'Status' \
+            --output text)
+          
+          echo "📊 Status do ambiente: $STATUS"
+          
+          if [ "$STATUS" != "Ok" ]; then
+            echo "⚠️ Aviso: Status do ambiente não está Ok (Status: $STATUS)"
+            exit 1
+          fi
+
+  build-and-deploy-frontend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./projeto/frontend
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: ./projeto/frontend/package-lock.json
+      
+      - name: Instalar dependências
+        run: npm ci
+      
+      - name: Rodar testes (se existirem)
+        run: npm test -- --watchAll=false --coverage --passWithNoTests
+        continue-on-error: true
+      
+      - name: Build do frontend
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+        run: |
+          npm run build
+      
+      - name: Verificar build gerado
+        run: |
+          if [ ! -d "build" ]; then
+            echo "❌ Erro: Pasta build não foi gerada!"
+            exit 1
+          fi
+          echo "✅ Build gerado com sucesso!"
+          ls -lh build/
+      
+      - name: Configurar credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      
+      - name: Sincronizar arquivos para S3
+        run: |
+          aws s3 sync build/ \
+            s3://${{ secrets.S3_BUCKET_FRONTEND }}/ \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "*.html" \
+            --exclude "service-worker.js"
+      
+      - name: Upload arquivos HTML com cache curto
+        run: |
+          aws s3 sync build/ \
+            s3://${{ secrets.S3_BUCKET_FRONTEND }}/ \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --exclude "*" \
+            --include "*.html" \
+            --include "service-worker.js"
+      
+      - name: Invalidar cache do CloudFront
+        if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          INVALIDATION_ID=$(aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*" \
+            --query 'Invalidation.Id' \
+            --output text)
+          
+          echo "🔄 Invalidação criada: $INVALIDATION_ID"
+          
+          echo "⏳ Aguardando conclusão da invalidação..."
+          aws cloudfront wait invalidation-completed \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --id "$INVALIDATION_ID" || true
+      
+      - name: Deploy concluído
+        run: |
+          echo "✅ Frontend deployado com sucesso!"
+          echo "🌐 URL: https://${{ secrets.CLOUDFRONT_DOMAIN }}"
+          echo "   ou: http://${{ secrets.S3_BUCKET_FRONTEND }}.s3-website-us-east-2.amazonaws.com"
+
+  summary:
+    needs: [detect-changes, test-and-deploy-backend, build-and-deploy-frontend]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resumo do deploy
+        run: |
+          echo "## 📊 Resumo do Deploy" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Mudanças detectadas:" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend: ${{ needs.detect-changes.outputs.backend }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Frontend: ${{ needs.detect-changes.outputs.frontend }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Status dos deploys:" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend: ${{ needs.test-and-deploy-backend.result || 'não executado' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Frontend: ${{ needs.build-and-deploy-frontend.result || 'não executado' }}" >> $GITHUB_STEP_SUMMARY
