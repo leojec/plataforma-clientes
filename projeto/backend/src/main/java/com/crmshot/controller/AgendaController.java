@@ -48,7 +48,7 @@ public class AgendaController {
                 atividade.put("agendamento", interacao.getDataProximaAcao() != null ? 
                     "Sim - " + interacao.getDataProximaAcao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "Não");
                 atividade.put("usuario", interacao.getUsuario() != null ? interacao.getUsuario().getNome() : "Administrador");
-                atividade.put("link", ""); // Campo para links futurossss
+                atividade.put("link", ""); // Campo para links futuross
                 atividades.add(atividade);
             }
             

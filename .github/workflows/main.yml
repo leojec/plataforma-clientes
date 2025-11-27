@@ -144,19 +144,32 @@ jobs:
       
       - name: Verificar status do deploy
         run: |
-          STATUS=$(aws elasticbeanstalk describe-environment-health \
-            --environment-name ${{ secrets.EB_ENVIRONMENT_NAME }} \
-            --attribute-names Status \
+          STATUS=$(aws elasticbeanstalk describe-environments \
+            --environment-names ${{ secrets.EB_ENVIRONMENT_NAME }} \
             --region us-east-2 \
-            --query 'Status' \
+            --query 'Environments[0].Status' \
+            --output text)
+          
+          HEALTH=$(aws elasticbeanstalk describe-environments \
+            --environment-names ${{ secrets.EB_ENVIRONMENT_NAME }} \
+            --region us-east-2 \
+            --query 'Environments[0].Health' \
             --output text)
           
           echo "📊 Status do ambiente: $STATUS"
+          echo "🏥 Health do ambiente: $HEALTH"
           
-          if [ "$STATUS" != "Ok" ]; then
-            echo "⚠️ Aviso: Status do ambiente não está Ok (Status: $STATUS)"
+          if [ "$STATUS" != "Ready" ] && [ "$STATUS" != "Updating" ]; then
+            echo "⚠️ Aviso: Status do ambiente não está Ready ou Updating (Status: $STATUS)"
             exit 1
           fi
+          
+          if [ "$HEALTH" != "Ok" ] && [ "$HEALTH" != "Warning" ]; then
+            echo "⚠️ Aviso: Health do ambiente não está Ok ou Warning (Health: $HEALTH)"
+            exit 1
+          fi
+          
+          echo "✅ Ambiente está funcionando corretamente!"
 
   build-and-deploy-frontend:
     needs: detect-changes
