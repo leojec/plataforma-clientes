@@ -13,8 +13,7 @@ import {
   LogOut,
   User,
   Search,
-  ChevronLeft,
-  ChevronRight
+  ChevronLeft
 } from 'lucide-react';
 
 function Layout() {

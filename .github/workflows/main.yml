@@ -100,6 +100,22 @@ jobs:
           aws s3 cp deploy-backend.zip \
             s3://${{ secrets.S3_BUCKET_BACKEND }}/deploy-backend-${{ env.VERSION_LABEL }}.zip
       
+      - name: Verificar se aplicação existe no Elastic Beanstalk
+        run: |
+          if ! aws elasticbeanstalk describe-applications \
+            --application-names ${{ secrets.EB_APPLICATION_NAME }} \
+            --region us-east-2 \
+            --query 'Applications[0].ApplicationName' \
+            --output text 2>/dev/null | grep -q "${{ secrets.EB_APPLICATION_NAME }}"; then
+            echo "❌ ERRO: Aplicação '${{ secrets.EB_APPLICATION_NAME }}' não encontrada no Elastic Beanstalk!"
+            echo "📋 Verifique:"
+            echo "   1. O nome da aplicação no secret EB_APPLICATION_NAME está correto"
+            echo "   2. A aplicação existe no AWS Elastic Beanstalk (região us-east-2)"
+            echo "   3. As credenciais AWS têm permissão para acessar o Elastic Beanstalk"
+            exit 1
+          fi
+          echo "✅ Aplicação encontrada: ${{ secrets.EB_APPLICATION_NAME }}"
+      
       - name: Criar versão da aplicação no Elastic Beanstalk
         run: |
           aws elasticbeanstalk create-application-version \

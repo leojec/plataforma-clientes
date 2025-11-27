@@ -39,7 +39,7 @@ function KanbanBoard() {
   });
 
   // Buscar expositores do backend (apenas dados reais)
-  const { data: expositores, isLoading, isError, error, refetch } = useQuery(
+  const { isLoading } = useQuery(
     'expositores',
     () => api.get('/expositores').then(res => res.data),
     {
