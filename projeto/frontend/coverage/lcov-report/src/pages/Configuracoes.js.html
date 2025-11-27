@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -211,7 +211,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -268,7 +268,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -288,8 +288,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -301,7 +301,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -354,8 +354,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import { Settings, User, Bell, Shield, Database, Palette, Calendar } from 'lucide-react';
 &nbsp;
-function <span class="fstat-no" title="function not covered" >Configuracoes(</span>) {
-  const configSections = <span class="cstat-no" title="statement not covered" >[</span>
+function Configuracoes() {
+  const configSections = [
     {
       title: 'Perfil do Usuário',
       icon: User,
@@ -412,7 +412,7 @@ function <span class="fstat-no" title="function not covered" >Configuracoes(</sp
     }
   ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;div className="h-full flex flex-col bg-gray-50"&gt;
       {/* Header */}
       &lt;div className="bg-blue-100 px-6 py-4 flex items-center justify-between"&gt;
@@ -431,9 +431,9 @@ function <span class="fstat-no" title="function not covered" >Configuracoes(</sp
       {/* Content */}
       &lt;div className="flex-1 overflow-y-auto p-6"&gt;
         &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"&gt;
-          {configSections.map(<span class="fstat-no" title="function not covered" >(s</span>ection, index) =&gt; {
-            const Icon = <span class="cstat-no" title="statement not covered" >section.icon;</span>
-<span class="cstat-no" title="statement not covered" >            return (</span>
+          {configSections.map((section, index) =&gt; {
+            const Icon = section.icon;
+            return (
               &lt;div key={index} className="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md transition-shadow"&gt;
                 &lt;div className="flex items-center mb-3"&gt;
                   &lt;div className="p-2 bg-blue-100 rounded-lg"&gt;
@@ -444,8 +444,8 @@ function <span class="fstat-no" title="function not covered" >Configuracoes(</sp
                   &lt;/h3&gt;
                 &lt;/div&gt;
                 &lt;ul className="space-y-1"&gt;
-                  {section.items.map(<span class="fstat-no" title="function not covered" >(i</span>tem, itemIndex) =&gt; (
-<span class="cstat-no" title="statement not covered" >                    &lt;li key={itemIndex} className="text-sm text-gray-600 hover:text-blue-600 cursor-pointer transition-colors"&gt;</span>
+                  {section.items.map((item, itemIndex) =&gt; (
+                    &lt;li key={itemIndex} className="text-sm text-gray-600 hover:text-blue-600 cursor-pointer transition-colors"&gt;
                       • {item}
                     &lt;/li&gt;
                   ))}
@@ -502,7 +502,7 @@ export default Configuracoes;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-27T02:24:31.343Z
+                at 2025-11-27T02:38:28.268Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

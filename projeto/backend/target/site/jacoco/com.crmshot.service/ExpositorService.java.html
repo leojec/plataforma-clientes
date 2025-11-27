@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExpositorService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">crmshot-backend</a> &gt; <a href="index.source.html" class="el_package">com.crmshot.service</a> &gt; <span class="el_source">ExpositorService.java</span></div><h1>ExpositorService.java</h1><pre class="source lang-java linenums">package com.crmshot.service;
+
+import com.crmshot.dto.ExpositorRequest;
+import com.crmshot.entity.Expositor;
+import com.crmshot.entity.Usuario;
+import com.crmshot.repository.ExpositorRepository;
+import com.crmshot.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+<span class="fc" id="L17">public class ExpositorService {</span>
+    
+    @Autowired
+    private ExpositorRepository expositorRepository;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    public Expositor criarExpositor(ExpositorRequest request) {
+<span class="fc" id="L26">        Expositor expositor = new Expositor();</span>
+<span class="fc" id="L27">        expositor.setRazaoSocial(request.getRazaoSocial());</span>
+<span class="fc" id="L28">        expositor.setNomeFantasia(request.getNomeFantasia());</span>
+<span class="fc" id="L29">        expositor.setCnpj(request.getCnpj());</span>
+<span class="fc" id="L30">        expositor.setEmail(request.getEmail());</span>
+<span class="fc" id="L31">        expositor.setTelefone(request.getTelefone());</span>
+<span class="fc" id="L32">        expositor.setCelular(request.getCelular());</span>
+<span class="fc" id="L33">        expositor.setEndereco(request.getEndereco());</span>
+<span class="fc" id="L34">        expositor.setCidade(request.getCidade());</span>
+<span class="fc" id="L35">        expositor.setEstado(request.getEstado());</span>
+<span class="fc" id="L36">        expositor.setCep(request.getCep());</span>
+<span class="fc" id="L37">        expositor.setSite(request.getSite());</span>
+<span class="fc" id="L38">        expositor.setDescricao(request.getDescricao());</span>
+<span class="fc" id="L39">        expositor.setStatus(request.getStatus());</span>
+        
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (request.getVendedorId() != null) {</span>
+<span class="fc" id="L42">            Usuario vendedor = usuarioRepository.findById(request.getVendedorId())</span>
+<span class="fc" id="L43">                    .orElseThrow(() -&gt; new RuntimeException(&quot;Vendedor não encontrado&quot;));</span>
+<span class="fc" id="L44">            expositor.setVendedor(vendedor);</span>
+        }
+        
+<span class="fc" id="L47">        return expositorRepository.save(expositor);</span>
+    }
+    
+    public Expositor atualizarExpositor(Long id, ExpositorRequest request) {
+<span class="fc" id="L51">        Expositor expositor = expositorRepository.findById(id)</span>
+<span class="fc" id="L52">                .orElseThrow(() -&gt; new RuntimeException(&quot;Expositor não encontrado&quot;));</span>
+        
+<span class="fc" id="L54">        expositor.setRazaoSocial(request.getRazaoSocial());</span>
+<span class="fc" id="L55">        expositor.setNomeFantasia(request.getNomeFantasia());</span>
+<span class="fc" id="L56">        expositor.setCnpj(request.getCnpj());</span>
+<span class="fc" id="L57">        expositor.setEmail(request.getEmail());</span>
+<span class="fc" id="L58">        expositor.setTelefone(request.getTelefone());</span>
+<span class="fc" id="L59">        expositor.setCelular(request.getCelular());</span>
+<span class="fc" id="L60">        expositor.setEndereco(request.getEndereco());</span>
+<span class="fc" id="L61">        expositor.setCidade(request.getCidade());</span>
+<span class="fc" id="L62">        expositor.setEstado(request.getEstado());</span>
+<span class="fc" id="L63">        expositor.setCep(request.getCep());</span>
+<span class="fc" id="L64">        expositor.setSite(request.getSite());</span>
+<span class="fc" id="L65">        expositor.setDescricao(request.getDescricao());</span>
+<span class="fc" id="L66">        expositor.setStatus(request.getStatus());</span>
+        
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (request.getVendedorId() != null) {</span>
+<span class="fc" id="L69">            Usuario vendedor = usuarioRepository.findById(request.getVendedorId())</span>
+<span class="pc" id="L70">                    .orElseThrow(() -&gt; new RuntimeException(&quot;Vendedor não encontrado&quot;));</span>
+<span class="fc" id="L71">            expositor.setVendedor(vendedor);</span>
+        }
+        
+<span class="fc" id="L74">        return expositorRepository.save(expositor);</span>
+    }
+    
+    public Expositor atualizarExpositor(Expositor expositor) {
+<span class="fc" id="L78">        return expositorRepository.save(expositor);</span>
+    }
+    
+    public List&lt;Expositor&gt; listarExpositores() {
+<span class="fc" id="L82">        return expositorRepository.findAll();</span>
+    }
+    
+    public Page&lt;Expositor&gt; listarExpositores(Pageable pageable) {
+<span class="fc" id="L86">        return expositorRepository.findAll(pageable);</span>
+    }
+    
+    public Page&lt;Expositor&gt; buscarExpositores(String nome, Expositor.StatusExpositor status, 
+                                           Long vendedorId, Pageable pageable) {
+<span class="fc" id="L91">        return expositorRepository.findByFiltros(nome, status, vendedorId, pageable);</span>
+    }
+    
+    public List&lt;Expositor&gt; listarExpositoresPorStatus(Expositor.StatusExpositor status) {
+<span class="fc" id="L95">        return expositorRepository.findByStatus(status);</span>
+    }
+    
+    public List&lt;Expositor&gt; listarExpositoresPorVendedor(Long vendedorId) {
+<span class="fc" id="L99">        return expositorRepository.findByVendedorId(vendedorId);</span>
+    }
+    
+    public Optional&lt;Expositor&gt; buscarPorId(Long id) {
+<span class="fc" id="L103">        return expositorRepository.findById(id);</span>
+    }
+    
+    public Optional&lt;Expositor&gt; buscarPorCnpj(String cnpj) {
+<span class="fc" id="L107">        return expositorRepository.findByCnpj(cnpj);</span>
+    }
+    
+    public void excluirExpositor(Long id) {
+<span class="fc" id="L111">        expositorRepository.deleteById(id);</span>
+<span class="fc" id="L112">    }</span>
+    
+    public boolean existeCnpj(String cnpj) {
+<span class="fc" id="L115">        return expositorRepository.existsByCnpj(cnpj);</span>
+    }
+    
+    public Long contarExpositoresPorStatus(Expositor.StatusExpositor status) {
+<span class="fc" id="L119">        return expositorRepository.countByStatus(status);</span>
+    }
+    
+    public Long contarExpositoresPorVendedor(Long vendedorId) {
+<span class="fc" id="L123">        return expositorRepository.countByVendedor(vendedorId);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

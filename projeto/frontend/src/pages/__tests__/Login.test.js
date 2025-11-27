@@ -133,7 +133,8 @@ describe('Login Page', () => {
 
   it('deve renderizar logo do CRM', () => {
     renderLogin();
-    expect(screen.getByText(/crm/i)).toBeInTheDocument();
+    const crmElements = screen.getAllByText(/crm/i);
+    expect(crmElements.length).toBeGreaterThan(0);
     expect(screen.getByText(/shot/i)).toBeInTheDocument();
   });
 

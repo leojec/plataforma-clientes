@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CnpjController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">crmshot-backend</a> &gt; <a href="index.source.html" class="el_package">com.crmshot.controller</a> &gt; <span class="el_source">CnpjController.java</span></div><h1>CnpjController.java</h1><pre class="source lang-java linenums">package com.crmshot.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping(&quot;/api/cnpj&quot;)
+@CrossOrigin(origins = &quot;*&quot;)
+<span class="nc" id="L13">public class CnpjController {</span>
+
+    @GetMapping(&quot;/{cnpj}&quot;)
+    public ResponseEntity&lt;?&gt; buscarCNPJ(@PathVariable String cnpj) {
+        try {
+            // Remover formatação do CNPJ
+<span class="nc" id="L19">            String cnpjLimpo = cnpj.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;);</span>
+            
+            // Validar se tem 14 dígitos
+<span class="nc bnc" id="L22" title="All 2 branches missed.">            if (cnpjLimpo.length() != 14) {</span>
+<span class="nc" id="L23">                Map&lt;String, String&gt; erro = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L24">                erro.put(&quot;status&quot;, &quot;ERROR&quot;);</span>
+<span class="nc" id="L25">                erro.put(&quot;message&quot;, &quot;CNPJ deve ter 14 dígitos&quot;);</span>
+<span class="nc" id="L26">                return ResponseEntity.badRequest().body(erro);</span>
+            }
+            
+            // Criar RestTemplate para fazer a chamada
+<span class="nc" id="L30">            RestTemplate restTemplate = new RestTemplate();</span>
+<span class="nc" id="L31">            String url = &quot;https://www.receitaws.com.br/v1/cnpj/&quot; + cnpjLimpo;</span>
+            
+            // Fazer a chamada para a API da ReceitaWS
+<span class="nc" id="L34">            ResponseEntity&lt;Map&gt; response = restTemplate.getForEntity(url, Map.class);</span>
+            
+            // Retornar os dados
+<span class="nc" id="L37">            return ResponseEntity.ok(response.getBody());</span>
+            
+<span class="nc" id="L39">        } catch (Exception e) {</span>
+<span class="nc" id="L40">            Map&lt;String, String&gt; erro = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L41">            erro.put(&quot;status&quot;, &quot;ERROR&quot;);</span>
+<span class="nc" id="L42">            erro.put(&quot;message&quot;, &quot;Erro ao buscar dados do CNPJ: &quot; + e.getMessage());</span>
+<span class="nc" id="L43">            return ResponseEntity.status(500).body(erro);</span>
+        }
+    }
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -2,8 +2,24 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import Expositores from '../Expositores';
 import { AuthProvider } from '../../contexts/AuthContext';
+
+// Mock do api ANTES de importar Expositores
+jest.mock('../../services/api', () => ({
+  api: {
+    get: jest.fn(() => Promise.resolve({ data: [] })),
+    post: jest.fn(() => Promise.resolve({ data: {} })),
+    put: jest.fn(() => Promise.resolve({ data: {} })),
+    delete: jest.fn(() => Promise.resolve({ data: {} })),
+    defaults: {
+      headers: {
+        common: {}
+      }
+    }
+  }
+}));
+
+import Expositores from '../Expositores';
 
 const queryClient = new QueryClient({
   defaultOptions: {
