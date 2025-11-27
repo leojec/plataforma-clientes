@@ -146,7 +146,6 @@ jobs:
       - name: Verificar status do deploy
         run: |
           STATUS=$(aws elasticbeanstalk describe-environment-health \
-            --application-name ${{ secrets.EB_APPLICATION_NAME }} \
             --environment-name ${{ secrets.EB_ENVIRONMENT_NAME }} \
             --attribute-names Status \
             --region us-east-2 \
