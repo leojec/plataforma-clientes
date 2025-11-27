@@ -1,5 +1,6 @@
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/test/java/com/crmshot/service/UsuarioServiceTest.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/test/java/com/crmshot/controller/AuthControllerTest.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/test/java/com/crmshot/security/JwtUtilTest.java
+/Users/leonardorocha/Documents/TCC/projeto/backend/src/test/java/com/crmshot/security/JwtAuthenticationFilterTest.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/test/java/com/crmshot/service/ExpositorServiceTest.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/test/java/com/crmshot/controller/ExpositorControllerTest.java

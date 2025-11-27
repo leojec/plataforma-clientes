@@ -1,4 +1,19 @@
 -------------------------------------------------------------------------------
 Test set: com.crmshot.security.JwtUtilTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.368 s -- in com.crmshot.security.JwtUtilTest
+Tests run: 15, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.823 s <<< FAILURE! -- in com.crmshot.security.JwtUtilTest
+com.crmshot.security.JwtUtilTest.testValidateToken_ExpiredToken -- Time elapsed: 0.016 s <<< ERROR!
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2025-11-27T23:50:27Z. Current time: 2025-11-27T23:50:27Z, a difference of 411 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:427)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:529)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:589)
+	at io.jsonwebtoken.impl.ImmutableJwtParser.parseClaimsJws(ImmutableJwtParser.java:173)
+	at com.crmshot.security.JwtUtil.extractAllClaims(JwtUtil.java:45)
+	at com.crmshot.security.JwtUtil.extractClaim(JwtUtil.java:37)
+	at com.crmshot.security.JwtUtil.extractUsername(JwtUtil.java:29)
+	at com.crmshot.security.JwtUtil.validateToken(JwtUtil.java:69)
+	at com.crmshot.security.JwtUtilTest.testValidateToken_ExpiredToken(JwtUtilTest.java:118)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+

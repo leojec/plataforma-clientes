@@ -84,7 +84,55 @@ jobs:
       - name: Compilar e rodar testes
         run: |
           mvn clean compile test
-
+      
+      - name: Gerar relatório de cobertura
+        run: |
+          mvn jacoco:report
+      
+      - name: Verificar cobertura mínima (75%)
+        run: |
+          echo "=========================================="
+          echo "📊 VERIFICAÇÃO DE COBERTURA DE CÓDIGO"
+          echo "=========================================="
+          echo ""
+          echo "Meta: 75% de cobertura de linhas"
+          echo ""
+          
+          # Executar verificação de cobertura
+          if mvn jacoco:check; then
+            echo ""
+            echo "✅ SUCESSO: Cobertura de código >= 75%!"
+            echo ""
+            echo "📋 Para ver o relatório detalhado:"
+            echo "   - Baixe o artifact 'coverage-report-backend'"
+            echo "   - Abra o arquivo index.html no navegador"
+            echo ""
+          else
+            echo ""
+            echo "❌ ERRO: Cobertura de código abaixo de 75%!"
+            echo ""
+            echo "📋 Relatório de cobertura disponível em:"
+            echo "   target/site/jacoco/index.html"
+            echo ""
+            echo "Para ver o relatório completo localmente:"
+            echo "   cd projeto/backend"
+            echo "   mvn jacoco:report"
+            echo "   open target/site/jacoco/index.html"
+            echo ""
+            echo "=========================================="
+            exit 1
+          fi
+          
+          echo "=========================================="
+      
+      - name: Upload relatório de cobertura
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report-backend
+          path: projeto/backend/target/site/jacoco/**
+          retention-days: 30
+      
       - name: Build do JAR
         run: |
           mvn clean package -DskipTests
@@ -249,5 +297,19 @@ jobs:
       - name: Resumo do deploy
         run: |
           echo "## 📊 Resumo do Deploy" >> $GITHUB_STEP_SUMMARY
-          echo "Backend: ${{ needs.detect-changes.outputs.backend }}" >> $GITHUB_STEP_SUMMARY
-          echo "Frontend: ${{ needs.detect-changes.outputs.frontend }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Mudanças detectadas:" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend: ${{ needs.detect-changes.outputs.backend }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Frontend: ${{ needs.detect-changes.outputs.frontend }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Status dos deploys:" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend: ${{ needs.test-and-deploy-backend.result || 'não executado' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Frontend: ${{ needs.build-and-deploy-frontend.result || 'não executado' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📈 Cobertura de Código:" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ needs.test-and-deploy-backend.result }}" == "success" ]; then
+            echo "✅ Backend: Cobertura verificada (mínimo 75%)" >> $GITHUB_STEP_SUMMARY
+            echo "📋 Relatório disponível nos artifacts: coverage-report-backend" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Backend: Cobertura não verificada ou abaixo do mínimo" >> $GITHUB_STEP_SUMMARY
+          fi
