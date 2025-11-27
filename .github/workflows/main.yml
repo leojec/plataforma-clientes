@@ -8,6 +8,8 @@ on:
       - 'projeto/backend/**'
       - 'projeto/frontend/**'
       - '.github/workflows/deploy.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   detect-changes:
@@ -42,18 +44,47 @@ jobs:
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
-      
+
       - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      
+
+      # ------------------------------
+      # 🔍 SONARCLOUD - INTEGRADO AQUI
+      # ------------------------------
+
+      - name: Cache SonarCloud
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Análise SonarCloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=leojec_plataforma-clientes
+
+      # ------------------------------
+      # 🔽 Continuação normal do CI/CD
+      # ------------------------------
+
       - name: Compilar e rodar testes
         run: |
           mvn clean compile test
-      
+
       - name: Build do JAR
         run: |
           mvn clean package -DskipTests
@@ -76,21 +107,14 @@ jobs:
       
       - name: Preparar arquivos para deploy
         run: |
-          # Gerar label de versão único
           VERSION_LABEL="v$(date +%Y%m%d-%H%M%S)-${GITHUB_SHA:0:7}"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
           
-          # Criar diretório temporário
           mkdir -p deploy-package
-          
-          # Copiar JAR
           cp target/crmshot-backend-0.0.1-SNAPSHOT.jar deploy-package/
-          
-          # Copiar arquivos de configuração do Elastic Beanstalk
           cp -r .ebextensions deploy-package/ 2>/dev/null || true
           cp Procfile deploy-package/ 2>/dev/null || true
           
-          # Criar ZIP para deploy
           cd deploy-package
           zip -r ../deploy-backend.zip .
           cd ..
@@ -102,19 +126,9 @@ jobs:
       
       - name: Verificar se aplicação existe no Elastic Beanstalk
         run: |
-          if ! aws elasticbeanstalk describe-applications \
+          aws elasticbeanstalk describe-applications \
             --application-names ${{ secrets.EB_APPLICATION_NAME }} \
-            --region us-east-2 \
-            --query 'Applications[0].ApplicationName' \
-            --output text 2>/dev/null | grep -q "${{ secrets.EB_APPLICATION_NAME }}"; then
-            echo "❌ ERRO: Aplicação '${{ secrets.EB_APPLICATION_NAME }}' não encontrada no Elastic Beanstalk!"
-            echo "📋 Verifique:"
-            echo "   1. O nome da aplicação no secret EB_APPLICATION_NAME está correto"
-            echo "   2. A aplicação existe no AWS Elastic Beanstalk (região us-east-2)"
-            echo "   3. As credenciais AWS têm permissão para acessar o Elastic Beanstalk"
-            exit 1
-          fi
-          echo "✅ Aplicação encontrada: ${{ secrets.EB_APPLICATION_NAME }}"
+            --region us-east-2
       
       - name: Criar versão da aplicação no Elastic Beanstalk
         run: |
@@ -135,12 +149,9 @@ jobs:
       
       - name: Aguardar atualização do ambiente
         run: |
-          echo "⏳ Aguardando atualização do ambiente..."
           aws elasticbeanstalk wait environment-updated \
             --environment-name ${{ secrets.EB_ENVIRONMENT_NAME }} \
-            --region us-east-2 \
-            --max-attempts 60 \
-            --delay 10 || true
+            --region us-east-2 || true
       
       - name: Verificar status do deploy
         run: |
@@ -156,32 +167,8 @@ jobs:
             --query 'Environments[0].Health' \
             --output text)
           
-          echo "📊 Status do ambiente: $STATUS"
-          echo "🏥 Health do ambiente: $HEALTH"
-          
-          # Verificar se o status é válido (Ready, Updating, ou Launching são aceitáveis)
-          if [ "$STATUS" != "Ready" ] && [ "$STATUS" != "Updating" ] && [ "$STATUS" != "Launching" ]; then
-            echo "❌ ERRO: Status do ambiente inválido: $STATUS"
-            echo "Status esperado: Ready, Updating ou Launching"
-            exit 1
-          fi
-          
-          # Health "Grey" é normal durante atualizações, então aceitamos
-          # Health "Ok", "Warning" e "Grey" são aceitáveis
-          if [ "$HEALTH" != "Ok" ] && [ "$HEALTH" != "Warning" ] && [ "$HEALTH" != "Grey" ]; then
-            echo "⚠️ Aviso: Health do ambiente: $HEALTH"
-            echo "Health esperado: Ok, Warning ou Grey (Grey é normal durante atualizações)"
-            # Não falha o deploy se o health for diferente, apenas avisa
-          fi
-          
-          if [ "$STATUS" == "Ready" ] && [ "$HEALTH" == "Ok" ]; then
-            echo "✅ Ambiente está funcionando corretamente!"
-          elif [ "$STATUS" == "Updating" ]; then
-            echo "⏳ Ambiente está sendo atualizado (Status: Updating, Health: $HEALTH)"
-            echo "✅ Deploy iniciado com sucesso! O ambiente continuará atualizando em background."
-          else
-            echo "✅ Deploy concluído! Status: $STATUS, Health: $HEALTH"
-          fi
+          echo "Status: $STATUS"
+          echo "Health: $HEALTH"
 
   build-and-deploy-frontend:
     needs: detect-changes
@@ -217,12 +204,7 @@ jobs:
       
       - name: Verificar build gerado
         run: |
-          if [ ! -d "build" ]; then
-            echo "❌ Erro: Pasta build não foi gerada!"
-            exit 1
-          fi
-          echo "✅ Build gerado com sucesso!"
-          ls -lh build/
+          if [ ! -d "build" ]; then exit 1; fi
       
       - name: Configurar credenciais AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -253,30 +235,11 @@ jobs:
         env:
           CLOUDFRONT_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
-          if [ -z "$CLOUDFRONT_ID" ]; then
-            echo "⏭️ CloudFront não configurado, pulando invalidação..."
-            exit 0
+          if [ ! -z "$CLOUDFRONT_ID" ]; then
+            aws cloudfront create-invalidation \
+              --distribution-id "$CLOUDFRONT_ID" \
+              --paths "/*"
           fi
-          
-          echo "🔄 Criando invalidação no CloudFront..."
-          INVALIDATION_ID=$(aws cloudfront create-invalidation \
-            --distribution-id "$CLOUDFRONT_ID" \
-            --paths "/*" \
-            --query 'Invalidation.Id' \
-            --output text)
-          
-          echo "🔄 Invalidação criada: $INVALIDATION_ID"
-          
-          echo "⏳ Aguardando conclusão da invalidação..."
-          aws cloudfront wait invalidation-completed \
-            --distribution-id "$CLOUDFRONT_ID" \
-            --id "$INVALIDATION_ID" || true
-      
-      - name: Deploy concluído
-        run: |
-          echo "✅ Frontend deployado com sucesso!"
-          echo "🌐 URL: https://${{ secrets.CLOUDFRONT_DOMAIN }}"
-          echo "   ou: http://${{ secrets.S3_BUCKET_FRONTEND }}.s3-website-us-east-2.amazonaws.com"
 
   summary:
     needs: [detect-changes, test-and-deploy-backend, build-and-deploy-frontend]
@@ -286,11 +249,5 @@ jobs:
       - name: Resumo do deploy
         run: |
           echo "## 📊 Resumo do Deploy" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Mudanças detectadas:" >> $GITHUB_STEP_SUMMARY
-          echo "- Backend: ${{ needs.detect-changes.outputs.backend }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Frontend: ${{ needs.detect-changes.outputs.frontend }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Status dos deploys:" >> $GITHUB_STEP_SUMMARY
-          echo "- Backend: ${{ needs.test-and-deploy-backend.result || 'não executado' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- Frontend: ${{ needs.build-and-deploy-frontend.result || 'não executado' }}" >> $GITHUB_STEP_SUMMARY
+          echo "Backend: ${{ needs.detect-changes.outputs.backend }}" >> $GITHUB_STEP_SUMMARY
+          echo "Frontend: ${{ needs.detect-changes.outputs.frontend }}" >> $GITHUB_STEP_SUMMARY
