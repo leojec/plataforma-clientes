@@ -51,7 +51,14 @@ public class ExpositorRequest {
     private Long vendedorId;
     
     // Construtores
-    public ExpositorRequest() {}
+    /**
+     * Construtor padrão vazio necessário para frameworks de serialização/deserialização
+     * como Jackson e para frameworks de injeção de dependência como Spring.
+     * Este construtor é usado automaticamente quando objetos são criados a partir de JSON.
+     */
+    public ExpositorRequest() {
+        // Intencionalmente vazio - necessário para frameworks
+    }
     
     // Getters e Setters
     public String getRazaoSocial() {

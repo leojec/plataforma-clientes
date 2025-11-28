@@ -22,6 +22,9 @@ import java.util.*;
 public class OportunidadeController {
     
     private static final Logger logger = LoggerFactory.getLogger(OportunidadeController.class);
+    private static final String KEY_TITULO = "titulo";
+    private static final String KEY_STATUS = "status";
+    private static final String KEY_VALOR_ESTIMADO = "valorEstimado";
     
     @Autowired
     private OportunidadeRepository oportunidadeRepository;
@@ -41,11 +44,11 @@ public class OportunidadeController {
                 .map(oportunidade -> {
                     Map<String, Object> map = new HashMap<>();
                     map.put("id", oportunidade.getId());
-                    map.put("titulo", oportunidade.getTitulo());
+                    map.put(KEY_TITULO, oportunidade.getTitulo());
                     map.put("descricao", oportunidade.getDescricao());
-                    map.put("status", oportunidade.getStatus());
+                    map.put(KEY_STATUS, oportunidade.getStatus());
                     map.put("fonte", oportunidade.getFonte());
-                    map.put("valorEstimado", oportunidade.getValorEstimado());
+                    map.put(KEY_VALOR_ESTIMADO, oportunidade.getValorEstimado());
                     map.put("probabilidadeFechamento", oportunidade.getProbabilidadeFechamento());
                     map.put("dataPrevistaFechamento", oportunidade.getDataPrevistaFechamento());
                     map.put("dataCriacao", oportunidade.getDataCriacao());
@@ -164,9 +167,9 @@ public class OportunidadeController {
             response.put("oportunidades", oportunidadesCriadas.stream().map(op -> {
                 Map<String, Object> opData = new HashMap<>();
                 opData.put("id", op.getId());
-                opData.put("titulo", op.getTitulo());
-                opData.put("status", op.getStatus());
-                opData.put("valorEstimado", op.getValorEstimado());
+                opData.put(KEY_TITULO, op.getTitulo());
+                opData.put(KEY_STATUS, op.getStatus());
+                opData.put(KEY_VALOR_ESTIMADO, op.getValorEstimado());
                 return opData;
             }).collect(java.util.stream.Collectors.toList()));
             
@@ -189,11 +192,11 @@ public class OportunidadeController {
                 
                 Map<String, Object> oportunidadeSimples = new HashMap<>();
                 oportunidadeSimples.put("id", oportunidade.getId());
-                oportunidadeSimples.put("titulo", oportunidade.getTitulo());
+                oportunidadeSimples.put(KEY_TITULO, oportunidade.getTitulo());
                 oportunidadeSimples.put("descricao", oportunidade.getDescricao());
-                oportunidadeSimples.put("status", oportunidade.getStatus());
+                oportunidadeSimples.put(KEY_STATUS, oportunidade.getStatus());
                 oportunidadeSimples.put("fonte", oportunidade.getFonte());
-                oportunidadeSimples.put("valorEstimado", oportunidade.getValorEstimado());
+                oportunidadeSimples.put(KEY_VALOR_ESTIMADO, oportunidade.getValorEstimado());
                 oportunidadeSimples.put("probabilidadeFechamento", oportunidade.getProbabilidadeFechamento());
                 oportunidadeSimples.put("dataPrevistaFechamento", oportunidade.getDataPrevistaFechamento());
                 oportunidadeSimples.put("dataCriacao", oportunidade.getDataCriacao());

@@ -25,12 +25,14 @@ import java.util.Optional;
 public class ExpositorController {
     
     private static final Logger logger = LoggerFactory.getLogger(ExpositorController.class);
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_STATUS = "status";
     
     @Autowired
     private ExpositorService expositorService;
     
     @PostMapping
-    public ResponseEntity<?> criarExpositor(@Valid @RequestBody ExpositorRequest request) {
+    public ResponseEntity<Object> criarExpositor(@Valid @RequestBody ExpositorRequest request) {
         try {
             if (expositorService.existeCnpj(request.getCnpj())) {
                 return ResponseEntity.badRequest()
@@ -70,7 +72,7 @@ public class ExpositorController {
                     map.put("razaoSocial", expositor.getRazaoSocial());
                     map.put("nomeFantasia", expositor.getNomeFantasia());
                     map.put("cnpj", expositor.getCnpj());
-                    map.put("email", expositor.getEmail());
+                    map.put(KEY_EMAIL, expositor.getEmail());
                     map.put("telefone", expositor.getTelefone());
                     map.put("celular", expositor.getCelular());
                     map.put("endereco", expositor.getEndereco());
@@ -79,7 +81,7 @@ public class ExpositorController {
                     map.put("cep", expositor.getCep());
                     map.put("site", expositor.getSite());
                     map.put("descricao", expositor.getDescricao());
-                    map.put("status", expositor.getStatus());
+                    map.put(KEY_STATUS, expositor.getStatus());
                     map.put("dataCadastro", expositor.getDataCadastro());
                     map.put("dataAtualizacao", expositor.getDataAtualizacao());
                     
@@ -88,7 +90,7 @@ public class ExpositorController {
                         Map<String, Object> vendedor = new HashMap<>();
                         vendedor.put("id", expositor.getVendedor().getId());
                         vendedor.put("nome", expositor.getVendedor().getNome());
-                        vendedor.put("email", expositor.getVendedor().getEmail());
+                        vendedor.put(KEY_EMAIL, expositor.getVendedor().getEmail());
                         map.put("vendedor", vendedor);
                     }
                     
@@ -115,7 +117,7 @@ public class ExpositorController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarExpositor(@PathVariable Long id) {
+    public ResponseEntity<Object> buscarExpositor(@PathVariable Long id) {
         try {
             Optional<Expositor> expositorOpt = expositorService.buscarPorId(id);
             
@@ -128,7 +130,7 @@ public class ExpositorController {
                 expositorSimples.put("razaoSocial", expositor.getRazaoSocial());
                 expositorSimples.put("nomeFantasia", expositor.getNomeFantasia());
                 expositorSimples.put("cnpj", expositor.getCnpj());
-                expositorSimples.put("email", expositor.getEmail());
+                expositorSimples.put(KEY_EMAIL, expositor.getEmail());
                 expositorSimples.put("telefone", expositor.getTelefone());
                 expositorSimples.put("celular", expositor.getCelular());
                 expositorSimples.put("endereco", expositor.getEndereco());
@@ -137,7 +139,7 @@ public class ExpositorController {
                 expositorSimples.put("cep", expositor.getCep());
                 expositorSimples.put("site", expositor.getSite());
                 expositorSimples.put("descricao", expositor.getDescricao());
-                expositorSimples.put("status", expositor.getStatus());
+                expositorSimples.put(KEY_STATUS, expositor.getStatus());
                 expositorSimples.put("dataCadastro", expositor.getDataCadastro());
                 expositorSimples.put("dataAtualizacao", expositor.getDataAtualizacao());
                 
@@ -146,7 +148,7 @@ public class ExpositorController {
                     Map<String, Object> vendedor = new HashMap<>();
                     vendedor.put("id", expositor.getVendedor().getId());
                     vendedor.put("nome", expositor.getVendedor().getNome());
-                    vendedor.put("email", expositor.getVendedor().getEmail());
+                    vendedor.put(KEY_EMAIL, expositor.getVendedor().getEmail());
                     expositorSimples.put("vendedor", vendedor);
                 }
                 
@@ -161,7 +163,7 @@ public class ExpositorController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarExpositor(@PathVariable Long id, 
+    public ResponseEntity<Object> atualizarExpositor(@PathVariable Long id, 
                                               @Valid @RequestBody ExpositorRequest request) {
         try {
             Expositor expositor = expositorService.atualizarExpositor(id, request);
@@ -176,7 +178,7 @@ public class ExpositorController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluirExpositor(@PathVariable Long id) {
+    public ResponseEntity<Object> excluirExpositor(@PathVariable Long id) {
         try {
             expositorService.excluirExpositor(id);
             return ResponseEntity.ok("Expositor excluído com sucesso");

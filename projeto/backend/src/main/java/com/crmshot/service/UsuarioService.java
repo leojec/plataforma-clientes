@@ -16,6 +16,8 @@ import java.util.Optional;
 @Service
 public class UsuarioService implements UserDetailsService {
     
+    private static final String MSG_USUARIO_NAO_ENCONTRADO = "Usuário não encontrado";
+    
     @Autowired
     private UsuarioRepository usuarioRepository;
     
@@ -62,21 +64,21 @@ public class UsuarioService implements UserDetailsService {
     
     public void desativarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new RuntimeException(MSG_USUARIO_NAO_ENCONTRADO));
         usuario.setAtivo(false);
         usuarioRepository.save(usuario);
     }
     
     public void ativarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new RuntimeException(MSG_USUARIO_NAO_ENCONTRADO));
         usuario.setAtivo(true);
         usuarioRepository.save(usuario);
     }
     
     public void atualizarUltimoAcesso(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new RuntimeException(MSG_USUARIO_NAO_ENCONTRADO));
         usuario.setUltimoAcesso(LocalDateTime.now());
         usuarioRepository.save(usuario);
     }
