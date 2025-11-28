@@ -228,27 +228,31 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
       
-      - name: Obter URL do CloudFront
+      - name: Obter URL do CloudFront (Backend)
         id: get-cloudfront-url
         run: |
-          if [ -z "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
-            echo "⚠️ CLOUDFRONT_DISTRIBUTION_ID não configurado, usando REACT_APP_API_URL do secret"
-            echo "CLOUDFRONT_URL=${{ secrets.REACT_APP_API_URL }}" >> $GITHUB_ENV
-          else
+          # Priorizar secret REACT_APP_API_URL se configurado (URL do CloudFront do backend)
+          if [ ! -z "${{ secrets.REACT_APP_API_URL }}" ]; then
+            CLOUDFRONT_URL="${{ secrets.REACT_APP_API_URL }}"
+            echo "✅ Usando REACT_APP_API_URL do secret: $CLOUDFRONT_URL"
+            echo "CLOUDFRONT_URL=$CLOUDFRONT_URL" >> $GITHUB_ENV
+          # Tentar obter automaticamente do CloudFront Distribution ID
+          elif [ ! -z "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
             CLOUDFRONT_URL=$(aws cloudfront get-distribution \
               --id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
               --query 'Distribution.DomainName' \
-              --output text)
+              --output text 2>/dev/null || echo "")
             
-            if [ -z "$CLOUDFRONT_URL" ] || [ "$CLOUDFRONT_URL" == "None" ]; then
-              echo "⚠️ Não foi possível obter URL do CloudFront, usando REACT_APP_API_URL do secret"
-              echo "CLOUDFRONT_URL=${{ secrets.REACT_APP_API_URL }}" >> $GITHUB_ENV
-            else
+            if [ ! -z "$CLOUDFRONT_URL" ] && [ "$CLOUDFRONT_URL" != "None" ]; then
               # CloudFront com HTTPS (sem /api, pois o api.js já adiciona)
               CLOUDFRONT_URL="https://${CLOUDFRONT_URL}"
-              echo "✅ URL do CloudFront (backend proxy): $CLOUDFRONT_URL"
+              echo "✅ URL do CloudFront obtida automaticamente: $CLOUDFRONT_URL"
               echo "CLOUDFRONT_URL=$CLOUDFRONT_URL" >> $GITHUB_ENV
+            else
+              echo "⚠️ Não foi possível obter URL do CloudFront automaticamente"
             fi
+          else
+            echo "⚠️ CLOUDFRONT_DISTRIBUTION_ID e REACT_APP_API_URL não configurados"
           fi
       
       - name: Obter URL do backend (Elastic Beanstalk)
@@ -286,20 +290,22 @@ jobs:
           REACT_APP_BACKEND_URL: ${{ env.BACKEND_URL || secrets.REACT_APP_BACKEND_URL }}
           REACT_APP_API_URL: ${{ env.CLOUDFRONT_URL || secrets.REACT_APP_API_URL }}
         run: |
-          # REACT_APP_BACKEND_URL tem prioridade (URL direta do backend)
-          # REACT_APP_API_URL é usado como fallback (pode ser CloudFront com proxy)
-          if [ -z "$REACT_APP_BACKEND_URL" ] && [ -z "$REACT_APP_API_URL" ]; then
-            echo "❌ ERRO: REACT_APP_BACKEND_URL ou REACT_APP_API_URL deve estar configurado!"
-            echo "Configure REACT_APP_BACKEND_URL com a URL direta do backend (ex: http://crmshot.us-east-2.elasticbeanstalk.com/api)"
-            echo "OU configure REACT_APP_API_URL com a URL do CloudFront com proxy (ex: https://d1234567890.cloudfront.net/api)"
+          # REACT_APP_API_URL tem prioridade (CloudFront do backend com HTTPS)
+          # REACT_APP_BACKEND_URL é usado como fallback apenas em desenvolvimento
+          if [ -z "$REACT_APP_API_URL" ] && [ -z "$REACT_APP_BACKEND_URL" ]; then
+            echo "❌ ERRO: REACT_APP_API_URL deve estar configurado!"
+            echo "Configure REACT_APP_API_URL com a URL do CloudFront do backend (ex: https://deqerqb586ryv.cloudfront.net)"
             exit 1
           fi
-          if [ ! -z "$REACT_APP_BACKEND_URL" ]; then
-            echo "🔧 Usando REACT_APP_BACKEND_URL: $REACT_APP_BACKEND_URL"
-            echo "   (URL direta do backend - recomendado quando CloudFront não está configurado como proxy)"
-          else
+          if [ ! -z "$REACT_APP_API_URL" ]; then
             echo "🔧 Usando REACT_APP_API_URL: $REACT_APP_API_URL"
-            echo "   (CloudFront com proxy - requer configuração no CloudFront)"
+            echo "   ✅ CloudFront HTTPS do backend - resolve Mixed Content"
+            if [ ! -z "$REACT_APP_BACKEND_URL" ]; then
+              echo "   REACT_APP_BACKEND_URL também configurado: $REACT_APP_BACKEND_URL (fallback para desenvolvimento)"
+            fi
+          else
+            echo "🔧 Usando REACT_APP_BACKEND_URL: $REACT_APP_BACKEND_URL"
+            echo "   ⚠️ ATENÇÃO: Configure REACT_APP_API_URL com CloudFront HTTPS para produção"
           fi
           npm run build
       

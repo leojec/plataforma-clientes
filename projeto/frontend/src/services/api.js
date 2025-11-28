@@ -7,16 +7,38 @@ const normalizeURL = (url) => {
   return url.replace(/[\u200B-\u200D\uFEFF\u200C\u200D]/g, '').trim().replace(/\/+$/, '');
 };
 
-// Priorizar REACT_APP_BACKEND_URL se existir (URL direta do backend)
-// Caso contrário, usar REACT_APP_API_URL (pode ser CloudFront com proxy)
+// Detectar se estamos em produção (HTTPS)
+const isProduction = window.location.protocol === 'https:';
+
+// Priorizar REACT_APP_API_URL (CloudFront com HTTPS) quando disponível
+// Caso contrário, usar REACT_APP_BACKEND_URL (URL direta do backend)
+// Em desenvolvimento local, usar localhost
 const backendURL = process.env.REACT_APP_BACKEND_URL;
 const apiURL = process.env.REACT_APP_API_URL;
 
-// Se REACT_APP_BACKEND_URL estiver definido, usar diretamente
-// Caso contrário, usar REACT_APP_API_URL ou localhost
-const baseURL = normalizeURL(backendURL || apiURL || 'http://localhost:8080/api');
-// Garantir que termina com /api
-const finalBaseURL = baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`;
+let baseURL;
+// Sempre priorizar REACT_APP_API_URL (CloudFront) quando disponível
+if (apiURL) {
+  baseURL = apiURL;
+} else if (isProduction && backendURL) {
+  // Em produção (HTTPS), tentar converter HTTP para HTTPS se possível
+  if (backendURL.startsWith('http://') && backendURL.includes('elasticbeanstalk.com')) {
+    baseURL = backendURL.replace('http://', 'https://');
+    console.warn('⚠️ Convertendo backend URL de HTTP para HTTPS para evitar Mixed Content');
+  } else {
+    baseURL = backendURL;
+  }
+} else if (backendURL) {
+  // Em desenvolvimento, usar backend URL se disponível
+  baseURL = backendURL;
+} else {
+  // Fallback para localhost
+  baseURL = 'http://localhost:8080/api';
+}
+
+// Normalizar e garantir que termina com /api
+const normalizedURL = normalizeURL(baseURL);
+const finalBaseURL = normalizedURL.endsWith('/api') ? normalizedURL : `${normalizedURL}/api`;
 
 const api = axios.create({
   baseURL: finalBaseURL,
@@ -25,6 +47,7 @@ const api = axios.create({
 
 // Log da URL base para debug (sempre, para ajudar no troubleshooting)
 console.log('🔗 API Base URL:', finalBaseURL);
+console.log('🔗 Ambiente:', isProduction ? 'Produção (HTTPS)' : 'Desenvolvimento');
 console.log('🔗 REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL || 'não definido');
 console.log('🔗 REACT_APP_API_URL:', process.env.REACT_APP_API_URL || 'não definido');
 
