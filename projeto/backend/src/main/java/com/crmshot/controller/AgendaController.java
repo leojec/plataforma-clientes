@@ -8,7 +8,6 @@ import com.crmshot.repository.ExpositorRepository;
 import com.crmshot.repository.UsuarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +22,20 @@ import java.util.*;
 public class AgendaController {
 
     private static final Logger logger = LoggerFactory.getLogger(AgendaController.class);
+    private static final String KEY_DESCRICAO = "descricao";
 
-    @Autowired
-    private InteracaoRepository interacaoRepository;
-    
-    @Autowired
-    private ExpositorRepository expositorRepository;
-    
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final InteracaoRepository interacaoRepository;
+    private final ExpositorRepository expositorRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public AgendaController(
+            InteracaoRepository interacaoRepository,
+            ExpositorRepository expositorRepository,
+            UsuarioRepository usuarioRepository) {
+        this.interacaoRepository = interacaoRepository;
+        this.expositorRepository = expositorRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @GetMapping("/atividades/lead/{leadId}")
     public ResponseEntity<List<Map<String, Object>>> getAtividadesPorLead(@PathVariable Long leadId) {
@@ -48,7 +52,7 @@ public class AgendaController {
                 atividade.put("data", interacao.getDataCriacao() != null ? 
                     interacao.getDataCriacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "");
                 atividade.put("tipo", mapTipoInteracao(interacao.getTipo()));
-                atividade.put("descricao", interacao.getDescricao());
+                atividade.put(KEY_DESCRICAO, interacao.getDescricao());
                 atividade.put("agendamento", interacao.getDataProximaAcao() != null ? 
                     "Sim - " + interacao.getDataProximaAcao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "Não");
                 atividade.put("usuario", interacao.getUsuario() != null ? interacao.getUsuario().getNome() : "Administrador");
@@ -92,7 +96,7 @@ public class AgendaController {
                     (interacao.getExpositor().getNomeFantasia() != null ? 
                         interacao.getExpositor().getNomeFantasia() : 
                         interacao.getExpositor().getRazaoSocial()) : "Lead"));
-            atividade.put("descricao", interacao.getDescricao());
+            atividade.put(KEY_DESCRICAO, interacao.getDescricao());
             atividade.put("tipo", mapTipoInteracao(interacao.getTipo()));
             atividade.put("horario", interacao.getDataProximaAcao() != null ? 
                 interacao.getDataProximaAcao().format(DateTimeFormatter.ofPattern("HH:mm")) : "00:00");
@@ -145,7 +149,7 @@ public class AgendaController {
         try {
             // Extrair dados da atividade
             String tipoAtividade = (String) atividadeData.get("tipoAtividade");
-            String descricao = (String) atividadeData.get("descricao");
+            String descricao = (String) atividadeData.get(KEY_DESCRICAO);
             String dataAgendamento = (String) atividadeData.get("dataAgendamento");
             String horarioAgendamento = (String) atividadeData.get("horarioAgendamento");
             String leadId = (String) atividadeData.get("leadId");

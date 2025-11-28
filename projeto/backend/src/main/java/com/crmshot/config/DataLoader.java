@@ -4,7 +4,6 @@ import com.crmshot.entity.Usuario;
 import com.crmshot.repository.UsuarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,17 +16,21 @@ public class DataLoader implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final String defaultAdminPassword;
+    private final String defaultUserPassword;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Value("${app.default.admin.password:${DEFAULT_ADMIN_PASSWORD:}}")
-    private String defaultAdminPassword;
-
-    @Value("${app.default.user.password:${DEFAULT_USER_PASSWORD:}}")
-    private String defaultUserPassword;
+    public DataLoader(
+            UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder,
+            @Value("${app.default.admin.password:${DEFAULT_ADMIN_PASSWORD:}}") String defaultAdminPassword,
+            @Value("${app.default.user.password:${DEFAULT_USER_PASSWORD:}}") String defaultUserPassword) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.defaultAdminPassword = defaultAdminPassword;
+        this.defaultUserPassword = defaultUserPassword;
+    }
 
     @Override
     public void run(String... args) throws Exception {
