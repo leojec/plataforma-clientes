@@ -126,11 +126,23 @@ jobs:
           mkdir -p deploy-package
           cp target/crmshot-backend-0.0.1-SNAPSHOT.jar deploy-package/
           cp -r .ebextensions deploy-package/ 2>/dev/null || true
-          cp Procfile deploy-package/ 2>/dev/null || true
+          
+          # O Procfile já está no diretório backend (working-directory)
+          if [ -f Procfile ]; then
+            cp Procfile deploy-package/
+            echo "✅ Procfile copiado para deploy-package/"
+            cat Procfile
+          else
+            echo "❌ ERRO: Procfile não encontrado!"
+            echo "Procurando Procfile..."
+            find .. -name "Procfile" -type f 2>/dev/null || echo "Procfile não encontrado em lugar nenhum"
+            exit 1
+          fi
           
           cd deploy-package
           zip -r ../deploy-backend.zip .
           cd ..
+          ls -la deploy-package/
       
       - name: Upload pacote para S3
         run: |

@@ -1,76 +1,76 @@
 package com.crmshot.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.env.Environment;
+import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MapPropertySource;
 
-import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
-@Configuration
-public class RdsConfig {
+@org.springframework.context.annotation.Configuration
+public class RdsConfig implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
 
-    @Autowired(required = false)
-    private Environment env;
-
-    @Bean
-    @Primary
-    public DataSource dataSource() {
-        System.out.println("=".repeat(50));
-        System.out.println("🔍 INICIANDO CONFIGURAÇÃO DO DATASOURCE");
-        System.out.println("=".repeat(50));
+    @Override
+    public void onApplicationEvent(@org.springframework.lang.NonNull ApplicationEnvironmentPreparedEvent event) {
+        ConfigurableEnvironment environment = event.getEnvironment();
         
-        // Verificar todas as variáveis RDS
+        // Verificar se as variáveis RDS estão disponíveis (Elastic Beanstalk)
         String rdsHostname = System.getenv("RDS_HOSTNAME");
-        String rdsPort = System.getenv("RDS_PORT");
-        String rdsDbName = System.getenv("RDS_DB_NAME");
-        String rdsUsername = System.getenv("RDS_USERNAME");
-        String rdsPassword = System.getenv("RDS_PASSWORD");
         
-        System.out.println("RDS_HOSTNAME: " + (rdsHostname != null ? rdsHostname : "NÃO ENCONTRADO"));
-        System.out.println("RDS_PORT: " + (rdsPort != null ? rdsPort : "NÃO ENCONTRADO"));
-        System.out.println("RDS_DB_NAME: " + (rdsDbName != null ? rdsDbName : "NÃO ENCONTRADO"));
-        System.out.println("RDS_USERNAME: " + (rdsUsername != null ? rdsUsername : "NÃO ENCONTRADO"));
+        // Credenciais do RDS AWS configuradas no código
+        String awsRdsHost = "database-2.cvmowqi02j3c.us-east-2.rds.amazonaws.com";
+        String awsRdsDatabase = "crmshot";
+        String awsRdsUsername = "postgres";
+        String awsRdsPassword = "34367746";
+        String awsRdsPort = "5432";
+        
+        String finalHostname;
+        String finalDatabase;
+        String finalUsername;
+        String finalPassword;
+        String finalPort;
         
         if (rdsHostname != null && !rdsHostname.isEmpty()) {
-            String port = (rdsPort != null && !rdsPort.isEmpty()) ? rdsPort : "5432";
-            String dbName = (rdsDbName != null && !rdsDbName.isEmpty()) ? rdsDbName : "ebdb";
-            String username = (rdsUsername != null && !rdsUsername.isEmpty()) ? rdsUsername : "postgres";
-            String password = (rdsPassword != null && !rdsPassword.isEmpty()) ? rdsPassword : "";
+            // Usar variáveis RDS do Elastic Beanstalk se disponíveis
+            finalHostname = rdsHostname;
+            finalPort = System.getenv("RDS_PORT");
+            finalDatabase = System.getenv("RDS_DB_NAME");
+            finalUsername = System.getenv("RDS_USERNAME");
+            finalPassword = System.getenv("RDS_PASSWORD");
             
-            String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", rdsHostname, port, dbName);
+            finalPort = (finalPort != null && !finalPort.isEmpty()) ? finalPort : "5432";
+            finalDatabase = (finalDatabase != null && !finalDatabase.isEmpty()) ? finalDatabase : "ebdb";
+            finalUsername = (finalUsername != null && !finalUsername.isEmpty()) ? finalUsername : "postgres";
+            finalPassword = (finalPassword != null && !finalPassword.isEmpty()) ? finalPassword : "";
             
-            System.out.println("✅ CONFIGURANDO DATASOURCE COM RDS:");
-            System.out.println("   URL: " + jdbcUrl);
-            System.out.println("   Username: " + username);
-            System.out.println("=".repeat(50));
+            System.out.println("🔗 Usando variáveis RDS do Elastic Beanstalk");
+        } else {
+            // Usar credenciais RDS configuradas no código
+            finalHostname = awsRdsHost;
+            finalPort = awsRdsPort;
+            finalDatabase = awsRdsDatabase;
+            finalUsername = awsRdsUsername;
+            finalPassword = awsRdsPassword;
             
-            return DataSourceBuilder.create()
-                    .url(jdbcUrl)
-                    .username(username)
-                    .password(password)
-                    .driverClassName("org.postgresql.Driver")
-                    .build();
+            System.out.println("🔗 Usando credenciais RDS configuradas no código");
         }
         
-        // Fallback para configuração padrão
-        String url = (env != null) ? env.getProperty("spring.datasource.url", "jdbc:postgresql://localhost:5432/crmshot") : "jdbc:postgresql://localhost:5432/crmshot";
-        String username = (env != null) ? env.getProperty("spring.datasource.username", "postgres") : "postgres";
-        String password = (env != null) ? env.getProperty("spring.datasource.password", "34367746") : "34367746";
+        String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", finalHostname, finalPort, finalDatabase);
         
-        System.out.println("⚠️ RDS NÃO ENCONTRADO - USANDO CONFIGURAÇÃO PADRÃO:");
-        System.out.println("   URL: " + url);
-        System.out.println("   Username: " + username);
-        System.out.println("=".repeat(50));
+        System.out.println("   URL: " + jdbcUrl);
+        System.out.println("   Database: " + finalDatabase);
+        System.out.println("   Username: " + finalUsername);
         
-        return DataSourceBuilder.create()
-                .url(url)
-                .username(username)
-                .password(password)
-                .driverClassName("org.postgresql.Driver")
-                .build();
+        // Adicionar propriedades RDS ao Environment antes do Spring criar o DataSource
+        Map<String, Object> rdsProperties = new HashMap<>();
+        rdsProperties.put("spring.datasource.url", jdbcUrl);
+        rdsProperties.put("spring.datasource.username", finalUsername);
+        rdsProperties.put("spring.datasource.password", finalPassword);
+        
+        environment.getPropertySources().addFirst(
+            new MapPropertySource("rds-config", rdsProperties)
+        );
     }
 }
 
