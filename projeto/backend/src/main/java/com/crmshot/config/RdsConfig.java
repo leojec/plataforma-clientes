@@ -1,7 +1,6 @@
 package com.crmshot.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,30 +12,40 @@ import javax.sql.DataSource;
 @Configuration
 public class RdsConfig {
 
-    @Autowired
+    @Autowired(required = false)
     private Environment env;
 
     @Bean
     @Primary
-    @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
-        String rdsHostname = System.getenv("RDS_HOSTNAME");
+        System.out.println("=".repeat(50));
+        System.out.println("🔍 INICIANDO CONFIGURAÇÃO DO DATASOURCE");
+        System.out.println("=".repeat(50));
         
-        // Se RDS_HOSTNAME estiver disponível, usar configuração RDS do Elastic Beanstalk
+        // Verificar todas as variáveis RDS
+        String rdsHostname = System.getenv("RDS_HOSTNAME");
+        String rdsPort = System.getenv("RDS_PORT");
+        String rdsDbName = System.getenv("RDS_DB_NAME");
+        String rdsUsername = System.getenv("RDS_USERNAME");
+        String rdsPassword = System.getenv("RDS_PASSWORD");
+        
+        System.out.println("RDS_HOSTNAME: " + (rdsHostname != null ? rdsHostname : "NÃO ENCONTRADO"));
+        System.out.println("RDS_PORT: " + (rdsPort != null ? rdsPort : "NÃO ENCONTRADO"));
+        System.out.println("RDS_DB_NAME: " + (rdsDbName != null ? rdsDbName : "NÃO ENCONTRADO"));
+        System.out.println("RDS_USERNAME: " + (rdsUsername != null ? rdsUsername : "NÃO ENCONTRADO"));
+        
         if (rdsHostname != null && !rdsHostname.isEmpty()) {
-            String rdsPort = System.getenv("RDS_PORT");
-            String rdsDbName = System.getenv("RDS_DB_NAME");
-            String rdsUsername = System.getenv("RDS_USERNAME");
-            String rdsPassword = System.getenv("RDS_PASSWORD");
-            
             String port = (rdsPort != null && !rdsPort.isEmpty()) ? rdsPort : "5432";
-            String dbName = (rdsDbName != null && !rdsDbName.isEmpty()) ? rdsDbName : "crmshot";
+            String dbName = (rdsDbName != null && !rdsDbName.isEmpty()) ? rdsDbName : "ebdb";
             String username = (rdsUsername != null && !rdsUsername.isEmpty()) ? rdsUsername : "postgres";
             String password = (rdsPassword != null && !rdsPassword.isEmpty()) ? rdsPassword : "";
             
             String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", rdsHostname, port, dbName);
             
-            System.out.println("🔗 Conectando ao RDS: " + rdsHostname + ":" + port + "/" + dbName);
+            System.out.println("✅ CONFIGURANDO DATASOURCE COM RDS:");
+            System.out.println("   URL: " + jdbcUrl);
+            System.out.println("   Username: " + username);
+            System.out.println("=".repeat(50));
             
             return DataSourceBuilder.create()
                     .url(jdbcUrl)
@@ -46,10 +55,15 @@ public class RdsConfig {
                     .build();
         }
         
-        // Se não estiver no RDS, usar configuração padrão do application.yml
-        String url = env.getProperty("spring.datasource.url", "jdbc:postgresql://localhost:5432/crmshot");
-        String username = env.getProperty("spring.datasource.username", "postgres");
-        String password = env.getProperty("spring.datasource.password", "34367746");
+        // Fallback para configuração padrão
+        String url = (env != null) ? env.getProperty("spring.datasource.url", "jdbc:postgresql://localhost:5432/crmshot") : "jdbc:postgresql://localhost:5432/crmshot";
+        String username = (env != null) ? env.getProperty("spring.datasource.username", "postgres") : "postgres";
+        String password = (env != null) ? env.getProperty("spring.datasource.password", "34367746") : "34367746";
+        
+        System.out.println("⚠️ RDS NÃO ENCONTRADO - USANDO CONFIGURAÇÃO PADRÃO:");
+        System.out.println("   URL: " + url);
+        System.out.println("   Username: " + username);
+        System.out.println("=".repeat(50));
         
         return DataSourceBuilder.create()
                 .url(url)
