@@ -251,16 +251,56 @@ jobs:
             fi
           fi
       
+      - name: Obter URL do backend (Elastic Beanstalk)
+        id: get-backend-url
+        run: |
+          # Priorizar secret REACT_APP_BACKEND_URL se configurado
+          if [ ! -z "${{ secrets.REACT_APP_BACKEND_URL }}" ]; then
+            BACKEND_URL="${{ secrets.REACT_APP_BACKEND_URL }}"
+            echo "✅ Usando REACT_APP_BACKEND_URL do secret: $BACKEND_URL"
+            echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_ENV
+          # Tentar obter a URL do backend do Elastic Beanstalk automaticamente
+          elif [ ! -z "${{ secrets.EB_ENVIRONMENT_NAME }}" ]; then
+            BACKEND_URL=$(aws elasticbeanstalk describe-environments \
+              --environment-names ${{ secrets.EB_ENVIRONMENT_NAME }} \
+              --region us-east-2 \
+              --query 'Environments[0].CNAME' \
+              --output text 2>/dev/null || echo "")
+            
+            if [ ! -z "$BACKEND_URL" ] && [ "$BACKEND_URL" != "None" ]; then
+              # Adicionar http:// se necessário
+              if [[ ! "$BACKEND_URL" =~ ^https?:// ]]; then
+                BACKEND_URL="http://${BACKEND_URL}"
+              fi
+              # Garantir que termina com /api
+              if [[ ! "$BACKEND_URL" =~ /api$ ]]; then
+                BACKEND_URL="${BACKEND_URL}/api"
+              fi
+              echo "✅ URL do backend obtida automaticamente: $BACKEND_URL"
+              echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_ENV
+            fi
+          fi
+      
       - name: Build do frontend
         env:
+          REACT_APP_BACKEND_URL: ${{ env.BACKEND_URL || secrets.REACT_APP_BACKEND_URL }}
           REACT_APP_API_URL: ${{ env.CLOUDFRONT_URL || secrets.REACT_APP_API_URL }}
         run: |
-          if [ -z "$REACT_APP_API_URL" ]; then
-            echo "❌ ERRO: REACT_APP_API_URL não está configurado!"
-            echo "Configure o secret REACT_APP_API_URL no GitHub com a URL do CloudFront (ex: https://d1234567890.cloudfront.net/api)"
+          # REACT_APP_BACKEND_URL tem prioridade (URL direta do backend)
+          # REACT_APP_API_URL é usado como fallback (pode ser CloudFront com proxy)
+          if [ -z "$REACT_APP_BACKEND_URL" ] && [ -z "$REACT_APP_API_URL" ]; then
+            echo "❌ ERRO: REACT_APP_BACKEND_URL ou REACT_APP_API_URL deve estar configurado!"
+            echo "Configure REACT_APP_BACKEND_URL com a URL direta do backend (ex: http://crmshot.us-east-2.elasticbeanstalk.com/api)"
+            echo "OU configure REACT_APP_API_URL com a URL do CloudFront com proxy (ex: https://d1234567890.cloudfront.net/api)"
             exit 1
           fi
-          echo "🔧 Usando REACT_APP_API_URL: $REACT_APP_API_URL"
+          if [ ! -z "$REACT_APP_BACKEND_URL" ]; then
+            echo "🔧 Usando REACT_APP_BACKEND_URL: $REACT_APP_BACKEND_URL"
+            echo "   (URL direta do backend - recomendado quando CloudFront não está configurado como proxy)"
+          else
+            echo "🔧 Usando REACT_APP_API_URL: $REACT_APP_API_URL"
+            echo "   (CloudFront com proxy - requer configuração no CloudFront)"
+          fi
           npm run build
       
       - name: Verificar build gerado

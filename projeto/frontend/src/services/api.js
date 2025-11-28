@@ -7,7 +7,14 @@ const normalizeURL = (url) => {
   return url.replace(/[\u200B-\u200D\uFEFF\u200C\u200D]/g, '').trim().replace(/\/+$/, '');
 };
 
-const baseURL = normalizeURL(process.env.REACT_APP_API_URL || 'http://localhost:8080/api');
+// Priorizar REACT_APP_BACKEND_URL se existir (URL direta do backend)
+// Caso contrário, usar REACT_APP_API_URL (pode ser CloudFront com proxy)
+const backendURL = process.env.REACT_APP_BACKEND_URL;
+const apiURL = process.env.REACT_APP_API_URL;
+
+// Se REACT_APP_BACKEND_URL estiver definido, usar diretamente
+// Caso contrário, usar REACT_APP_API_URL ou localhost
+const baseURL = normalizeURL(backendURL || apiURL || 'http://localhost:8080/api');
 // Garantir que termina com /api
 const finalBaseURL = baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`;
 
@@ -18,7 +25,8 @@ const api = axios.create({
 
 // Log da URL base para debug (sempre, para ajudar no troubleshooting)
 console.log('🔗 API Base URL:', finalBaseURL);
-console.log('🔗 REACT_APP_API_URL original:', process.env.REACT_APP_API_URL || 'não definido');
+console.log('🔗 REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL || 'não definido');
+console.log('🔗 REACT_APP_API_URL:', process.env.REACT_APP_API_URL || 'não definido');
 
 // Interceptor para adicionar token automaticamente
 api.interceptors.request.use(
@@ -42,8 +50,9 @@ api.interceptors.response.use(
     if (contentType.includes('text/html')) {
       console.error('❌ API retornou HTML ao invés de JSON. URL:', response.config?.url);
       console.error('❌ Resposta HTML:', response.data?.substring(0, 200));
+      console.error('💡 Dica: Configure REACT_APP_BACKEND_URL com a URL direta do backend (Elastic Beanstalk)');
       // Criar um erro customizado
-      const error = new Error('API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint.');
+      const error = new Error('API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint. Se estiver usando CloudFront, configure REACT_APP_BACKEND_URL com a URL direta do backend.');
       error.response = {
         ...response,
         data: null,
@@ -55,7 +64,8 @@ api.interceptors.response.use(
     // Verificar se response.data é uma string que parece HTML
     if (typeof response.data === 'string' && response.data.trim().startsWith('<!')) {
       console.error('❌ API retornou HTML ao invés de JSON. URL:', response.config?.url);
-      const error = new Error('API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint.');
+      console.error('💡 Dica: Configure REACT_APP_BACKEND_URL com a URL direta do backend (Elastic Beanstalk)');
+      const error = new Error('API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint. Se estiver usando CloudFront, configure REACT_APP_BACKEND_URL com a URL direta do backend.');
       error.response = {
         ...response,
         isHtmlResponse: true
