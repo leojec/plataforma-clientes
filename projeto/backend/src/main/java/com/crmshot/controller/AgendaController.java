@@ -309,7 +309,7 @@ public class AgendaController {
             }
         }
     }
-
+// aaa// 
     private void processarDescricaoProposta(Interacao interacao, String descricao, Interacao.TipoInteracao tipo) {
         if (descricao == null || descricao.isEmpty()) {
             String tipoNome = (tipo == Interacao.TipoInteracao.FECHADO) ? "Negócio fechado" : TIPO_PROPOSTA;
