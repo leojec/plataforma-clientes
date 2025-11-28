@@ -16,45 +16,45 @@ import jakarta.validation.Valid;
 @RequestMapping(&quot;/api/auth&quot;)
 @CrossOrigin(origins = &quot;*&quot;)
 <span class="nc" id="L18">public class AuthController {</span>
-    
+
     @Autowired
     private UsuarioService usuarioService;
-    
+
     @Autowired
     private JwtUtil jwtUtil;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @PostMapping(&quot;/login&quot;)
     public ResponseEntity&lt;Object&gt; login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            // Buscar usuário por email
+
 <span class="nc" id="L33">            Usuario usuario = usuarioService.findByEmail(loginRequest.getEmail());</span>
-            
+
 <span class="nc bnc" id="L35" title="All 2 branches missed.">            if (usuario == null) {</span>
 <span class="nc" id="L36">                return ResponseEntity.badRequest().body(&quot;Usuário não encontrado&quot;);</span>
             }
-            
-            // Verificar senha com criptografia
+
+
 <span class="nc bnc" id="L40" title="All 2 branches missed.">            if (!passwordEncoder.matches(loginRequest.getSenha(), usuario.getSenha())) {</span>
 <span class="nc" id="L41">                return ResponseEntity.badRequest().body(&quot;Senha incorreta&quot;);</span>
             }
-            
-            // Gerar token JWT usando UserDetails
+
+
 <span class="nc" id="L45">            String token = jwtUtil.generateToken(usuario);</span>
-            
-            // Atualizar último acesso
+
+
 <span class="nc" id="L48">            usuarioService.atualizarUltimoAcesso(usuario.getId());</span>
-            
+
 <span class="nc" id="L50">            return ResponseEntity.ok(new LoginResponse(token, usuario));</span>
-            
+
 <span class="nc" id="L52">        } catch (Exception e) {</span>
 <span class="nc" id="L53">            return ResponseEntity.badRequest()</span>
 <span class="nc" id="L54">                .body(&quot;Erro no login: &quot; + e.getMessage());</span>
         }
     }
-    
+
     @PostMapping(&quot;/register&quot;)
     public ResponseEntity&lt;Object&gt; register(@Valid @RequestBody Usuario usuario) {
         try {
@@ -62,10 +62,10 @@ import jakarta.validation.Valid;
 <span class="nc" id="L62">                return ResponseEntity.badRequest()</span>
 <span class="nc" id="L63">                    .body(&quot;Email já está em uso&quot;);</span>
             }
-            
+
 <span class="nc" id="L66">            usuarioService.criarUsuario(usuario);</span>
 <span class="nc" id="L67">            return ResponseEntity.ok(&quot;Usuário criado com sucesso&quot;);</span>
-            
+
 <span class="nc" id="L69">        } catch (Exception e) {</span>
 <span class="nc" id="L70">            return ResponseEntity.badRequest()</span>
 <span class="nc" id="L71">                .body(&quot;Erro ao criar usuário: &quot; + e.getMessage());</span>

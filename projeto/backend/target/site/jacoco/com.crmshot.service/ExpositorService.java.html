@@ -15,13 +15,13 @@ import java.util.Optional;
 
 @Service
 <span class="fc" id="L17">public class ExpositorService {</span>
-    
+
     @Autowired
     private ExpositorRepository expositorRepository;
-    
+
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
+
     public Expositor criarExpositor(ExpositorRequest request) {
 <span class="fc" id="L26">        Expositor expositor = new Expositor();</span>
 <span class="fc" id="L27">        expositor.setRazaoSocial(request.getRazaoSocial());</span>
@@ -37,20 +37,20 @@ import java.util.Optional;
 <span class="fc" id="L37">        expositor.setSite(request.getSite());</span>
 <span class="fc" id="L38">        expositor.setDescricao(request.getDescricao());</span>
 <span class="fc" id="L39">        expositor.setStatus(request.getStatus());</span>
-        
+
 <span class="fc bfc" id="L41" title="All 2 branches covered.">        if (request.getVendedorId() != null) {</span>
 <span class="fc" id="L42">            Usuario vendedor = usuarioRepository.findById(request.getVendedorId())</span>
 <span class="fc" id="L43">                    .orElseThrow(() -&gt; new RuntimeException(&quot;Vendedor não encontrado&quot;));</span>
 <span class="fc" id="L44">            expositor.setVendedor(vendedor);</span>
         }
-        
+
 <span class="fc" id="L47">        return expositorRepository.save(expositor);</span>
     }
-    
+
     public Expositor atualizarExpositor(Long id, ExpositorRequest request) {
 <span class="fc" id="L51">        Expositor expositor = expositorRepository.findById(id)</span>
 <span class="fc" id="L52">                .orElseThrow(() -&gt; new RuntimeException(&quot;Expositor não encontrado&quot;));</span>
-        
+
 <span class="fc" id="L54">        expositor.setRazaoSocial(request.getRazaoSocial());</span>
 <span class="fc" id="L55">        expositor.setNomeFantasia(request.getNomeFantasia());</span>
 <span class="fc" id="L56">        expositor.setCnpj(request.getCnpj());</span>
@@ -64,61 +64,61 @@ import java.util.Optional;
 <span class="fc" id="L64">        expositor.setSite(request.getSite());</span>
 <span class="fc" id="L65">        expositor.setDescricao(request.getDescricao());</span>
 <span class="fc" id="L66">        expositor.setStatus(request.getStatus());</span>
-        
+
 <span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (request.getVendedorId() != null) {</span>
 <span class="fc" id="L69">            Usuario vendedor = usuarioRepository.findById(request.getVendedorId())</span>
 <span class="pc" id="L70">                    .orElseThrow(() -&gt; new RuntimeException(&quot;Vendedor não encontrado&quot;));</span>
 <span class="fc" id="L71">            expositor.setVendedor(vendedor);</span>
         }
-        
+
 <span class="fc" id="L74">        return expositorRepository.save(expositor);</span>
     }
-    
+
     public Expositor atualizarExpositor(Expositor expositor) {
 <span class="fc" id="L78">        return expositorRepository.save(expositor);</span>
     }
-    
+
     public List&lt;Expositor&gt; listarExpositores() {
 <span class="fc" id="L82">        return expositorRepository.findAll();</span>
     }
-    
+
     public Page&lt;Expositor&gt; listarExpositores(Pageable pageable) {
 <span class="fc" id="L86">        return expositorRepository.findAll(pageable);</span>
     }
-    
-    public Page&lt;Expositor&gt; buscarExpositores(String nome, Expositor.StatusExpositor status, 
+
+    public Page&lt;Expositor&gt; buscarExpositores(String nome, Expositor.StatusExpositor status,
                                            Long vendedorId, Pageable pageable) {
 <span class="fc" id="L91">        return expositorRepository.findByFiltros(nome, status, vendedorId, pageable);</span>
     }
-    
+
     public List&lt;Expositor&gt; listarExpositoresPorStatus(Expositor.StatusExpositor status) {
 <span class="fc" id="L95">        return expositorRepository.findByStatus(status);</span>
     }
-    
+
     public List&lt;Expositor&gt; listarExpositoresPorVendedor(Long vendedorId) {
 <span class="fc" id="L99">        return expositorRepository.findByVendedorId(vendedorId);</span>
     }
-    
+
     public Optional&lt;Expositor&gt; buscarPorId(Long id) {
 <span class="fc" id="L103">        return expositorRepository.findById(id);</span>
     }
-    
+
     public Optional&lt;Expositor&gt; buscarPorCnpj(String cnpj) {
 <span class="fc" id="L107">        return expositorRepository.findByCnpj(cnpj);</span>
     }
-    
+
     public void excluirExpositor(Long id) {
 <span class="fc" id="L111">        expositorRepository.deleteById(id);</span>
 <span class="fc" id="L112">    }</span>
-    
+
     public boolean existeCnpj(String cnpj) {
 <span class="fc" id="L115">        return expositorRepository.existsByCnpj(cnpj);</span>
     }
-    
+
     public Long contarExpositoresPorStatus(Expositor.StatusExpositor status) {
 <span class="fc" id="L119">        return expositorRepository.countByStatus(status);</span>
     }
-    
+
     public Long contarExpositoresPorVendedor(Long vendedorId) {
 <span class="fc" id="L123">        return expositorRepository.countByVendedor(vendedorId);</span>
     }

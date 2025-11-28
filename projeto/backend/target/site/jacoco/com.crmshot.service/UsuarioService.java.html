@@ -15,86 +15,86 @@ import java.util.Optional;
 
 @Service
 <span class="fc" id="L17">public class UsuarioService implements UserDetailsService {</span>
-    
+
     private static final String MSG_USUARIO_NAO_ENCONTRADO = &quot;Usuário não encontrado&quot;;
-    
+
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 <span class="fc" id="L29">        return usuarioRepository.findByEmail(email)</span>
 <span class="fc" id="L30">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;Usuário não encontrado com email: &quot; + email));</span>
     }
-    
+
     public Usuario criarUsuario(Usuario usuario) {
 <span class="fc" id="L34">        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));</span>
 <span class="fc" id="L35">        return usuarioRepository.save(usuario);</span>
     }
-    
+
     public List&lt;Usuario&gt; listarUsuarios() {
 <span class="fc" id="L39">        return usuarioRepository.findAll();</span>
     }
-    
+
     public List&lt;Usuario&gt; listarUsuariosAtivos() {
 <span class="fc" id="L43">        return usuarioRepository.findByAtivoTrue();</span>
     }
-    
+
     public List&lt;Usuario&gt; listarUsuariosPorPerfil(Usuario.PerfilUsuario perfil) {
 <span class="fc" id="L47">        return usuarioRepository.findByPerfil(perfil);</span>
     }
-    
+
     public Optional&lt;Usuario&gt; buscarPorId(Long id) {
 <span class="fc" id="L51">        return usuarioRepository.findById(id);</span>
     }
-    
+
     public Optional&lt;Usuario&gt; buscarPorEmail(String email) {
 <span class="fc" id="L55">        return usuarioRepository.findByEmail(email);</span>
     }
-    
+
     public Usuario atualizarUsuario(Usuario usuario) {
 <span class="pc bpc" id="L59" title="1 of 4 branches missed.">        if (usuario.getSenha() != null &amp;&amp; !usuario.getSenha().isEmpty()) {</span>
 <span class="fc" id="L60">            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));</span>
         }
 <span class="fc" id="L62">        return usuarioRepository.save(usuario);</span>
     }
-    
+
     public void desativarUsuario(Long id) {
 <span class="fc" id="L66">        Usuario usuario = usuarioRepository.findById(id)</span>
 <span class="fc" id="L67">                .orElseThrow(() -&gt; new RuntimeException(MSG_USUARIO_NAO_ENCONTRADO));</span>
 <span class="fc" id="L68">        usuario.setAtivo(false);</span>
 <span class="fc" id="L69">        usuarioRepository.save(usuario);</span>
 <span class="fc" id="L70">    }</span>
-    
+
     public void ativarUsuario(Long id) {
 <span class="fc" id="L73">        Usuario usuario = usuarioRepository.findById(id)</span>
 <span class="pc" id="L74">                .orElseThrow(() -&gt; new RuntimeException(MSG_USUARIO_NAO_ENCONTRADO));</span>
 <span class="fc" id="L75">        usuario.setAtivo(true);</span>
 <span class="fc" id="L76">        usuarioRepository.save(usuario);</span>
 <span class="fc" id="L77">    }</span>
-    
+
     public void atualizarUltimoAcesso(Long id) {
 <span class="fc" id="L80">        Usuario usuario = usuarioRepository.findById(id)</span>
 <span class="pc" id="L81">                .orElseThrow(() -&gt; new RuntimeException(MSG_USUARIO_NAO_ENCONTRADO));</span>
 <span class="fc" id="L82">        usuario.setUltimoAcesso(LocalDateTime.now());</span>
 <span class="fc" id="L83">        usuarioRepository.save(usuario);</span>
 <span class="fc" id="L84">    }</span>
-    
+
     public boolean existeEmail(String email) {
 <span class="fc" id="L87">        return usuarioRepository.existsByEmail(email);</span>
     }
-    
+
     public Long contarUsuariosAtivos() {
 <span class="fc" id="L91">        return usuarioRepository.countUsuariosAtivos();</span>
     }
-    
+
     public Long contarUsuariosAtivosPorPerfil(Usuario.PerfilUsuario perfil) {
 <span class="fc" id="L95">        return usuarioRepository.countUsuariosAtivosPorPerfil(perfil);</span>
     }
-    
+
     public Usuario findByEmail(String email) {
 <span class="fc" id="L99">        return usuarioRepository.findByEmail(email).orElse(null);</span>
     }

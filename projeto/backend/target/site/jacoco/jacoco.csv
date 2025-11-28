@@ -9,4 +9,4 @@ crmshot-backend,com.crmshot.controller,RelatoriosController,124,770,22,28,14,139
 crmshot-backend,com.crmshot.controller,DashboardController,6,216,1,15,1,43,1,11,0,4
 crmshot-backend,com.crmshot.controller,HealthController,0,42,0,0,0,10,0,3,0,3
 crmshot-backend,com.crmshot.controller,ExpositorController,590,0,19,0,136,0,25,0,14,0
-crmshot-backend,com.crmshot.controller,AgendaController,15,855,7,65,5,193,6,68,0,33
+crmshot-backend,com.crmshot.controller,AgendaController,45,905,13,69,11,204,10,69,0,33

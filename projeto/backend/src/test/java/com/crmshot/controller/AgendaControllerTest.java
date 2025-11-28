@@ -6,6 +6,8 @@ import com.crmshot.entity.Usuario;
 import com.crmshot.repository.ExpositorRepository;
 import com.crmshot.repository.InteracaoRepository;
 import com.crmshot.repository.UsuarioRepository;
+import com.crmshot.security.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -35,6 +37,9 @@ class AgendaControllerTest {
     @Mock
     private UsuarioRepository usuarioRepository;
 
+    @Mock
+    private HttpServletRequest httpServletRequest;
+
     @InjectMocks
     private AgendaController agendaController;
 
@@ -52,6 +57,7 @@ class AgendaControllerTest {
         usuario = new Usuario();
         usuario.setId(1L);
         usuario.setNome("Usuario Teste");
+        usuario.setEmail("usuario@teste.com");
 
         interacao = new Interacao();
         interacao.setId(1L);
@@ -62,6 +68,14 @@ class AgendaControllerTest {
         interacao.setExpositor(expositor);
         interacao.setUsuario(usuario);
         interacao.setConcluida(false);
+        
+        JwtUtil jwtUtil = new JwtUtil();
+        ReflectionTestUtils.setField(jwtUtil, "secret", "test-secret-key-for-testing-purposes-only-minimum-32-chars");
+        ReflectionTestUtils.setField(jwtUtil, "expiration", 86400000L);
+        ReflectionTestUtils.setField(agendaController, "jwtUtil", jwtUtil);
+        
+        lenient().when(httpServletRequest.getHeader("Authorization")).thenReturn(null);
+        lenient().when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
     }
 
     @Test
@@ -168,10 +182,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -186,7 +199,7 @@ class AgendaControllerTest {
 
         when(expositorRepository.findById(999L)).thenReturn(Optional.empty());
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
@@ -200,10 +213,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -274,10 +286,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -289,10 +300,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -304,10 +314,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -318,10 +327,9 @@ class AgendaControllerTest {
         atividadeData.put("tipoAtividade", "Email");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -335,10 +343,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -351,7 +358,7 @@ class AgendaControllerTest {
 
         when(expositorRepository.findById(1L)).thenThrow(new RuntimeException("Erro"));
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
@@ -427,10 +434,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -444,10 +450,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -461,10 +466,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -478,10 +482,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
@@ -492,10 +495,11 @@ class AgendaControllerTest {
         atividadeData.put("tipoAtividade", "Email");
         atividadeData.put("leadId", "lead-1");
 
-        when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
+        when(httpServletRequest.getHeader("Authorization")).thenReturn(null);
         when(usuarioRepository.findByAtivoTrue()).thenReturn(new ArrayList<>());
+        when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
@@ -510,10 +514,9 @@ class AgendaControllerTest {
             atividadeData.put("leadId", "lead-1");
 
             when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-            when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
             when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-            ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+            ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
             assertEquals(HttpStatus.OK, response.getStatusCode());
         }
@@ -528,10 +531,9 @@ class AgendaControllerTest {
         atividadeData.put("leadId", "lead-1");
 
         when(expositorRepository.findById(1L)).thenReturn(Optional.of(expositor));
-        when(usuarioRepository.findByAtivoTrue()).thenReturn(Arrays.asList(usuario));
         when(interacaoRepository.save(any(Interacao.class))).thenReturn(interacao);
 
-        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData);
+        ResponseEntity<Map<String, Object>> response = agendaController.salvarAtividade(atividadeData, httpServletRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }

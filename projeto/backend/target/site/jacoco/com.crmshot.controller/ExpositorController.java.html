@@ -23,14 +23,14 @@ import java.util.Optional;
 @RequestMapping(&quot;/api/expositores&quot;)
 @CrossOrigin(origins = &quot;*&quot;)
 <span class="nc" id="L25">public class ExpositorController {</span>
-    
+
 <span class="nc" id="L27">    private static final Logger logger = LoggerFactory.getLogger(ExpositorController.class);</span>
     private static final String KEY_EMAIL = &quot;email&quot;;
     private static final String KEY_STATUS = &quot;status&quot;;
-    
+
     @Autowired
     private ExpositorService expositorService;
-    
+
     @PostMapping
     public ResponseEntity&lt;Object&gt; criarExpositor(@Valid @RequestBody ExpositorRequest request) {
         try {
@@ -38,16 +38,16 @@ import java.util.Optional;
 <span class="nc" id="L38">                return ResponseEntity.badRequest()</span>
 <span class="nc" id="L39">                    .body(&quot;CNPJ já está cadastrado&quot;);</span>
             }
-            
+
 <span class="nc" id="L42">            Expositor expositor = expositorService.criarExpositor(request);</span>
 <span class="nc" id="L43">            return ResponseEntity.ok(expositor);</span>
-            
+
 <span class="nc" id="L45">        } catch (Exception e) {</span>
 <span class="nc" id="L46">            return ResponseEntity.badRequest()</span>
 <span class="nc" id="L47">                .body(&quot;Erro ao criar expositor: &quot; + e.getMessage());</span>
         }
     }
-    
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity&lt;Map&lt;String, String&gt;&gt; handleValidationExceptions(MethodArgumentNotValidException ex) {
 <span class="nc" id="L53">        Map&lt;String, String&gt; errors = new HashMap&lt;&gt;();</span>
@@ -58,13 +58,13 @@ import java.util.Optional;
 <span class="nc" id="L58">        });</span>
 <span class="nc" id="L59">        return ResponseEntity.badRequest().body(errors);</span>
     }
-    
+
     @GetMapping
     public ResponseEntity&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt; listarExpositores() {
         try {
 <span class="nc" id="L65">            List&lt;Expositor&gt; expositores = expositorService.listarExpositores();</span>
-            
-            // Converter para um formato simples sem referências circulares
+
+
 <span class="nc" id="L68">            List&lt;Map&lt;String, Object&gt;&gt; expositoresSimples = expositores.stream()</span>
 <span class="nc" id="L69">                .map(expositor -&gt; {</span>
 <span class="nc" id="L70">                    Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();</span>
@@ -84,8 +84,8 @@ import java.util.Optional;
 <span class="nc" id="L84">                    map.put(KEY_STATUS, expositor.getStatus());</span>
 <span class="nc" id="L85">                    map.put(&quot;dataCadastro&quot;, expositor.getDataCadastro());</span>
 <span class="nc" id="L86">                    map.put(&quot;dataAtualizacao&quot;, expositor.getDataAtualizacao());</span>
-                    
-                    // Apenas informações básicas do vendedor
+
+
 <span class="nc bnc" id="L89" title="All 2 branches missed.">                    if (expositor.getVendedor() != null) {</span>
 <span class="nc" id="L90">                        Map&lt;String, Object&gt; vendedor = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L91">                        vendedor.put(&quot;id&quot;, expositor.getVendedor().getId());</span>
@@ -93,38 +93,38 @@ import java.util.Optional;
 <span class="nc" id="L93">                        vendedor.put(KEY_EMAIL, expositor.getVendedor().getEmail());</span>
 <span class="nc" id="L94">                        map.put(&quot;vendedor&quot;, vendedor);</span>
                     }
-                    
+
 <span class="nc" id="L97">                    return map;</span>
                 })
 <span class="nc" id="L99">                .collect(java.util.stream.Collectors.toList());</span>
-            
+
 <span class="nc" id="L101">            return ResponseEntity.ok(expositoresSimples);</span>
 <span class="nc" id="L102">        } catch (Exception e) {</span>
 <span class="nc" id="L103">            logger.error(&quot;Erro ao listar expositores: {}&quot;, e.getMessage(), e);</span>
 <span class="nc" id="L104">            return ResponseEntity.internalServerError().build();</span>
         }
     }
-    
+
     @GetMapping(&quot;/paginado&quot;)
     public ResponseEntity&lt;Page&lt;Expositor&gt;&gt; listarExpositoresPaginado(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Expositor.StatusExpositor status,
             @RequestParam(required = false) Long vendedorId,
             Pageable pageable) {
-        
+
 <span class="nc" id="L115">        Page&lt;Expositor&gt; expositores = expositorService.buscarExpositores(nome, status, vendedorId, pageable);</span>
 <span class="nc" id="L116">        return ResponseEntity.ok(expositores);</span>
     }
-    
+
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Object&gt; buscarExpositor(@PathVariable Long id) {
         try {
 <span class="nc" id="L122">            Optional&lt;Expositor&gt; expositorOpt = expositorService.buscarPorId(id);</span>
-            
+
 <span class="nc bnc" id="L124" title="All 2 branches missed.">            if (expositorOpt.isPresent()) {</span>
 <span class="nc" id="L125">                Expositor expositor = expositorOpt.get();</span>
-                
-                // Converter para um formato simples sem referências circulares
+
+
 <span class="nc" id="L128">                Map&lt;String, Object&gt; expositorSimples = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L129">                expositorSimples.put(&quot;id&quot;, expositor.getId());</span>
 <span class="nc" id="L130">                expositorSimples.put(&quot;razaoSocial&quot;, expositor.getRazaoSocial());</span>
@@ -142,8 +142,8 @@ import java.util.Optional;
 <span class="nc" id="L142">                expositorSimples.put(KEY_STATUS, expositor.getStatus());</span>
 <span class="nc" id="L143">                expositorSimples.put(&quot;dataCadastro&quot;, expositor.getDataCadastro());</span>
 <span class="nc" id="L144">                expositorSimples.put(&quot;dataAtualizacao&quot;, expositor.getDataAtualizacao());</span>
-                
-                // Apenas informações básicas do vendedor
+
+
 <span class="nc bnc" id="L147" title="All 2 branches missed.">                if (expositor.getVendedor() != null) {</span>
 <span class="nc" id="L148">                    Map&lt;String, Object&gt; vendedor = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L149">                    vendedor.put(&quot;id&quot;, expositor.getVendedor().getId());</span>
@@ -151,7 +151,7 @@ import java.util.Optional;
 <span class="nc" id="L151">                    vendedor.put(KEY_EMAIL, expositor.getVendedor().getEmail());</span>
 <span class="nc" id="L152">                    expositorSimples.put(&quot;vendedor&quot;, vendedor);</span>
                 }
-                
+
 <span class="nc" id="L155">                return ResponseEntity.ok(expositorSimples);</span>
             } else {
 <span class="nc" id="L157">                return ResponseEntity.notFound().build();</span>
@@ -161,14 +161,14 @@ import java.util.Optional;
 <span class="nc" id="L161">            return ResponseEntity.internalServerError().build();</span>
         }
     }
-    
+
     @PutMapping(&quot;/{id}&quot;)
-    public ResponseEntity&lt;Object&gt; atualizarExpositor(@PathVariable Long id, 
+    public ResponseEntity&lt;Object&gt; atualizarExpositor(@PathVariable Long id,
                                               @Valid @RequestBody ExpositorRequest request) {
         try {
 <span class="nc" id="L169">            Expositor expositor = expositorService.atualizarExpositor(id, request);</span>
 <span class="nc" id="L170">            return ResponseEntity.ok(expositor);</span>
-            
+
 <span class="nc" id="L172">        } catch (RuntimeException e) {</span>
 <span class="nc" id="L173">            return ResponseEntity.notFound().build();</span>
 <span class="nc" id="L174">        } catch (Exception e) {</span>
@@ -176,54 +176,54 @@ import java.util.Optional;
 <span class="nc" id="L176">                .body(&quot;Erro ao atualizar expositor: &quot; + e.getMessage());</span>
         }
     }
-    
+
     @DeleteMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Object&gt; excluirExpositor(@PathVariable Long id) {
         try {
 <span class="nc" id="L183">            expositorService.excluirExpositor(id);</span>
 <span class="nc" id="L184">            return ResponseEntity.ok(&quot;Expositor excluído com sucesso&quot;);</span>
-            
+
 <span class="nc" id="L186">        } catch (Exception e) {</span>
 <span class="nc" id="L187">            return ResponseEntity.badRequest()</span>
 <span class="nc" id="L188">                .body(&quot;Erro ao excluir expositor: &quot; + e.getMessage());</span>
         }
     }
-    
+
     @GetMapping(&quot;/status/{status}&quot;)
     public ResponseEntity&lt;List&lt;Expositor&gt;&gt; listarExpositoresPorStatus(@PathVariable Expositor.StatusExpositor status) {
 <span class="nc" id="L194">        List&lt;Expositor&gt; expositores = expositorService.listarExpositoresPorStatus(status);</span>
 <span class="nc" id="L195">        return ResponseEntity.ok(expositores);</span>
     }
-    
+
     @GetMapping(&quot;/vendedor/{vendedorId}&quot;)
     public ResponseEntity&lt;List&lt;Expositor&gt;&gt; listarExpositoresPorVendedor(@PathVariable Long vendedorId) {
 <span class="nc" id="L200">        List&lt;Expositor&gt; expositores = expositorService.listarExpositoresPorVendedor(vendedorId);</span>
 <span class="nc" id="L201">        return ResponseEntity.ok(expositores);</span>
     }
-    
+
     @PutMapping(&quot;/{id}/status&quot;)
     public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; atualizarStatus(@PathVariable Long id, @RequestBody Map&lt;String, String&gt; statusData) {
         try {
 <span class="nc" id="L207">            String novoStatus = statusData.get(KEY_STATUS);</span>
-            
+
 <span class="nc bnc" id="L209" title="All 4 branches missed.">            if (novoStatus == null || novoStatus.trim().isEmpty()) {</span>
 <span class="nc" id="L210">                Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L211">                errorResponse.put(&quot;erro&quot;, &quot;Status não pode ser vazio&quot;);</span>
 <span class="nc" id="L212">                return ResponseEntity.badRequest().body(errorResponse);</span>
             }
-            
+
 <span class="nc" id="L215">            Optional&lt;Expositor&gt; expositorOpt = expositorService.buscarPorId(id);</span>
-            
+
 <span class="nc bnc" id="L217" title="All 2 branches missed.">            if (!expositorOpt.isPresent()) {</span>
 <span class="nc" id="L218">                Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L219">                errorResponse.put(&quot;erro&quot;, &quot;Expositor não encontrado&quot;);</span>
 <span class="nc" id="L220">                return ResponseEntity.notFound().build();</span>
             }
-            
+
 <span class="nc" id="L223">            Expositor expositor = expositorOpt.get();</span>
 <span class="nc" id="L224">            Expositor.StatusExpositor statusAnterior = expositor.getStatus();</span>
-            
-            // Mapear status do frontend para enum do backend
+
+
             Expositor.StatusExpositor novoStatusEnum;
 <span class="nc bnc" id="L228" title="All 5 branches missed.">            switch (novoStatus) {</span>
                 case &quot;Lead&quot;:
@@ -243,10 +243,10 @@ import java.util.Optional;
 <span class="nc" id="L243">                    errorResponse.put(&quot;erro&quot;, &quot;Status inválido: &quot; + novoStatus);</span>
 <span class="nc" id="L244">                    return ResponseEntity.badRequest().body(errorResponse);</span>
             }
-            
+
 <span class="nc" id="L247">            expositor.setStatus(novoStatusEnum);</span>
 <span class="nc" id="L248">            expositorService.atualizarExpositor(expositor);</span>
-            
+
 <span class="nc" id="L250">            Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L251">            response.put(&quot;sucesso&quot;, true);</span>
 <span class="nc" id="L252">            response.put(&quot;mensagem&quot;, &quot;Status atualizado com sucesso&quot;);</span>
@@ -254,9 +254,9 @@ import java.util.Optional;
 <span class="nc" id="L254">            response.put(&quot;statusAnterior&quot;, statusAnterior.name());</span>
 <span class="nc" id="L255">            response.put(&quot;novoStatus&quot;, novoStatusEnum.name());</span>
 <span class="nc" id="L256">            response.put(&quot;statusFrontend&quot;, novoStatus);</span>
-            
+
 <span class="nc" id="L258">            return ResponseEntity.ok(response);</span>
-            
+
 <span class="nc" id="L260">        } catch (Exception e) {</span>
 <span class="nc" id="L261">            Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L262">            errorResponse.put(&quot;erro&quot;, &quot;Erro ao atualizar status: &quot; + e.getMessage());</span>

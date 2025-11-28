@@ -15,29 +15,29 @@ import java.util.Map;
     @GetMapping(&quot;/{cnpj}&quot;)
     public ResponseEntity&lt;Object&gt; buscarCNPJ(@PathVariable String cnpj) {
         try {
-            // Remover formatação do CNPJ
+
 <span class="fc" id="L19">            String cnpjLimpo = cnpj.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;);</span>
-            
-            // Validar se tem 14 dígitos
+
+
 <span class="fc bfc" id="L22" title="All 2 branches covered.">            if (cnpjLimpo.length() != 14) {</span>
 <span class="fc" id="L23">                Map&lt;String, String&gt; erro = new HashMap&lt;&gt;();</span>
 <span class="fc" id="L24">                erro.put(&quot;status&quot;, &quot;ERROR&quot;);</span>
 <span class="fc" id="L25">                erro.put(&quot;message&quot;, &quot;CNPJ deve ter 14 dígitos&quot;);</span>
 <span class="fc" id="L26">                return ResponseEntity.badRequest().body(erro);</span>
             }
-            
-            // Criar RestTemplate para fazer a chamada
+
+
 <span class="fc" id="L30">            RestTemplate restTemplate = new RestTemplate();</span>
 <span class="fc" id="L31">            String url = &quot;https://www.receitaws.com.br/v1/cnpj/&quot; + cnpjLimpo;</span>
-            
-            // Fazer a chamada para a API da ReceitaWS
+
+
             @SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L35">            ResponseEntity&lt;Map&lt;String, Object&gt;&gt; response = (ResponseEntity&lt;Map&lt;String, Object&gt;&gt;) </span>
+<span class="fc" id="L35">            ResponseEntity&lt;Map&lt;String, Object&gt;&gt; response = (ResponseEntity&lt;Map&lt;String, Object&gt;&gt;)</span>
 <span class="fc" id="L36">                (ResponseEntity&lt;?&gt;) restTemplate.getForEntity(url, Map.class);</span>
-            
-            // Retornar os dados
+
+
 <span class="fc" id="L39">            return ResponseEntity.ok(response.getBody());</span>
-            
+
 <span class="nc" id="L41">        } catch (Exception e) {</span>
 <span class="nc" id="L42">            Map&lt;String, String&gt; erro = new HashMap&lt;&gt;();</span>
 <span class="nc" id="L43">            erro.put(&quot;status&quot;, &quot;ERROR&quot;);</span>
@@ -46,6 +46,5 @@ import java.util.Map;
         }
     }
 }
-
 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

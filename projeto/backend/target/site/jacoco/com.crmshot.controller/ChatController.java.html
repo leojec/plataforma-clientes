@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 <span class="fc" id="L31">            return buildErrorResponse();</span>
         }
 <span class="fc" id="L33">        pergunta = pergunta.toLowerCase();</span>
-        
+
         try {
 <span class="fc" id="L36">            String resposta = processarPerguntaInterna(pergunta);</span>
 <span class="fc" id="L37">            return buildRespostaResponse(resposta);</span>
@@ -63,8 +63,8 @@ import java.util.stream.Collectors;
     }
 
     private boolean isPerguntaProximaReuniao(String pergunta) {
-<span class="pc bpc" id="L66" title="1 of 4 branches missed.">        return pergunta.contains(&quot;próxima reunião&quot;) || pergunta.contains(&quot;proxima reuniao&quot;) || </span>
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">               pergunta.contains(&quot;próximo encontro&quot;) || </span>
+<span class="pc bpc" id="L66" title="1 of 4 branches missed.">        return pergunta.contains(&quot;próxima reunião&quot;) || pergunta.contains(&quot;proxima reuniao&quot;) ||</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">               pergunta.contains(&quot;próximo encontro&quot;) ||</span>
 <span class="pc bpc" id="L68" title="3 of 4 branches missed.">               (pergunta.contains(&quot;quando&quot;) &amp;&amp; pergunta.contains(&quot;reunião&quot;));</span>
     }
 
@@ -127,7 +127,7 @@ import java.util.stream.Collectors;
     private String buscarProximaReuniao() {
 <span class="fc" id="L128">        LocalDateTime agora = LocalDateTime.now();</span>
 <span class="fc" id="L129">        LocalDateTime limite = agora.plusDays(30);</span>
-        
+
 <span class="fc" id="L131">        List&lt;Interacao&gt; proximasInteracoes = interacaoRepository.findProximasAcoes(limite)</span>
 <span class="fc" id="L132">                .stream()</span>
 <span class="pc bpc" id="L133" title="1 of 2 branches missed.">                .filter(i -&gt; i.getTipo() == Interacao.TipoInteracao.REUNIAO)</span>
@@ -141,11 +141,11 @@ import java.util.stream.Collectors;
 <span class="fc" id="L141">        Interacao proximaReuniao = proximasInteracoes.get(0);</span>
 <span class="fc" id="L142">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy 'às' HH:mm&quot;);</span>
 <span class="fc" id="L143">        String dataFormatada = proximaReuniao.getDataProximaAcao().format(formatter);</span>
-        
+
 <span class="fc" id="L145">        return String.format(&quot;Sua próxima reunião é no dia %s com %s.\n\nAssunto: %s&quot;,</span>
                 dataFormatada,
-<span class="pc bpc" id="L147" title="1 of 2 branches missed.">                proximaReuniao.getExpositor().getNomeFantasia() != null ? </span>
-<span class="fc" id="L148">                    proximaReuniao.getExpositor().getNomeFantasia() : </span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">                proximaReuniao.getExpositor().getNomeFantasia() != null ?</span>
+<span class="fc" id="L148">                    proximaReuniao.getExpositor().getNomeFantasia() :</span>
 <span class="pc" id="L149">                    proximaReuniao.getExpositor().getRazaoSocial(),</span>
 <span class="fc" id="L150">                proximaReuniao.getAssunto());</span>
     }
@@ -154,7 +154,7 @@ import java.util.stream.Collectors;
 <span class="fc" id="L154">        long totalLeads = expositorRepository.count();</span>
 <span class="fc" id="L155">        long leadsAtivos = expositorRepository.countByStatus(Expositor.StatusExpositor.ATIVO);</span>
 <span class="fc" id="L156">        long leadsPotenciais = expositorRepository.countByStatus(Expositor.StatusExpositor.POTENCIAL);</span>
-        
+
 <span class="fc" id="L158">        return String.format(&quot;Você tem um total de %d leads cadastrados:\n\n&quot; +</span>
                            &quot;• %d leads ativos\n&quot; +
                            &quot;• %d leads potenciais\n\n&quot; +
@@ -165,7 +165,7 @@ import java.util.stream.Collectors;
     private String buscarAtividadesHoje() {
 <span class="fc" id="L166">        LocalDateTime inicioDia = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);</span>
 <span class="fc" id="L167">        LocalDateTime fimDia = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);</span>
-        
+
 <span class="fc" id="L169">        List&lt;Interacao&gt; atividadesHoje = interacaoRepository.findByDataProximaAcao(LocalDateTime.now())</span>
 <span class="fc" id="L170">                .stream()</span>
 <span class="pc bpc" id="L171" title="1 of 2 branches missed.">                .filter(i -&gt; !i.getConcluida())</span>
@@ -176,7 +176,7 @@ import java.util.stream.Collectors;
         }
 
 <span class="fc" id="L178">        StringBuilder resposta = new StringBuilder(String.format(&quot;Você tem %d atividade(s) para hoje:\n\n&quot;, atividadesHoje.size()));</span>
-        
+
 <span class="fc" id="L180">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;HH:mm&quot;);</span>
 <span class="fc bfc" id="L181" title="All 2 branches covered.">        for (Interacao atividade : atividadesHoje) {</span>
 <span class="fc" id="L182">            resposta.append(String.format(&quot;• %s - %s (%s)\n&quot;,</span>
@@ -193,7 +193,7 @@ import java.util.stream.Collectors;
 <span class="fc" id="L193">        Double valorGanhas = interacaoRepository.somarValorPropostasGanhas();</span>
 <span class="fc" id="L194">        Long qtdAbertas = interacaoRepository.contarPropostasAbertas();</span>
 <span class="fc" id="L195">        Long qtdGanhas = interacaoRepository.contarPropostasGanhas();</span>
-        
+
 <span class="fc" id="L197">        return String.format(&quot;💰 Situação das propostas:\n\n&quot; +</span>
                            &quot;Propostas em aberto:\n&quot; +
                            &quot;• %d proposta(s)\n&quot; +
@@ -227,8 +227,8 @@ import java.util.stream.Collectors;
                            &quot;📝 %s\n&quot; +
                            &quot;Tipo: %s&quot;,
 <span class="fc" id="L229">                           ultima.getDataCriacao().format(formatter),</span>
-<span class="fc bfc" id="L230" title="All 2 branches covered.">                           ultima.getExpositor().getNomeFantasia() != null ? </span>
-<span class="fc" id="L231">                               ultima.getExpositor().getNomeFantasia() : </span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">                           ultima.getExpositor().getNomeFantasia() != null ?</span>
+<span class="fc" id="L231">                               ultima.getExpositor().getNomeFantasia() :</span>
 <span class="fc" id="L232">                               ultima.getExpositor().getRazaoSocial(),</span>
 <span class="fc" id="L233">                           ultima.getAssunto(),</span>
 <span class="fc" id="L234">                           mapTipoInteracao(ultima.getTipo()));</span>
@@ -248,7 +248,7 @@ import java.util.stream.Collectors;
         }
 
 <span class="fc" id="L250">        StringBuilder resposta = new StringBuilder(String.format(&quot;Você tem %d atividade(s) pendente(s):\n\n&quot;, pendentes.size()));</span>
-        
+
 <span class="fc" id="L252">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;dd/MM 'às' HH:mm&quot;);</span>
 <span class="fc bfc" id="L253" title="All 2 branches covered.">        for (Interacao atividade : pendentes) {</span>
 <span class="fc" id="L254">            resposta.append(String.format(&quot;• %s - %s\n&quot;,</span>
@@ -272,7 +272,7 @@ import java.util.stream.Collectors;
 <span class="fc" id="L272">        Double valorPropostas = interacaoRepository.somarValorPropostasAbertas();</span>
 <span class="fc" id="L273">        Double metrosVendidos = interacaoRepository.somarMetrosQuadradosVendidos();</span>
 <span class="fc" id="L274">        Long qtdGanhos = interacaoRepository.contarPropostasGanhas();</span>
-        
+
 <span class="fc" id="L276">        LocalDateTime agora = LocalDateTime.now();</span>
 <span class="fc" id="L277">        long atividadesHoje = interacaoRepository.findByDataProximaAcao(agora)</span>
 <span class="fc" id="L278">                .stream()</span>
@@ -305,6 +305,5 @@ import java.util.stream.Collectors;
         }
     }
 }
-
 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

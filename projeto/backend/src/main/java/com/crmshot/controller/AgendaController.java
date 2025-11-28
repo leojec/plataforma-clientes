@@ -6,6 +6,8 @@ import com.crmshot.entity.Usuario;
 import com.crmshot.repository.InteracaoRepository;
 import com.crmshot.repository.ExpositorRepository;
 import com.crmshot.repository.UsuarioRepository;
+import com.crmshot.security.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +34,17 @@ public class AgendaController {
     private final InteracaoRepository interacaoRepository;
     private final ExpositorRepository expositorRepository;
     private final UsuarioRepository usuarioRepository;
+    private final JwtUtil jwtUtil;
 
     public AgendaController(
             InteracaoRepository interacaoRepository,
             ExpositorRepository expositorRepository,
-            UsuarioRepository usuarioRepository) {
+            UsuarioRepository usuarioRepository,
+            JwtUtil jwtUtil) {
         this.interacaoRepository = interacaoRepository;
         this.expositorRepository = expositorRepository;
         this.usuarioRepository = usuarioRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/atividades/lead/{leadId}")
@@ -114,6 +119,7 @@ public class AgendaController {
         atividade.put("leadNome", getNomeExpositor(interacao));
         atividade.put("leadId", KEY_LEAD_PREFIX + getExpositorId(interacao));
         atividade.put(KEY_STATUS, interacao.getConcluida() ? "concluida" : "agendada");
+        atividade.put("usuario", interacao.getUsuario() != null ? interacao.getUsuario().getNome() : "Não atribuído");
         return atividade;
     }
 
@@ -175,13 +181,15 @@ public class AgendaController {
     }
 
     @PostMapping("/atividades")
-    public ResponseEntity<Map<String, Object>> salvarAtividade(@RequestBody Map<String, Object> atividadeData) {
+    public ResponseEntity<Map<String, Object>> salvarAtividade(
+            @RequestBody Map<String, Object> atividadeData,
+            HttpServletRequest httpRequest) {
         try {
             AtividadeRequest request = extractAtividadeRequest(atividadeData);
             Interacao.TipoInteracao tipo = mapStringToTipoInteracao(request.tipoAtividade);
 
             Expositor expositor = buscarExpositor(request.leadId);
-            Usuario usuario = buscarUsuarioAtivo();
+            Usuario usuario = obterUsuarioLogado(httpRequest);
 
             Interacao novaInteracao = criarInteracao(request, tipo, expositor, usuario);
             processarCamposEspecificos(novaInteracao, request, tipo);
@@ -191,6 +199,7 @@ public class AgendaController {
             return buildSuccessResponse(atividadeSalva.getId());
 
         } catch (Exception e) {
+            logger.error("Erro ao salvar atividade: {}", e.getMessage(), e);
             return buildErrorResponse("Erro ao salvar atividade: " + e.getMessage());
         }
     }
@@ -216,12 +225,34 @@ public class AgendaController {
         return expositorOpt.get();
     }
 
-    private Usuario buscarUsuarioAtivo() {
-        List<Usuario> usuarios = usuarioRepository.findByAtivoTrue();
-        if (usuarios.isEmpty()) {
-            throw new IllegalArgumentException("Nenhum usuário ativo encontrado");
+    private Usuario obterUsuarioLogado(HttpServletRequest request) {
+        try {
+            String authorizationHeader = request.getHeader("Authorization");
+            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                String jwt = authorizationHeader.substring(7);
+                String email = jwtUtil.extractUsername(jwt);
+                
+                Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+                if (usuarioOpt.isPresent()) {
+                    return usuarioOpt.get();
+                }
+            }
+            
+            logger.warn("Não foi possível obter usuário do token JWT, usando fallback");
+            List<Usuario> usuarios = usuarioRepository.findByAtivoTrue();
+            if (!usuarios.isEmpty()) {
+                return usuarios.get(0);
+            }
+            
+            throw new IllegalArgumentException("Nenhum usuário encontrado");
+        } catch (Exception e) {
+            logger.error("Erro ao obter usuário logado: {}", e.getMessage(), e);
+            List<Usuario> usuarios = usuarioRepository.findByAtivoTrue();
+            if (!usuarios.isEmpty()) {
+                return usuarios.get(0);
+            }
+            throw new IllegalArgumentException("Nenhum usuário encontrado");
         }
-        return usuarios.get(0);
     }
 
     private Interacao criarInteracao(AtividadeRequest request, Interacao.TipoInteracao tipo,

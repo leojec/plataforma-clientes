@@ -6,6 +6,8 @@ import com.crmshot.entity.Usuario;
 import com.crmshot.repository.InteracaoRepository;
 import com.crmshot.repository.ExpositorRepository;
 import com.crmshot.repository.UsuarioRepository;
+import com.crmshot.security.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ import java.util.*;
 @CrossOrigin(origins = &quot;*&quot;)
 public class AgendaController {
 
-<span class="fc" id="L24">    private static final Logger logger = LoggerFactory.getLogger(AgendaController.class);</span>
+<span class="fc" id="L26">    private static final Logger logger = LoggerFactory.getLogger(AgendaController.class);</span>
     private static final String KEY_DESCRICAO = &quot;descricao&quot;;
     private static final String KEY_LEAD_PREFIX = &quot;lead-&quot;;
     private static final String KEY_STATUS = &quot;status&quot;;
@@ -32,43 +34,46 @@ public class AgendaController {
     private final InteracaoRepository interacaoRepository;
     private final ExpositorRepository expositorRepository;
     private final UsuarioRepository usuarioRepository;
+    private final JwtUtil jwtUtil;
 
     public AgendaController(
             InteracaoRepository interacaoRepository,
             ExpositorRepository expositorRepository,
-<span class="fc" id="L39">            UsuarioRepository usuarioRepository) {</span>
-<span class="fc" id="L40">        this.interacaoRepository = interacaoRepository;</span>
-<span class="fc" id="L41">        this.expositorRepository = expositorRepository;</span>
-<span class="fc" id="L42">        this.usuarioRepository = usuarioRepository;</span>
-<span class="fc" id="L43">    }</span>
+            UsuarioRepository usuarioRepository,
+<span class="fc" id="L43">            JwtUtil jwtUtil) {</span>
+<span class="fc" id="L44">        this.interacaoRepository = interacaoRepository;</span>
+<span class="fc" id="L45">        this.expositorRepository = expositorRepository;</span>
+<span class="fc" id="L46">        this.usuarioRepository = usuarioRepository;</span>
+<span class="fc" id="L47">        this.jwtUtil = jwtUtil;</span>
+<span class="fc" id="L48">    }</span>
 
     @GetMapping(&quot;/atividades/lead/{leadId}&quot;)
     public ResponseEntity&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt; getAtividadesPorLead(@PathVariable Long leadId) {
         try {
-            // Buscar todas as interações do lead
-<span class="fc" id="L49">            List&lt;Interacao&gt; interacoes = interacaoRepository.findByExpositorId(leadId);</span>
-            
-<span class="fc" id="L51">            List&lt;Map&lt;String, Object&gt;&gt; atividades = new ArrayList&lt;&gt;();</span>
-            
-            // Converter interações para formato da agenda
-<span class="fc bfc" id="L54" title="All 2 branches covered.">            for (Interacao interacao : interacoes) {</span>
-<span class="fc" id="L55">                Map&lt;String, Object&gt; atividade = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L56">                atividade.put(&quot;id&quot;, interacao.getId());</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                atividade.put(&quot;data&quot;, interacao.getDataCriacao() != null ? </span>
-<span class="pc" id="L58">                    interacao.getDataCriacao().format(DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;)) : &quot;&quot;);</span>
-<span class="fc" id="L59">                atividade.put(&quot;tipo&quot;, mapTipoInteracao(interacao.getTipo()));</span>
-<span class="fc" id="L60">                atividade.put(KEY_DESCRICAO, interacao.getDescricao());</span>
-<span class="fc bfc" id="L61" title="All 2 branches covered.">                atividade.put(&quot;agendamento&quot;, interacao.getDataProximaAcao() != null ? </span>
-<span class="fc" id="L62">                    &quot;Sim - &quot; + interacao.getDataProximaAcao().format(DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;)) : &quot;Não&quot;);</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">                atividade.put(&quot;usuario&quot;, interacao.getUsuario() != null ? interacao.getUsuario().getNome() : &quot;Administrador&quot;);</span>
-<span class="fc" id="L64">                atividade.put(&quot;link&quot;, &quot;&quot;); // Campo para links futurosss</span>
-<span class="fc" id="L65">                atividades.add(atividade);</span>
-<span class="fc" id="L66">            }</span>
-            
-<span class="fc" id="L68">            return ResponseEntity.ok(atividades);</span>
-<span class="fc" id="L69">        } catch (Exception e) {</span>
-<span class="fc" id="L70">            logger.error(&quot;Erro ao buscar atividades do lead: {}&quot;, e.getMessage(), e);</span>
-<span class="fc" id="L71">            return ResponseEntity.internalServerError().build();</span>
+
+<span class="fc" id="L54">            List&lt;Interacao&gt; interacoes = interacaoRepository.findByExpositorId(leadId);</span>
+
+<span class="fc" id="L56">            List&lt;Map&lt;String, Object&gt;&gt; atividades = new ArrayList&lt;&gt;();</span>
+
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            for (Interacao interacao : interacoes) {</span>
+<span class="fc" id="L60">                Map&lt;String, Object&gt; atividade = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L61">                atividade.put(&quot;id&quot;, interacao.getId());</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">                atividade.put(&quot;data&quot;, interacao.getDataCriacao() != null ?</span>
+<span class="pc" id="L63">                    interacao.getDataCriacao().format(DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;)) : &quot;&quot;);</span>
+<span class="fc" id="L64">                atividade.put(&quot;tipo&quot;, mapTipoInteracao(interacao.getTipo()));</span>
+<span class="fc" id="L65">                atividade.put(KEY_DESCRICAO, interacao.getDescricao());</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">                atividade.put(&quot;agendamento&quot;, interacao.getDataProximaAcao() != null ?</span>
+<span class="fc" id="L67">                    &quot;Sim - &quot; + interacao.getDataProximaAcao().format(DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;)) : &quot;Não&quot;);</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">                atividade.put(&quot;usuario&quot;, interacao.getUsuario() != null ? interacao.getUsuario().getNome() : &quot;Administrador&quot;);</span>
+<span class="fc" id="L69">                atividade.put(&quot;link&quot;, &quot;&quot;);</span>
+<span class="fc" id="L70">                atividades.add(atividade);</span>
+<span class="fc" id="L71">            }</span>
+
+<span class="fc" id="L73">            return ResponseEntity.ok(atividades);</span>
+<span class="fc" id="L74">        } catch (Exception e) {</span>
+<span class="fc" id="L75">            logger.error(&quot;Erro ao buscar atividades do lead: {}&quot;, e.getMessage(), e);</span>
+<span class="fc" id="L76">            return ResponseEntity.internalServerError().build();</span>
         }
     }
 
@@ -76,275 +81,301 @@ public class AgendaController {
     public Map&lt;String, Object&gt; getAtividadesAgenda(
             @RequestParam(required = false) String data,
             @RequestParam(required = false, defaultValue = &quot;dia&quot;) String modo) {
-        
-<span class="fc" id="L80">        LocalDate dataConsulta = parseDataConsulta(data);</span>
-<span class="fc" id="L81">        List&lt;Interacao&gt; interacoes = buscarInteracoesDoDia(dataConsulta);</span>
-<span class="fc" id="L82">        List&lt;Map&lt;String, Object&gt;&gt; atividades = converterInteracoesParaAtividades(interacoes, dataConsulta);</span>
-        
-<span class="fc" id="L84">        return buildResponseAtividades(atividades);</span>
+
+<span class="fc" id="L85">        LocalDate dataConsulta = parseDataConsulta(data);</span>
+<span class="fc" id="L86">        List&lt;Interacao&gt; interacoes = buscarInteracoesDoDia(dataConsulta);</span>
+<span class="fc" id="L87">        List&lt;Map&lt;String, Object&gt;&gt; atividades = converterInteracoesParaAtividades(interacoes, dataConsulta);</span>
+
+<span class="fc" id="L89">        return buildResponseAtividades(atividades);</span>
     }
 
     private LocalDate parseDataConsulta(String data) {
-<span class="fc bfc" id="L88" title="All 2 branches covered.">        return data != null ? LocalDate.parse(data.substring(0, 10)) : LocalDate.now();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        return data != null ? LocalDate.parse(data.substring(0, 10)) : LocalDate.now();</span>
     }
 
     private List&lt;Interacao&gt; buscarInteracoesDoDia(LocalDate dataConsulta) {
-<span class="fc" id="L92">        return interacaoRepository.findByDataProximaAcao(dataConsulta.atStartOfDay());</span>
+<span class="fc" id="L97">        return interacaoRepository.findByDataProximaAcao(dataConsulta.atStartOfDay());</span>
     }
 
     private List&lt;Map&lt;String, Object&gt;&gt; converterInteracoesParaAtividades(List&lt;Interacao&gt; interacoes, LocalDate dataConsulta) {
-<span class="fc" id="L96">        List&lt;Map&lt;String, Object&gt;&gt; atividades = new ArrayList&lt;&gt;();</span>
-        
-<span class="fc bfc" id="L98" title="All 2 branches covered.">        for (Interacao interacao : interacoes) {</span>
-<span class="fc" id="L99">            Map&lt;String, Object&gt; atividade = criarMapaAtividade(interacao, dataConsulta);</span>
-<span class="fc" id="L100">            atividades.add(atividade);</span>
-<span class="fc" id="L101">        }</span>
-        
-<span class="fc" id="L103">        return atividades;</span>
+<span class="fc" id="L101">        List&lt;Map&lt;String, Object&gt;&gt; atividades = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (Interacao interacao : interacoes) {</span>
+<span class="fc" id="L104">            Map&lt;String, Object&gt; atividade = criarMapaAtividade(interacao, dataConsulta);</span>
+<span class="fc" id="L105">            atividades.add(atividade);</span>
+<span class="fc" id="L106">        }</span>
+
+<span class="fc" id="L108">        return atividades;</span>
     }
 
     private Map&lt;String, Object&gt; criarMapaAtividade(Interacao interacao, LocalDate dataConsulta) {
-<span class="fc" id="L107">        Map&lt;String, Object&gt; atividade = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L108">        atividade.put(&quot;id&quot;, interacao.getId());</span>
-<span class="fc" id="L109">        atividade.put(&quot;titulo&quot;, buildTituloAtividade(interacao));</span>
-<span class="fc" id="L110">        atividade.put(KEY_DESCRICAO, interacao.getDescricao());</span>
-<span class="fc" id="L111">        atividade.put(&quot;tipo&quot;, mapTipoInteracao(interacao.getTipo()));</span>
-<span class="fc" id="L112">        atividade.put(&quot;horario&quot;, formatHorario(interacao.getDataProximaAcao()));</span>
-<span class="fc" id="L113">        atividade.put(&quot;data&quot;, dataConsulta.toString());</span>
-<span class="fc" id="L114">        atividade.put(&quot;leadNome&quot;, getNomeExpositor(interacao));</span>
-<span class="fc" id="L115">        atividade.put(&quot;leadId&quot;, KEY_LEAD_PREFIX + getExpositorId(interacao));</span>
-<span class="fc bfc" id="L116" title="All 2 branches covered.">        atividade.put(KEY_STATUS, interacao.getConcluida() ? &quot;concluida&quot; : &quot;agendada&quot;);</span>
-<span class="fc" id="L117">        return atividade;</span>
+<span class="fc" id="L112">        Map&lt;String, Object&gt; atividade = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L113">        atividade.put(&quot;id&quot;, interacao.getId());</span>
+<span class="fc" id="L114">        atividade.put(&quot;titulo&quot;, buildTituloAtividade(interacao));</span>
+<span class="fc" id="L115">        atividade.put(KEY_DESCRICAO, interacao.getDescricao());</span>
+<span class="fc" id="L116">        atividade.put(&quot;tipo&quot;, mapTipoInteracao(interacao.getTipo()));</span>
+<span class="fc" id="L117">        atividade.put(&quot;horario&quot;, formatHorario(interacao.getDataProximaAcao()));</span>
+<span class="fc" id="L118">        atividade.put(&quot;data&quot;, dataConsulta.toString());</span>
+<span class="fc" id="L119">        atividade.put(&quot;leadNome&quot;, getNomeExpositor(interacao));</span>
+<span class="fc" id="L120">        atividade.put(&quot;leadId&quot;, KEY_LEAD_PREFIX + getExpositorId(interacao));</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        atividade.put(KEY_STATUS, interacao.getConcluida() ? &quot;concluida&quot; : &quot;agendada&quot;);</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        atividade.put(&quot;usuario&quot;, interacao.getUsuario() != null ? interacao.getUsuario().getNome() : &quot;Não atribuído&quot;);</span>
+<span class="fc" id="L123">        return atividade;</span>
     }
 
     private String buildTituloAtividade(Interacao interacao) {
-<span class="fc" id="L121">        return interacao.getTipo().name() + &quot; - &quot; + getNomeExpositor(interacao);</span>
+<span class="fc" id="L127">        return interacao.getTipo().name() + &quot; - &quot; + getNomeExpositor(interacao);</span>
     }
 
     private String getNomeExpositor(Interacao interacao) {
-<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (interacao.getExpositor() == null) {</span>
-<span class="fc" id="L126">            return &quot;Lead&quot;;</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (interacao.getExpositor() == null) {</span>
+<span class="fc" id="L132">            return &quot;Lead&quot;;</span>
         }
-<span class="fc bfc" id="L128" title="All 2 branches covered.">        return interacao.getExpositor().getNomeFantasia() != null ? </span>
-<span class="fc" id="L129">            interacao.getExpositor().getNomeFantasia() : </span>
-<span class="fc" id="L130">            interacao.getExpositor().getRazaoSocial();</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        return interacao.getExpositor().getNomeFantasia() != null ?</span>
+<span class="fc" id="L135">            interacao.getExpositor().getNomeFantasia() :</span>
+<span class="fc" id="L136">            interacao.getExpositor().getRazaoSocial();</span>
     }
 
     private String getExpositorId(Interacao interacao) {
-<span class="fc bfc" id="L134" title="All 2 branches covered.">        return interacao.getExpositor() != null ? </span>
-<span class="fc" id="L135">            interacao.getExpositor().getId().toString() : &quot;0&quot;;</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        return interacao.getExpositor() != null ?</span>
+<span class="fc" id="L141">            interacao.getExpositor().getId().toString() : &quot;0&quot;;</span>
     }
 
     private String formatHorario(LocalDateTime dataProximaAcao) {
-<span class="fc bfc" id="L139" title="All 2 branches covered.">        return dataProximaAcao != null ? </span>
-<span class="fc" id="L140">            dataProximaAcao.format(DateTimeFormatter.ofPattern(&quot;HH:mm&quot;)) : &quot;00:00&quot;;</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">        return dataProximaAcao != null ?</span>
+<span class="fc" id="L146">            dataProximaAcao.format(DateTimeFormatter.ofPattern(&quot;HH:mm&quot;)) : &quot;00:00&quot;;</span>
     }
 
     private Map&lt;String, Object&gt; buildResponseAtividades(List&lt;Map&lt;String, Object&gt;&gt; atividades) {
-<span class="fc" id="L144">        Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L145">        response.put(&quot;atividades&quot;, atividades);</span>
-<span class="fc" id="L146">        response.put(&quot;total&quot;, atividades.size());</span>
-<span class="fc" id="L147">        response.put(&quot;concluidas&quot;, contarAtividadesPorStatus(atividades, &quot;concluida&quot;));</span>
-<span class="fc" id="L148">        response.put(&quot;pendentes&quot;, contarAtividadesPorStatus(atividades, &quot;agendada&quot;));</span>
-<span class="fc" id="L149">        return response;</span>
+<span class="fc" id="L150">        Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L151">        response.put(&quot;atividades&quot;, atividades);</span>
+<span class="fc" id="L152">        response.put(&quot;total&quot;, atividades.size());</span>
+<span class="fc" id="L153">        response.put(&quot;concluidas&quot;, contarAtividadesPorStatus(atividades, &quot;concluida&quot;));</span>
+<span class="fc" id="L154">        response.put(&quot;pendentes&quot;, contarAtividadesPorStatus(atividades, &quot;agendada&quot;));</span>
+<span class="fc" id="L155">        return response;</span>
     }
 
     private int contarAtividadesPorStatus(List&lt;Map&lt;String, Object&gt;&gt; atividades, String status) {
-<span class="fc" id="L153">        return (int) atividades.stream()</span>
-<span class="fc" id="L154">            .filter(a -&gt; status.equals(a.get(KEY_STATUS)))</span>
-<span class="fc" id="L155">            .count();</span>
+<span class="fc" id="L159">        return (int) atividades.stream()</span>
+<span class="fc" id="L160">            .filter(a -&gt; status.equals(a.get(KEY_STATUS)))</span>
+<span class="fc" id="L161">            .count();</span>
     }
-    
+
     private String mapTipoInteracao(Interacao.TipoInteracao tipo) {
-<span class="fc bfc" id="L159" title="All 7 branches covered.">        switch (tipo) {</span>
+<span class="fc bfc" id="L165" title="All 7 branches covered.">        switch (tipo) {</span>
             case LIGACAO:
-<span class="fc" id="L161">                return &quot;Ligação&quot;;</span>
+<span class="fc" id="L167">                return &quot;Ligação&quot;;</span>
             case EMAIL:
-<span class="fc" id="L163">                return &quot;Email&quot;;</span>
+<span class="fc" id="L169">                return &quot;Email&quot;;</span>
             case REUNIAO:
-<span class="fc" id="L165">                return &quot;Reunião&quot;;</span>
+<span class="fc" id="L171">                return &quot;Reunião&quot;;</span>
             case WHATSAPP:
-<span class="fc" id="L167">                return &quot;Contato WhatsApp&quot;;</span>
+<span class="fc" id="L173">                return &quot;Contato WhatsApp&quot;;</span>
             case PROPOSTA:
-<span class="fc" id="L169">                return TIPO_PROPOSTA;</span>
+<span class="fc" id="L175">                return TIPO_PROPOSTA;</span>
             case FECHADO:
-<span class="fc" id="L171">                return &quot;Fechado&quot;;</span>
+<span class="fc" id="L177">                return &quot;Fechado&quot;;</span>
             default:
-<span class="fc" id="L173">                return &quot;Outros&quot;;</span>
+<span class="fc" id="L179">                return &quot;Outros&quot;;</span>
         }
     }
-    
+
     @PostMapping(&quot;/atividades&quot;)
-    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; salvarAtividade(@RequestBody Map&lt;String, Object&gt; atividadeData) {
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; salvarAtividade(
+            @RequestBody Map&lt;String, Object&gt; atividadeData,
+            HttpServletRequest httpRequest) {
         try {
-<span class="fc" id="L180">            AtividadeRequest request = extractAtividadeRequest(atividadeData);</span>
-<span class="fc" id="L181">            Interacao.TipoInteracao tipo = mapStringToTipoInteracao(request.tipoAtividade);</span>
-            
-<span class="fc" id="L183">            Expositor expositor = buscarExpositor(request.leadId);</span>
-<span class="fc" id="L184">            Usuario usuario = buscarUsuarioAtivo();</span>
-            
-<span class="fc" id="L186">            Interacao novaInteracao = criarInteracao(request, tipo, expositor, usuario);</span>
-<span class="fc" id="L187">            processarCamposEspecificos(novaInteracao, request, tipo);</span>
-<span class="fc" id="L188">            configurarDataProximaAcao(novaInteracao, request);</span>
-            
-<span class="fc" id="L190">            Interacao atividadeSalva = interacaoRepository.save(novaInteracao);</span>
-<span class="fc" id="L191">            return buildSuccessResponse(atividadeSalva.getId());</span>
-            
-<span class="fc" id="L193">        } catch (Exception e) {</span>
-<span class="fc" id="L194">            return buildErrorResponse(&quot;Erro ao salvar atividade: &quot; + e.getMessage());</span>
+<span class="fc" id="L188">            AtividadeRequest request = extractAtividadeRequest(atividadeData);</span>
+<span class="fc" id="L189">            Interacao.TipoInteracao tipo = mapStringToTipoInteracao(request.tipoAtividade);</span>
+
+<span class="fc" id="L191">            Expositor expositor = buscarExpositor(request.leadId);</span>
+<span class="fc" id="L192">            Usuario usuario = obterUsuarioLogado(httpRequest);</span>
+
+<span class="fc" id="L194">            Interacao novaInteracao = criarInteracao(request, tipo, expositor, usuario);</span>
+<span class="fc" id="L195">            processarCamposEspecificos(novaInteracao, request, tipo);</span>
+<span class="fc" id="L196">            configurarDataProximaAcao(novaInteracao, request);</span>
+
+<span class="fc" id="L198">            Interacao atividadeSalva = interacaoRepository.save(novaInteracao);</span>
+<span class="fc" id="L199">            return buildSuccessResponse(atividadeSalva.getId());</span>
+
+<span class="fc" id="L201">        } catch (Exception e) {</span>
+<span class="fc" id="L202">            logger.error(&quot;Erro ao salvar atividade: {}&quot;, e.getMessage(), e);</span>
+<span class="fc" id="L203">            return buildErrorResponse(&quot;Erro ao salvar atividade: &quot; + e.getMessage());</span>
         }
     }
 
     private AtividadeRequest extractAtividadeRequest(Map&lt;String, Object&gt; atividadeData) {
-<span class="fc" id="L199">        AtividadeRequest request = new AtividadeRequest();</span>
-<span class="fc" id="L200">        request.tipoAtividade = (String) atividadeData.get(&quot;tipoAtividade&quot;);</span>
-<span class="fc" id="L201">        request.descricao = (String) atividadeData.get(KEY_DESCRICAO);</span>
-<span class="fc" id="L202">        request.dataAgendamento = (String) atividadeData.get(&quot;dataAgendamento&quot;);</span>
-<span class="fc" id="L203">        request.horarioAgendamento = (String) atividadeData.get(&quot;horarioAgendamento&quot;);</span>
-<span class="fc" id="L204">        request.leadId = (String) atividadeData.get(&quot;leadId&quot;);</span>
-<span class="fc" id="L205">        request.valorPropostaObj = atividadeData.get(&quot;valorProposta&quot;);</span>
-<span class="fc" id="L206">        request.metrosQuadradosObj = atividadeData.get(&quot;metrosQuadrados&quot;);</span>
-<span class="fc" id="L207">        return request;</span>
+<span class="fc" id="L208">        AtividadeRequest request = new AtividadeRequest();</span>
+<span class="fc" id="L209">        request.tipoAtividade = (String) atividadeData.get(&quot;tipoAtividade&quot;);</span>
+<span class="fc" id="L210">        request.descricao = (String) atividadeData.get(KEY_DESCRICAO);</span>
+<span class="fc" id="L211">        request.dataAgendamento = (String) atividadeData.get(&quot;dataAgendamento&quot;);</span>
+<span class="fc" id="L212">        request.horarioAgendamento = (String) atividadeData.get(&quot;horarioAgendamento&quot;);</span>
+<span class="fc" id="L213">        request.leadId = (String) atividadeData.get(&quot;leadId&quot;);</span>
+<span class="fc" id="L214">        request.valorPropostaObj = atividadeData.get(&quot;valorProposta&quot;);</span>
+<span class="fc" id="L215">        request.metrosQuadradosObj = atividadeData.get(&quot;metrosQuadrados&quot;);</span>
+<span class="fc" id="L216">        return request;</span>
     }
 
     private Expositor buscarExpositor(String leadId) {
-<span class="fc" id="L211">        Long expositorId = extractExpositorId(leadId);</span>
-<span class="pc bpc" id="L212" title="1 of 2 branches missed.">        Optional&lt;Expositor&gt; expositorOpt = expositorRepository.findById(expositorId != null ? expositorId : 1L);</span>
-<span class="fc bfc" id="L213" title="All 2 branches covered.">        if (!expositorOpt.isPresent()) {</span>
-<span class="fc" id="L214">            throw new IllegalArgumentException(&quot;Lead não encontrado&quot;);</span>
+<span class="fc" id="L220">        Long expositorId = extractExpositorId(leadId);</span>
+<span class="pc bpc" id="L221" title="1 of 2 branches missed.">        Optional&lt;Expositor&gt; expositorOpt = expositorRepository.findById(expositorId != null ? expositorId : 1L);</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        if (!expositorOpt.isPresent()) {</span>
+<span class="fc" id="L223">            throw new IllegalArgumentException(&quot;Lead não encontrado&quot;);</span>
         }
-<span class="fc" id="L216">        return expositorOpt.get();</span>
+<span class="fc" id="L225">        return expositorOpt.get();</span>
     }
 
-    private Usuario buscarUsuarioAtivo() {
-<span class="fc" id="L220">        List&lt;Usuario&gt; usuarios = usuarioRepository.findByAtivoTrue();</span>
-<span class="fc bfc" id="L221" title="All 2 branches covered.">        if (usuarios.isEmpty()) {</span>
-<span class="fc" id="L222">            throw new IllegalArgumentException(&quot;Nenhum usuário ativo encontrado&quot;);</span>
+    private Usuario obterUsuarioLogado(HttpServletRequest request) {
+        try {
+<span class="fc" id="L230">            String authorizationHeader = request.getHeader(&quot;Authorization&quot;);</span>
+<span class="pc bpc" id="L231" title="3 of 4 branches missed.">            if (authorizationHeader != null &amp;&amp; authorizationHeader.startsWith(&quot;Bearer &quot;)) {</span>
+<span class="nc" id="L232">                String jwt = authorizationHeader.substring(7);</span>
+<span class="nc" id="L233">                String email = jwtUtil.extractUsername(jwt);</span>
+                
+<span class="nc" id="L235">                Optional&lt;Usuario&gt; usuarioOpt = usuarioRepository.findByEmail(email);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">                if (usuarioOpt.isPresent()) {</span>
+<span class="nc" id="L237">                    return usuarioOpt.get();</span>
+                }
+            }
+            
+<span class="fc" id="L241">            logger.warn(&quot;Não foi possível obter usuário do token JWT, usando fallback&quot;);</span>
+<span class="fc" id="L242">            List&lt;Usuario&gt; usuarios = usuarioRepository.findByAtivoTrue();</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">            if (!usuarios.isEmpty()) {</span>
+<span class="fc" id="L244">                return usuarios.get(0);</span>
+            }
+            
+<span class="fc" id="L247">            throw new IllegalArgumentException(&quot;Nenhum usuário encontrado&quot;);</span>
+<span class="fc" id="L248">        } catch (Exception e) {</span>
+<span class="fc" id="L249">            logger.error(&quot;Erro ao obter usuário logado: {}&quot;, e.getMessage(), e);</span>
+<span class="fc" id="L250">            List&lt;Usuario&gt; usuarios = usuarioRepository.findByAtivoTrue();</span>
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">            if (!usuarios.isEmpty()) {</span>
+<span class="nc" id="L252">                return usuarios.get(0);</span>
+            }
+<span class="fc" id="L254">            throw new IllegalArgumentException(&quot;Nenhum usuário encontrado&quot;);</span>
         }
-<span class="fc" id="L224">        return usuarios.get(0);</span>
     }
 
-    private Interacao criarInteracao(AtividadeRequest request, Interacao.TipoInteracao tipo, 
+    private Interacao criarInteracao(AtividadeRequest request, Interacao.TipoInteracao tipo,
                                      Expositor expositor, Usuario usuario) {
-<span class="fc" id="L229">        Interacao novaInteracao = new Interacao();</span>
-<span class="fc" id="L230">        novaInteracao.setExpositor(expositor);</span>
-<span class="fc" id="L231">        novaInteracao.setUsuario(usuario);</span>
-<span class="fc" id="L232">        novaInteracao.setTipo(tipo);</span>
-<span class="fc" id="L233">        novaInteracao.setAssunto(request.tipoAtividade + &quot; - &quot; + getNomeExpositor(expositor));</span>
-<span class="fc" id="L234">        return novaInteracao;</span>
+<span class="fc" id="L260">        Interacao novaInteracao = new Interacao();</span>
+<span class="fc" id="L261">        novaInteracao.setExpositor(expositor);</span>
+<span class="fc" id="L262">        novaInteracao.setUsuario(usuario);</span>
+<span class="fc" id="L263">        novaInteracao.setTipo(tipo);</span>
+<span class="fc" id="L264">        novaInteracao.setAssunto(request.tipoAtividade + &quot; - &quot; + getNomeExpositor(expositor));</span>
+<span class="fc" id="L265">        return novaInteracao;</span>
     }
 
     private String getNomeExpositor(Expositor expositor) {
-<span class="pc bpc" id="L238" title="1 of 2 branches missed.">        return expositor.getNomeFantasia() != null ? </span>
-<span class="fc" id="L239">            expositor.getNomeFantasia() : </span>
-<span class="nc" id="L240">            expositor.getRazaoSocial();</span>
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">        return expositor.getNomeFantasia() != null ?</span>
+<span class="fc" id="L270">            expositor.getNomeFantasia() :</span>
+<span class="nc" id="L271">            expositor.getRazaoSocial();</span>
     }
 
-    private void processarCamposEspecificos(Interacao interacao, AtividadeRequest request, 
+    private void processarCamposEspecificos(Interacao interacao, AtividadeRequest request,
                                            Interacao.TipoInteracao tipo) {
-<span class="fc bfc" id="L245" title="All 4 branches covered.">        if (tipo == Interacao.TipoInteracao.PROPOSTA || tipo == Interacao.TipoInteracao.FECHADO) {</span>
-<span class="fc" id="L246">            processarValorProposta(interacao, request.valorPropostaObj);</span>
-<span class="fc" id="L247">            processarMetrosQuadrados(interacao, request.metrosQuadradosObj);</span>
-<span class="fc" id="L248">            processarDescricaoProposta(interacao, request.descricao, tipo);</span>
-            
-<span class="fc bfc" id="L250" title="All 2 branches covered.">            if (tipo == Interacao.TipoInteracao.FECHADO) {</span>
-<span class="fc" id="L251">                interacao.setConcluida(true);</span>
+<span class="fc bfc" id="L276" title="All 4 branches covered.">        if (tipo == Interacao.TipoInteracao.PROPOSTA || tipo == Interacao.TipoInteracao.FECHADO) {</span>
+<span class="fc" id="L277">            processarValorProposta(interacao, request.valorPropostaObj);</span>
+<span class="fc" id="L278">            processarMetrosQuadrados(interacao, request.metrosQuadradosObj);</span>
+<span class="fc" id="L279">            processarDescricaoProposta(interacao, request.descricao, tipo);</span>
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">            if (tipo == Interacao.TipoInteracao.FECHADO) {</span>
+<span class="fc" id="L282">                interacao.setConcluida(true);</span>
             }
         } else {
-<span class="fc bfc" id="L254" title="All 2 branches covered.">            interacao.setDescricao(request.descricao != null ? request.descricao : &quot;Sem descrição&quot;);</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">            interacao.setDescricao(request.descricao != null ? request.descricao : &quot;Sem descrição&quot;);</span>
         }
-<span class="fc" id="L256">    }</span>
+<span class="fc" id="L287">    }</span>
 
     private void processarValorProposta(Interacao interacao, Object valorPropostaObj) {
-<span class="fc bfc" id="L259" title="All 2 branches covered.">        if (valorPropostaObj != null) {</span>
+<span class="fc bfc" id="L290" title="All 2 branches covered.">        if (valorPropostaObj != null) {</span>
             try {
-<span class="fc" id="L261">                String valorStr = valorPropostaObj.toString().replace(&quot;,&quot;, &quot;.&quot;);</span>
-<span class="fc" id="L262">                Double valor = Double.parseDouble(valorStr);</span>
-<span class="fc" id="L263">                interacao.setValorProposta(valor);</span>
-<span class="fc" id="L264">            } catch (NumberFormatException e) {</span>
-<span class="fc" id="L265">                interacao.setValorProposta(0.0);</span>
-<span class="fc" id="L266">            }</span>
+<span class="fc" id="L292">                String valorStr = valorPropostaObj.toString().replace(&quot;,&quot;, &quot;.&quot;);</span>
+<span class="fc" id="L293">                Double valor = Double.parseDouble(valorStr);</span>
+<span class="fc" id="L294">                interacao.setValorProposta(valor);</span>
+<span class="fc" id="L295">            } catch (NumberFormatException e) {</span>
+<span class="fc" id="L296">                interacao.setValorProposta(0.0);</span>
+<span class="fc" id="L297">            }</span>
         }
-<span class="fc" id="L268">    }</span>
+<span class="fc" id="L299">    }</span>
 
     private void processarMetrosQuadrados(Interacao interacao, Object metrosQuadradosObj) {
-<span class="fc bfc" id="L271" title="All 2 branches covered.">        if (metrosQuadradosObj != null) {</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">        if (metrosQuadradosObj != null) {</span>
             try {
-<span class="fc" id="L273">                String metrosStr = metrosQuadradosObj.toString().replace(&quot;,&quot;, &quot;.&quot;);</span>
-<span class="fc" id="L274">                Double metros = Double.parseDouble(metrosStr);</span>
-<span class="fc" id="L275">                interacao.setMetrosQuadrados(metros);</span>
-<span class="fc" id="L276">            } catch (NumberFormatException e) {</span>
-<span class="fc" id="L277">                interacao.setMetrosQuadrados(0.0);</span>
-<span class="fc" id="L278">            }</span>
+<span class="fc" id="L304">                String metrosStr = metrosQuadradosObj.toString().replace(&quot;,&quot;, &quot;.&quot;);</span>
+<span class="fc" id="L305">                Double metros = Double.parseDouble(metrosStr);</span>
+<span class="fc" id="L306">                interacao.setMetrosQuadrados(metros);</span>
+<span class="fc" id="L307">            } catch (NumberFormatException e) {</span>
+<span class="fc" id="L308">                interacao.setMetrosQuadrados(0.0);</span>
+<span class="fc" id="L309">            }</span>
         }
-<span class="fc" id="L280">    }</span>
+<span class="fc" id="L311">    }</span>
 
     private void processarDescricaoProposta(Interacao interacao, String descricao, Interacao.TipoInteracao tipo) {
-<span class="pc bpc" id="L283" title="3 of 4 branches missed.">        if (descricao == null || descricao.isEmpty()) {</span>
-<span class="fc bfc" id="L284" title="All 2 branches covered.">            String tipoNome = (tipo == Interacao.TipoInteracao.FECHADO) ? &quot;Negócio fechado&quot; : TIPO_PROPOSTA;</span>
-<span class="fc" id="L285">            descricao = String.format(&quot;%s no valor de R$ %.2f para área de %.2f m²&quot;, </span>
+<span class="pc bpc" id="L314" title="3 of 4 branches missed.">        if (descricao == null || descricao.isEmpty()) {</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">            String tipoNome = (tipo == Interacao.TipoInteracao.FECHADO) ? &quot;Negócio fechado&quot; : TIPO_PROPOSTA;</span>
+<span class="fc" id="L316">            descricao = String.format(&quot;%s no valor de R$ %.2f para área de %.2f m²&quot;,</span>
                 tipoNome,
-<span class="fc" id="L287">                interacao.getValorProposta(), </span>
-<span class="fc" id="L288">                interacao.getMetrosQuadrados());</span>
+<span class="fc" id="L318">                interacao.getValorProposta(),</span>
+<span class="fc" id="L319">                interacao.getMetrosQuadrados());</span>
         }
-<span class="fc" id="L290">        interacao.setDescricao(descricao);</span>
-<span class="fc" id="L291">    }</span>
+<span class="fc" id="L321">        interacao.setDescricao(descricao);</span>
+<span class="fc" id="L322">    }</span>
 
     private void configurarDataProximaAcao(Interacao interacao, AtividadeRequest request) {
-<span class="pc bpc" id="L294" title="1 of 4 branches missed.">        if (request.dataAgendamento != null &amp;&amp; request.horarioAgendamento != null) {</span>
+<span class="pc bpc" id="L325" title="1 of 4 branches missed.">        if (request.dataAgendamento != null &amp;&amp; request.horarioAgendamento != null) {</span>
             try {
-<span class="fc" id="L296">                LocalDate data = LocalDate.parse(request.dataAgendamento);</span>
-<span class="fc" id="L297">                String[] horaParts = request.horarioAgendamento.split(&quot;:&quot;);</span>
-<span class="fc" id="L298">                int hora = Integer.parseInt(horaParts[0]);</span>
-<span class="fc" id="L299">                int minuto = Integer.parseInt(horaParts[1]);</span>
-<span class="fc" id="L300">                interacao.setDataProximaAcao(data.atTime(hora, minuto));</span>
-<span class="fc" id="L301">            } catch (Exception e) {</span>
-<span class="fc" id="L302">                interacao.setDataProximaAcao(LocalDateTime.now().plusHours(1));</span>
-<span class="fc" id="L303">            }</span>
+<span class="fc" id="L327">                LocalDate data = LocalDate.parse(request.dataAgendamento);</span>
+<span class="fc" id="L328">                String[] horaParts = request.horarioAgendamento.split(&quot;:&quot;);</span>
+<span class="fc" id="L329">                int hora = Integer.parseInt(horaParts[0]);</span>
+<span class="fc" id="L330">                int minuto = Integer.parseInt(horaParts[1]);</span>
+<span class="fc" id="L331">                interacao.setDataProximaAcao(data.atTime(hora, minuto));</span>
+<span class="fc" id="L332">            } catch (Exception e) {</span>
+<span class="fc" id="L333">                interacao.setDataProximaAcao(LocalDateTime.now().plusHours(1));</span>
+<span class="fc" id="L334">            }</span>
         } else {
-<span class="fc" id="L305">            interacao.setDataProximaAcao(LocalDateTime.now().plusHours(1));</span>
+<span class="fc" id="L336">            interacao.setDataProximaAcao(LocalDateTime.now().plusHours(1));</span>
         }
-<span class="fc" id="L307">    }</span>
+<span class="fc" id="L338">    }</span>
 
     private Long extractExpositorId(String leadId) {
-<span class="fc bfc" id="L310" title="All 2 branches covered.">        if (leadId == null) {</span>
-<span class="fc" id="L311">            return 1L;</span>
+<span class="fc bfc" id="L341" title="All 2 branches covered.">        if (leadId == null) {</span>
+<span class="fc" id="L342">            return 1L;</span>
         }
-        
-<span class="fc bfc" id="L314" title="All 2 branches covered.">        if (leadId.startsWith(KEY_LEAD_PREFIX)) {</span>
+
+<span class="fc bfc" id="L345" title="All 2 branches covered.">        if (leadId.startsWith(KEY_LEAD_PREFIX)) {</span>
             try {
-<span class="fc" id="L316">                return Long.parseLong(leadId.replace(KEY_LEAD_PREFIX, &quot;&quot;));</span>
-<span class="nc" id="L317">            } catch (NumberFormatException e) {</span>
-<span class="nc" id="L318">                return 1L;</span>
+<span class="fc" id="L347">                return Long.parseLong(leadId.replace(KEY_LEAD_PREFIX, &quot;&quot;));</span>
+<span class="nc" id="L348">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L349">                return 1L;</span>
             }
         }
-        
+
         try {
-<span class="fc" id="L323">            return Long.parseLong(leadId);</span>
-<span class="nc" id="L324">        } catch (NumberFormatException e) {</span>
-<span class="nc" id="L325">            return 1L;</span>
+<span class="fc" id="L354">            return Long.parseLong(leadId);</span>
+<span class="nc" id="L355">        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L356">            return 1L;</span>
         }
     }
 
     private ResponseEntity&lt;Map&lt;String, Object&gt;&gt; buildSuccessResponse(Long id) {
-<span class="fc" id="L330">        Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L331">        response.put(&quot;id&quot;, id);</span>
-<span class="fc" id="L332">        response.put(KEY_SUCESSO, true);</span>
-<span class="fc" id="L333">        response.put(KEY_MENSAGEM, &quot;Atividade salva com sucesso&quot;);</span>
-<span class="fc" id="L334">        return ResponseEntity.ok(response);</span>
+<span class="fc" id="L361">        Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L362">        response.put(&quot;id&quot;, id);</span>
+<span class="fc" id="L363">        response.put(KEY_SUCESSO, true);</span>
+<span class="fc" id="L364">        response.put(KEY_MENSAGEM, &quot;Atividade salva com sucesso&quot;);</span>
+<span class="fc" id="L365">        return ResponseEntity.ok(response);</span>
     }
 
     private ResponseEntity&lt;Map&lt;String, Object&gt;&gt; buildErrorResponse(String mensagem) {
-<span class="fc" id="L338">        Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L339">        errorResponse.put(&quot;erro&quot;, mensagem);</span>
-<span class="fc" id="L340">        return ResponseEntity.badRequest().body(errorResponse);</span>
+<span class="fc" id="L369">        Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L370">        errorResponse.put(&quot;erro&quot;, mensagem);</span>
+<span class="fc" id="L371">        return ResponseEntity.badRequest().body(errorResponse);</span>
     }
 
     private ResponseEntity&lt;Map&lt;String, Object&gt;&gt; buildErrorResponse(boolean sucesso, String mensagem) {
-<span class="fc" id="L344">        Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L345">        errorResponse.put(KEY_SUCESSO, sucesso);</span>
-<span class="fc" id="L346">        errorResponse.put(KEY_MENSAGEM, mensagem);</span>
-<span class="fc" id="L347">        return ResponseEntity.badRequest().body(errorResponse);</span>
+<span class="fc" id="L375">        Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L376">        errorResponse.put(KEY_SUCESSO, sucesso);</span>
+<span class="fc" id="L377">        errorResponse.put(KEY_MENSAGEM, mensagem);</span>
+<span class="fc" id="L378">        return ResponseEntity.badRequest().body(errorResponse);</span>
     }
 
     private static class AtividadeRequest {
@@ -356,49 +387,49 @@ public class AgendaController {
         Object valorPropostaObj;
         Object metrosQuadradosObj;
     }
-    
+
     @PutMapping(&quot;/atividades/{id}/concluir&quot;)
     public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; marcarComoConcluida(@PathVariable Long id) {
         try {
-<span class="fc" id="L363">            Optional&lt;Interacao&gt; interacaoOpt = interacaoRepository.findById(id);</span>
-            
-<span class="fc bfc" id="L365" title="All 2 branches covered.">            if (!interacaoOpt.isPresent()) {</span>
-<span class="fc" id="L366">                return buildErrorResponse(false, &quot;Atividade não encontrada&quot;);</span>
+<span class="fc" id="L394">            Optional&lt;Interacao&gt; interacaoOpt = interacaoRepository.findById(id);</span>
+
+<span class="fc bfc" id="L396" title="All 2 branches covered.">            if (!interacaoOpt.isPresent()) {</span>
+<span class="fc" id="L397">                return buildErrorResponse(false, &quot;Atividade não encontrada&quot;);</span>
             }
-            
-<span class="fc" id="L369">            Interacao interacao = interacaoOpt.get();</span>
-<span class="fc" id="L370">            interacao.setConcluida(true);</span>
-<span class="fc" id="L371">            interacao.setDataAtualizacao(LocalDateTime.now());</span>
-            
-<span class="fc" id="L373">            interacaoRepository.save(interacao);</span>
-            
-<span class="fc" id="L375">            Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L376">            response.put(KEY_SUCESSO, true);</span>
-<span class="fc" id="L377">            response.put(KEY_MENSAGEM, &quot;Atividade marcada como concluída&quot;);</span>
-<span class="fc" id="L378">            response.put(&quot;id&quot;, id);</span>
-            
-<span class="fc" id="L380">            return ResponseEntity.ok(response);</span>
-<span class="fc" id="L381">        } catch (Exception e) {</span>
-<span class="fc" id="L382">            return buildErrorResponse(false, &quot;Erro ao marcar atividade como concluída: &quot; + e.getMessage());</span>
+
+<span class="fc" id="L400">            Interacao interacao = interacaoOpt.get();</span>
+<span class="fc" id="L401">            interacao.setConcluida(true);</span>
+<span class="fc" id="L402">            interacao.setDataAtualizacao(LocalDateTime.now());</span>
+
+<span class="fc" id="L404">            interacaoRepository.save(interacao);</span>
+
+<span class="fc" id="L406">            Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L407">            response.put(KEY_SUCESSO, true);</span>
+<span class="fc" id="L408">            response.put(KEY_MENSAGEM, &quot;Atividade marcada como concluída&quot;);</span>
+<span class="fc" id="L409">            response.put(&quot;id&quot;, id);</span>
+
+<span class="fc" id="L411">            return ResponseEntity.ok(response);</span>
+<span class="fc" id="L412">        } catch (Exception e) {</span>
+<span class="fc" id="L413">            return buildErrorResponse(false, &quot;Erro ao marcar atividade como concluída: &quot; + e.getMessage());</span>
         }
     }
 
     private Interacao.TipoInteracao mapStringToTipoInteracao(String tipo) {
-<span class="fc bfc" id="L387" title="All 7 branches covered.">        switch (tipo) {</span>
+<span class="fc bfc" id="L418" title="All 7 branches covered.">        switch (tipo) {</span>
             case &quot;Ligação&quot;:
-<span class="fc" id="L389">                return Interacao.TipoInteracao.LIGACAO;</span>
+<span class="fc" id="L420">                return Interacao.TipoInteracao.LIGACAO;</span>
             case &quot;Email&quot;:
-<span class="fc" id="L391">                return Interacao.TipoInteracao.EMAIL;</span>
+<span class="fc" id="L422">                return Interacao.TipoInteracao.EMAIL;</span>
             case &quot;Reunião&quot;:
-<span class="fc" id="L393">                return Interacao.TipoInteracao.REUNIAO;</span>
+<span class="fc" id="L424">                return Interacao.TipoInteracao.REUNIAO;</span>
             case &quot;Contato WhatsApp&quot;:
-<span class="fc" id="L395">                return Interacao.TipoInteracao.WHATSAPP;</span>
+<span class="fc" id="L426">                return Interacao.TipoInteracao.WHATSAPP;</span>
             case TIPO_PROPOSTA:
-<span class="fc" id="L397">                return Interacao.TipoInteracao.PROPOSTA;</span>
+<span class="fc" id="L428">                return Interacao.TipoInteracao.PROPOSTA;</span>
             case &quot;Fechado&quot;:
-<span class="fc" id="L399">                return Interacao.TipoInteracao.FECHADO;</span>
+<span class="fc" id="L430">                return Interacao.TipoInteracao.FECHADO;</span>
             default:
-<span class="fc" id="L401">                return Interacao.TipoInteracao.OUTROS;</span>
+<span class="fc" id="L432">                return Interacao.TipoInteracao.OUTROS;</span>
         }
     }
 }
