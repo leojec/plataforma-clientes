@@ -38,7 +38,12 @@ export function AuthProvider({ children }) {
     } catch (error) {
       let errorMessage = 'Erro ao fazer login';
       
-      if (error.response?.data) {
+      // Verificar se é erro de HTML ao invés de JSON
+      if (error.isHtmlResponse || (error.response?.data && typeof error.response.data === 'string' && error.response.data.trim().startsWith('<!'))) {
+        errorMessage = 'API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint.';
+        console.error('❌ Erro: API retornou HTML. URL:', error.config?.url);
+        console.error('❌ Base URL:', api.defaults.baseURL);
+      } else if (error.response?.data) {
         const errorData = error.response.data;
         if (typeof errorData === 'string') {
           errorMessage = errorData;
@@ -49,7 +54,19 @@ export function AuthProvider({ children }) {
         }
       } else if (error.message && typeof error.message === 'string') {
         errorMessage = error.message;
+      } else if (error.code === 'ECONNABORTED') {
+        errorMessage = 'Timeout ao conectar com o servidor. Verifique sua conexão.';
+      } else if (!error.response) {
+        errorMessage = 'Não foi possível conectar ao servidor. Verifique a URL da API.';
       }
+      
+      console.error('❌ Erro no login:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        url: error.config?.url,
+        baseURL: api.defaults.baseURL
+      });
       
       return { 
         success: false, 

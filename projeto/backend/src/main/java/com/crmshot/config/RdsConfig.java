@@ -48,7 +48,7 @@ public class RdsConfig {
             
             System.out.println("✅ Usando variáveis RDS do Elastic Beanstalk");
         } else {
-            // Usar credenciais RDS configuradas no código
+            // Sempre usar credenciais RDS configuradas no código
             finalHostname = awsRdsHost;
             finalPort = awsRdsPort;
             finalDatabase = awsRdsDatabase;

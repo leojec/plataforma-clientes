@@ -244,8 +244,8 @@ jobs:
               echo "⚠️ Não foi possível obter URL do CloudFront, usando REACT_APP_API_URL do secret"
               echo "CLOUDFRONT_URL=${{ secrets.REACT_APP_API_URL }}" >> $GITHUB_ENV
             else
-              # CloudFront com HTTPS e caminho /api
-              CLOUDFRONT_URL="https://${CLOUDFRONT_URL}/api"
+              # CloudFront com HTTPS (sem /api, pois o api.js já adiciona)
+              CLOUDFRONT_URL="https://${CLOUDFRONT_URL}"
               echo "✅ URL do CloudFront (backend proxy): $CLOUDFRONT_URL"
               echo "CLOUDFRONT_URL=$CLOUDFRONT_URL" >> $GITHUB_ENV
             fi

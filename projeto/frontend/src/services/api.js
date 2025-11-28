@@ -16,10 +16,9 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Log da URL base para debug (apenas em desenvolvimento)
-if (process.env.NODE_ENV === 'development') {
-  console.log('🔗 API Base URL:', finalBaseURL);
-}
+// Log da URL base para debug (sempre, para ajudar no troubleshooting)
+console.log('🔗 API Base URL:', finalBaseURL);
+console.log('🔗 REACT_APP_API_URL original:', process.env.REACT_APP_API_URL || 'não definido');
 
 // Interceptor para adicionar token automaticamente
 api.interceptors.request.use(
