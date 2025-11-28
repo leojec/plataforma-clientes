@@ -461,8 +461,8 @@ aws cloudfront create-invalidation \
 ## 🔒 **Conformidade e Segurança**
 
 ### **LGPD (Lei Geral de Proteção de Dados)**
-✅ Política de Privacidade (a implementar)  
-✅ Termos de Uso (a implementar)  
+✅ Política de Privacidade 
+✅ Termos de Uso
 ✅ Consentimento do usuário  
 ✅ Direitos do titular (acesso, correção, exclusão)  
 ✅ Segurança de dados (criptografia, autenticação JWT)

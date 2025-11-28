@@ -1,18 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { ArrowLeft, Shield, Lock, Eye, FileText, CheckCircle } from 'lucide-react';
 
 function PoliticaPrivacidade() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const handleVoltar = () => {
+    if (user) {
+      navigate('/');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Link
-          to="/login"
+        <button
+          onClick={handleVoltar}
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Voltar
-        </Link>
+        </button>
 
         <div className="bg-white rounded-lg shadow-sm p-8">
           <div className="flex items-center mb-6">
