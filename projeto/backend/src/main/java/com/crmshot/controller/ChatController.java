@@ -26,7 +26,11 @@ public class ChatController {
 
     @PostMapping("/perguntar")
     public ResponseEntity<Map<String, String>> processarPergunta(@RequestBody Map<String, String> request) {
-        String pergunta = request.get("pergunta").toLowerCase();
+        String pergunta = request.get("pergunta");
+        if (pergunta == null || pergunta.trim().isEmpty()) {
+            return buildErrorResponse();
+        }
+        pergunta = pergunta.toLowerCase();
         
         try {
             String resposta = processarPerguntaInterna(pergunta);

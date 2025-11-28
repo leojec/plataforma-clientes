@@ -13,6 +13,7 @@ com/crmshot/controller/ExpositorControllerTest.class
 com/crmshot/CrmshotApplicationTest.class
 com/crmshot/controller/AgendaControllerTest.class
 com/crmshot/service/ExpositorServiceTest.class
+com/crmshot/CrmshotApplicationTest$TestConfig.class
 com/crmshot/controller/OportunidadeControllerTest.class
 com/crmshot/controller/HealthControllerTest.class
 com/crmshot/controller/ChatControllerTest.class

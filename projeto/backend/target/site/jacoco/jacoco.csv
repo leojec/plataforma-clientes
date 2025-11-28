@@ -6,7 +6,7 @@ crmshot-backend,com.crmshot.config,RdsConfig,51,231,12,20,9,49,11,17,2,10
 crmshot-backend,com.crmshot.config,SecurityConfig,98,7,0,0,15,2,7,2,7,2
 crmshot-backend,com.crmshot.config,DataLoader,0,160,2,8,0,45,2,6,0,3
 crmshot-backend,com.crmshot.config,RdsConfig.RdsConnectionConfig,0,18,0,0,0,7,0,1,0,1
-crmshot-backend,com.crmshot.controller,ChatController,56,705,33,78,13,133,32,53,2,25
+crmshot-backend,com.crmshot.controller,ChatController,44,728,34,81,10,139,32,55,1,26
 crmshot-backend,com.crmshot.controller,CnpjController,22,48,0,2,5,12,0,3,0,2
 crmshot-backend,com.crmshot.controller,ExpositorController,590,0,19,0,136,0,25,0,14,0
 crmshot-backend,com.crmshot.controller,OportunidadeController,26,679,5,13,4,140,5,11,0,7

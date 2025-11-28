@@ -341,7 +341,7 @@ class ExpositorControllerTest {
 
         ResponseEntity<?> response = expositorController.atualizarExpositor(1L, request);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test

@@ -1,16 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.crmshot.controller.ChatControllerTest
 -------------------------------------------------------------------------------
-Tests run: 17, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.040 s <<< FAILURE! -- in com.crmshot.controller.ChatControllerTest
-com.crmshot.controller.ChatControllerTest.testProcessarPergunta_Exception -- Time elapsed: 0.004 s <<< ERROR!
-java.lang.NullPointerException: Cannot invoke "String.toLowerCase()" because the return value of "java.util.Map.get(Object)" is null
-	at com.crmshot.controller.ChatController.processarPergunta(ChatController.java:29)
-	at com.crmshot.controller.ChatControllerTest.testProcessarPergunta_Exception(ChatControllerTest.java:173)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
-com.crmshot.controller.ChatControllerTest.testProcessarPergunta_MetrosVendidos_ComValor -- Time elapsed: 0.003 s <<< FAILURE!
+Tests run: 17, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.041 s <<< FAILURE! -- in com.crmshot.controller.ChatControllerTest
+com.crmshot.controller.ChatControllerTest.testProcessarPergunta_MetrosVendidos_ComValor -- Time elapsed: 0.006 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
@@ -18,7 +10,7 @@ org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
 	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
-	at com.crmshot.controller.ChatControllerTest.testProcessarPergunta_MetrosVendidos_ComValor(ChatControllerTest.java:284)
+	at com.crmshot.controller.ChatControllerTest.testProcessarPergunta_MetrosVendidos_ComValor(ChatControllerTest.java:286)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
