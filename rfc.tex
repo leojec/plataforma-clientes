@@ -1,0 +1,294 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{float}
+\geometry{a4paper, margin=2.5cm}
+
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.3\textwidth]{tcece/images/catolica.png}\par\vspace{1cm}
+    {\Large Centro Universitário Católica de Santa Catarina - Joinville\par}
+    {\large Engenharia de Software\par}
+    \vspace{2cm}
+    {\large Leonardo Luis da Rocha\par}
+    \vspace{6cm}
+    {\Large \textbf{CRMSHOT - CRM De Vendas}}\par
+    {\large de feiras e eventos\par}
+    \vspace{11cm}
+    {\large Novembro de 2025\par}
+\end{titlepage}
+
+
+
+\newpage
+
+\section*{Resumo}
+\addcontentsline{toc}{section}{Resumo}
+
+O projeto consiste no desenvolvimento de um sistema de CRM (Customer Relationship Management) para o evento Shot Fair Brasil que permite o cadastro e o acompanhamento eficiente de clientes ao longo de todo o processo comercial. A plataforma foi desenvolvida e implementada para otimizar a gestão do relacionamento com os clientes, garantindo um fluxo de trabalho organizado e transparente para a equipe de vendas. O sistema inclui funcionalidades de pipeline de vendas visual (Kanban), dashboard analítico, agenda de atividades, relatórios gerenciais e um assistente CRM inteligente.
+
+\section{Introdução}
+
+\subsection{Contexto}
+
+A gestão de relacionamento com clientes é um fator crítico para o sucesso comercial de empresas em mercados competitivos. No entanto, muitas organizações ainda utilizam planilhas ou anotações manuais, resultando em perda de dados, dificuldades na comunicação interna e baixa eficiência no acompanhamento de clientes. A adoção de um sistema CRM visa resolver esses entraves por meio da automatização e centralização dos processos de vendas e atendimento ao cliente.
+
+\subsection{Justificativa}
+
+A implementação de um sistema de CRM é essencial para promover uma gestão estruturada e inteligente do relacionamento com os clientes. Por meio dele, a equipe de vendas poderá acompanhar cada estágio do funil de vendas, realizar interações com registro histórico e obter indicadores de desempenho em tempo real. Diferente de soluções genéricas ou manuais, este projeto foca em uma proposta customizável, segura e com foco específico na melhoria da performance comercial.
+
+\subsection{Objetivos}
+
+\textbf{Objetivo principal:} Desenvolver um sistema web de CRM que automatize o cadastro, acompanhamento e análise do relacionamento com clientes, desde o primeiro contato até o fechamento da venda.
+
+\vspace{0.5cm}
+
+\textbf{Objetivos específicos:}
+
+\vspace{-0.2cm}
+\begin{itemize}
+    \item Levantar os requisitos funcionais e não funcionais do sistema.
+    \item Especificar os módulos principais: cadastro, pipeline de vendas, histórico e relatórios.
+    \item Modelar a base de dados e definir os fluxos de interação da aplicação.
+    \item Desenvolver e integrar os componentes frontend e backend.
+    \item Testar e validar a usabilidade e a segurança do sistema.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\textbf{Status do Projeto:} O sistema foi completamente desenvolvido e implementado, com backend e frontend funcionais, banco de dados estruturado, API REST completa, interface responsiva, autenticação JWT implementada e cobertura de testes unitários e de integração.
+
+\newpage
+
+\section{Descrição do Projeto}
+
+\subsection{Tema do Projeto}
+
+O projeto tem como tema o desenvolvimento de um sistema de CRM (Customer Relationship Management) para a empresa que buscam otimizar o acompanhamento e a gestão do relacionamento com clientes e prospects. O sistema será projetado como uma plataforma web acessível por navegadores modernos, com interface intuitiva, adaptada tanto para desktops quanto para dispositivos móveis.
+
+\subsection{Escopo Funcional}
+
+O sistema CRM implementado permite:
+\begin{itemize}[leftmargin=*, label=--]
+    \item O cadastro e gestão completa de expositores (CRUD), incluindo dados corporativos, validação de CNPJ em tempo real, busca e filtros avançados, e histórico completo de interações.
+    \item O acompanhamento do pipeline de vendas através de visualização Kanban com drag and drop, permitindo mover oportunidades entre estágios (Lead, Em Andamento, Em Negociação, Stand Fechado) com atualização em tempo real.
+    \item O registro detalhado de interações entre o time de vendas e os expositores (ligações, e-mails, reuniões, visitas), permitindo rastreabilidade completa com histórico por expositor.
+    \item A configuração de lembretes, tarefas e follow-ups através de agenda de atividades com calendário de interações, marcação de conclusão e lembretes automáticos.
+    \item A geração de relatórios gerenciais e dashboards analíticos com estatísticas gerais, gráficos interativos, métricas de vendas (metros quadrados, propostas, ganhos) e visualização por período e por vendedor.
+    \item O controle de usuários com diferentes perfis (administrador, gerente, vendedor), incluindo autenticação segura com JWT e criptografia de senhas com BCrypt.
+    \item Um assistente CRM inteligente (chatbot) para consultas rápidas sobre próximas reuniões, quantidade de leads, atividades do dia, com respostas em tempo real baseadas nos dados do sistema.
+\end{itemize}
+
+\subsection{Problemas a Resolver}
+
+\begin{itemize}[leftmargin=*, label=--]
+    \item Falta de centralização das informações, que normalmente ficam dispersas em planilhas individuais ou sistemas genéricos, dificultando a visão completa do cliente.
+    \item Alto risco de perda de oportunidades por ausência de lembretes e falta de rastreabilidade no relacionamento com o cliente.
+    \item Dificuldade para gerentes visualizarem a performance da equipe em tempo real, comprometendo a tomada de decisões estratégicas.
+    \item Dificuldade de consolidar dados históricos para entender padrões de comportamento dos expositores e oportunidades para negócios futuros.
+\end{itemize}
+
+\newpage
+
+\subsection{Diferenciais do Projeto}
+
+Este CRM foi desenvolvido com foco específico no segmento de eventos e feiras, implementando:
+\begin{itemize}[leftmargin=*, label=--]
+    \item Pipeline visual Kanban com drag and drop para gestão intuitiva de oportunidades de vendas, permitindo movimentação entre estágios de forma interativa.
+    \item Dashboard analítico com gráficos interativos (CanvasJS e Recharts) para visualização de métricas de performance, vendas e atividades em tempo real.
+    \item Assistente CRM inteligente integrado que responde consultas sobre o sistema, facilitando o acesso rápido a informações importantes.
+    \item Interface responsiva desenvolvida com Tailwind CSS, adaptada para desktops e dispositivos móveis, garantindo usabilidade em diferentes plataformas.
+    \item Integração com API da Receita Federal para validação automática de CNPJ durante o cadastro de expositores.
+    \item Arquitetura preparada para deploy em nuvem (AWS) com suporte a RDS PostgreSQL, Elastic Beanstalk e CloudFront.
+\end{itemize}
+
+\subsection{Limitações}
+
+Apesar do foco robusto na gestão comercial, a primeira versão do sistema implementada possui algumas limitações estratégicas:
+\begin{itemize}[leftmargin=*, label=--]
+    \item Não inclui integrações diretas com gateways de pagamento ou ERPs legados, sendo estas funcionalidades planejadas para futuras releases.
+    \item Não contempla automação de campanhas de marketing digital, deixando este módulo para futuras iterações.
+    \item A exportação de relatórios em PDF e Excel está preparada mas ainda não totalmente implementada na interface, sendo uma funcionalidade em desenvolvimento.
+    \item A cobertura de segurança atual é baseada em autenticação JWT e criptografia BCrypt, com monitoramento avançado e autenticação de dois fatores (MFA) planejados para iterações futuras.
+\end{itemize}
+
+\section{Especificação Técnica}
+
+\subsection{Modelagem C4}
+
+\begin{minipage}{\textwidth}
+    A modelagem C4 é uma abordagem para descrever a arquitetura de software por meio de uma hierarquia de diagramas que vai do geral para o detalhado. 
+    O método foi proposto por Simon Brown e organiza a visualização em quatro níveis: \textbf{Contexto}, \textbf{Contêiner}, \textbf{Componente} e \textbf{Código}, 
+    permitindo comunicar a arquitetura tanto para stakeholders não técnicos quanto para desenvolvedores.
+
+    \vspace{0.5cm}
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/tccimg.drawio.png}
+\end{minipage}
+
+
+
+
+
+\subsection{Diagrama de Caso de Uso}
+
+\subsubsection{Vendedor}
+
+\begin{minipage}{\textwidth}
+\vspace{0.3cm}
+O vendedor é o principal usuário operacional do sistema CRM. Suas responsabilidades envolvem cadastrar e gerenciar expositores, controlar o pipeline de vendas, registrar históricos de interações, configurar lembretes automáticos e gerar relatórios. Além disso, pode exportar dados em PDF/Excel, gerenciar calendários de follow-ups e registrar feedbacks dos clientes para futuras abordagens.
+
+\vspace{0.5cm}
+\centering
+\includegraphics[width=0.6\textwidth]{images/vendedorcuso.png}
+\end{minipage}
+
+
+\subsubsection{Administrador}
+
+O administrador é responsável pela gestão avançada do sistema, incluindo o gerenciamento de usuários e permissões, auditoria e visualização de relatórios gerenciais e dashboards consolidados. Dessa forma, ele possui uma visão estratégica do CRM, possibilitando monitorar o desempenho da equipe e tomar decisões baseadas em dados.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/admcuso.png}
+    \label{fig:caso-uso-admin}
+\end{figure}
+
+\newpage
+
+\subsection{Requisitos Funcionais}
+
+\begin{itemize}[leftmargin=*, label=--]
+    \item \textbf{RF01:} O sistema permite que o \textbf{vendedor} cadastre expositores com dados como razão social, nome fantasia, CNPJ (com validação em tempo real), e-mail, telefone, endereço completo e descrição. \textbf{Status: Implementado}
+    \item \textbf{RF02:} O sistema permite que o \textbf{vendedor} gerencie oportunidades de vendas através de pipeline visual Kanban com drag and drop, permitindo atualização de status, valores estimados, probabilidade de fechamento e data prevista de fechamento. \textbf{Status: Implementado}
+    \item \textbf{RF03:} O sistema registra o histórico de interações do \textbf{vendedor} com expositores, incluindo chamadas, reuniões, e-mails e visitas, com data, hora, tipo de interação, assunto, descrição e próxima ação. \textbf{Status: Implementado}
+    \item \textbf{RF04:} O sistema permite que o \textbf{vendedor e administrador} visualizem relatórios e dashboards com indicadores de desempenho, incluindo estatísticas gerais, gráficos interativos de atividades, métricas de vendas (metros quadrados, propostas, ganhos) e visualização por período. \textbf{Status: Implementado}
+    \item \textbf{RF05:} O sistema permite que o \textbf{administrador} gerencie usuários com controle de acesso baseado em perfis (Admin, Vendedor, Gerente) através de autenticação JWT e Spring Security. \textbf{Status: Implementado}
+    \item \textbf{RF06:} O sistema permite que o \textbf{vendedor} configure lembretes e tarefas através da agenda de atividades, com marcação de conclusão e histórico completo de atividades por expositor. \textbf{Status: Implementado}
+    \item \textbf{RF07:} O sistema permite que o \textbf{vendedor} gerencie informações de oportunidades associadas a expositores, incluindo título, descrição, valor estimado, fonte da oportunidade e status no pipeline. \textbf{Status: Implementado}
+    \item \textbf{RF08:} O sistema permite que o \textbf{vendedor} registre informações detalhadas nas interações, incluindo valor de proposta e metros quadrados, que podem ser utilizados para análise de preferências dos expositores. \textbf{Status: Implementado}
+    \item \textbf{RF09:} O sistema permite que o \textbf{gerente} visualize dashboards consolidados com métricas de equipe, performance individual através de relatórios de performance de vendedores e análise de oportunidades por status. \textbf{Status: Implementado}
+    \item \textbf{RF10:} O sistema está preparado para exportação de relatórios em formatos PDF e Excel, com endpoints de API prontos, sendo a interface de exportação uma funcionalidade em desenvolvimento. \textbf{Status: Parcialmente Implementado}
+    \item \textbf{RF11:} O sistema permite que o \textbf{vendedor} gerencie um calendário de atividades (agenda) com data de próxima ação, permitindo acompanhamento de follow-ups e marcação de conclusão de tarefas. \textbf{Status: Implementado}
+    \item \textbf{RF12:} O sistema permite que o \textbf{vendedor} registre feedback e observações detalhadas sobre cada expositor e interação através do campo descrição nas interações, melhorando futuras abordagens comerciais. \textbf{Status: Implementado}
+    \item \textbf{RF13:} O sistema inclui um assistente CRM inteligente (chatbot) que permite consultas rápidas sobre o sistema, como próximas reuniões, quantidade de leads e atividades do dia. \textbf{Status: Implementado}
+\end{itemize}
+
+\newpage
+
+\subsection{Requisitos Não Funcionais}
+
+\begin{itemize}[leftmargin=*, label=--]
+    \item \textbf{RNF01:} O sistema utiliza autenticação segura com JWT (jjwt 0.11.5) e criptografia de senhas com BCrypt através do Spring Security, com expiração de tokens configurável. \textbf{Status: Implementado}
+    \item \textbf{RNF02:} O sistema foi desenvolvido com arquitetura modular baseada em API REST, permitindo deploy independente de frontend e backend. A infraestrutura está preparada para escalabilidade horizontal através de AWS Elastic Beanstalk e RDS. \textbf{Status: Implementado}
+    \item \textbf{RNF03:} O sistema apresenta design responsivo desenvolvido com Tailwind CSS, adaptado para dispositivos desktop e mobile, seguindo padrões de usabilidade modernos. \textbf{Status: Implementado}
+    \item \textbf{RNF04:} O sistema foi otimizado para responder a requisições de forma eficiente, com uso de React Query para cache de requisições no frontend e otimizações de queries no backend. \textbf{Status: Implementado}
+    \item \textbf{RNF05:} O sistema está preparado para alta disponibilidade através de deploy em AWS (Elastic Beanstalk, RDS com backups automáticos), com monitoramento de performance configurável. \textbf{Status: Implementado}
+    \item \textbf{RNF06:} O sistema suporta múltiplos usuários simultâneos através de arquitetura stateless com JWT e conexões de banco de dados gerenciadas pelo Spring Data JPA. \textbf{Status: Implementado}
+    \item \textbf{RNF07:} O sistema está configurado para backup automático através de AWS RDS, que oferece backups automáticos configuráveis com retenção personalizável. \textbf{Status: Implementado}
+    \item \textbf{RNF08:} O sistema é compatível com navegadores modernos (Chrome, Firefox, Safari, Edge) através do uso de React 18.2 e padrões web modernos. \textbf{Status: Implementado}
+    \item \textbf{RNF09:} O sistema implementa testes unitários e de integração com JUnit 5 e Mockito, com cobertura de código medida através de JaCoCo, garantindo qualidade e manutenibilidade. \textbf{Status: Implementado}
+    \item \textbf{RNF10:} O sistema implementa validação de dados tanto no frontend (React Hook Form) quanto no backend (Bean Validation), garantindo integridade dos dados. \textbf{Status: Implementado}
+
+\end{itemize}
+
+\subsection{Tecnologias Utilizadas}
+
+\begin{itemize}[leftmargin=*, label=--]
+    \item \textbf{Frontend:} React 18.2, Tailwind CSS 3.2.7, React Router DOM 6.8.1, Axios 1.3.4, React Query 3.39.3, @dnd-kit (drag and drop), CanvasJS 1.8.3, Recharts 2.5.0, Lucide React Icons
+    \item \textbf{Backend:} Spring Boot 3.2.0, Java 17, Spring Data JPA/Hibernate, Spring Security, Maven
+    \item \textbf{Banco de Dados:} PostgreSQL (local e AWS RDS)
+    \item \textbf{Autenticação:} JWT (jjwt 0.11.5), BCrypt para criptografia de senhas
+    \item \textbf{Testes:} JUnit 5, Mockito, JaCoCo (cobertura de testes)
+    \item \textbf{Infraestrutura:} AWS Elastic Beanstalk (backend), AWS RDS PostgreSQL, AWS S3 + CloudFront (frontend)
+\end{itemize}
+
+\newpage
+
+\subsection{Justificativa das Tecnologias}
+
+As tecnologias foram escolhidas visando atender requisitos de desempenho, escalabilidade, segurança e facilidade de manutenção do projeto:
+
+\begin{itemize}[leftmargin=*, label=--]
+    \item \textbf{React 18.2}: Framework amplamente utilizado para o desenvolvimento frontend, oferece alto desempenho na renderização por meio do Virtual DOM, rica comunidade e ecosistema de componentes prontos. A integração com Tailwind CSS facilita a criação de interfaces responsivas e modernas, enquanto React Query otimiza o gerenciamento de estado e cache de requisições.
+    \item \textbf{Spring Boot 3.2.0 (Java 17)}: Escolhido para o backend por proporcionar rapidez no desenvolvimento de aplicações RESTful, robustez e extensões para segurança via Spring Security. A integração com JPA/Hibernate facilita o mapeamento objeto-relacional e a compatibilidade com PostgreSQL, enquanto o Maven gerencia dependências e build do projeto.
+    \item \textbf{PostgreSQL}: Banco de dados relacional maduro e confiável, com forte suporte a integridade referencial, transações ACID, extensões como JSONB para dados semiestruturados e recursos avançados para otimização de consultas. A compatibilidade com AWS RDS permite escalabilidade e alta disponibilidade em produção.
+    \item \textbf{JWT (jjwt 0.11.5)}: Token JWT é um padrão consolidado para autenticação stateless, permitindo fácil integração com APIs e escalabilidade horizontal, já que a validação do token independe de sessão armazenada em servidor. A criptografia de senhas com BCrypt garante segurança adicional.
+    \item \textbf{Tailwind CSS}: Framework CSS utility-first que acelera o desenvolvimento de interfaces responsivas e modernas, permitindo estilização rápida sem necessidade de CSS customizado extensivo.
+    \item \textbf{@dnd-kit}: Biblioteca moderna para implementação de drag and drop no pipeline Kanban, oferecendo melhor performance e acessibilidade comparado a soluções antigas.
+    \item \textbf{CanvasJS e Recharts}: Bibliotecas de gráficos que permitem visualização interativa de dados no dashboard, facilitando análise de métricas e performance.
+\end{itemize}
+
+\newpage
+\section{Status de Implementação e Próximos Passos}
+
+\subsection*{Funcionalidades Implementadas}
+
+O sistema foi completamente desenvolvido e implementado, incluindo:
+
+\begin{itemize}[leftmargin=*, label=--]
+    \item \textbf{Backend:} API REST completa com Spring Boot 3.2.0, incluindo módulos de autenticação, expositores, oportunidades, interações, agenda, dashboard, relatórios e assistente CRM.
+    \item \textbf{Frontend:} Interface completa desenvolvida com React 18.2, incluindo páginas de login, dashboard, pipeline Kanban, gestão de expositores, agenda, relatórios e chatbot.
+    \item \textbf{Banco de Dados:} Estrutura completa com entidades relacionadas (Usuario, Expositor, Oportunidade, Interacao) e relacionamentos configurados.
+    \item \textbf{Autenticação:} Sistema de autenticação JWT implementado com Spring Security e criptografia BCrypt.
+    \item \textbf{Testes:} Cobertura de testes unitários e de integração com JUnit 5, Mockito e JaCoCo.
+    \item \textbf{Deploy:} Configuração para deploy em AWS (Elastic Beanstalk, RDS, S3, CloudFront).
+\end{itemize}
+
+\subsection*{Melhorias e Funcionalidades Futuras}
+
+\begin{itemize}[leftmargin=*, label=--]
+    \item \textbf{Exportação de Relatórios:} Finalizar implementação da exportação de relatórios em PDF e Excel na interface do usuário.
+    \item \textbf{Performance:} Implementar cache Redis para consultas frequentes e otimização adicional de queries do banco de dados.
+    \item \textbf{Notificações:} Implementar notificações push para lembretes e follow-ups automáticos.
+    \item \textbf{Integrações:} Desenvolver integrações com calendários externos (Google Calendar, Outlook) e sistemas de pagamento.
+    \item \textbf{Segurança Avançada:} Implementar autenticação de dois fatores (2FA), rate limiting nas APIs e auditoria completa de ações.
+    \item \textbf{Mobile:} Desenvolver aplicativo mobile com React Native para acesso offline e notificações mobile.
+    \item \textbf{Dashboard Customizável:} Permitir que usuários personalizem seus dashboards com widgets configuráveis.
+\end{itemize}
+
+
+\section{Referências}
+
+\begin{itemize}[leftmargin=*, label=--]
+    \item \texttt{https://spring.io/projects/spring-boot}
+    \item \texttt{https://www.postgresql.org/docs/}
+    \item \texttt{https://reactjs.org}
+    \item \texttt{https://tailwindcss.com}
+    \item \texttt{https://tanstack.com/query}
+    \item \texttt{https://jwt.io/introduction}
+    \item \texttt{https://owasp.org/www-project-top-ten/}
+    \item \texttt{https://github.com/kelektiv/node.bcrypt.js}
+    \item \texttt{https://docs.dndkit.com}
+    \item \texttt{https://canvasjs.com}
+    \item \texttt{https://recharts.org}
+    \item Fielding, Roy T. \textit{Architectural Styles and the Design of Network-based Software Architectures}, 2000.
+    \item Martin, Robert C. \textit{Clean Architecture}, 2017.
+    \item AWS Documentation. \textit{Amazon RDS User Guide}. Disponível em: \texttt{https://docs.aws.amazon.com/rds}
+    \item AWS Documentation. \textit{Elastic Beanstalk Developer Guide}. Disponível em: \texttt{https://docs.aws.amazon.com/elasticbeanstalk}
+\end{itemize}
+
+\section{Avaliações de Professores}
+
+\begin{flushleft}
+Assinatura Prof Edicarsia:
+
+\vspace{1cm}
+
+Assinatura Prof Camargo:
+
+\vspace{1cm}
+
+Assinatura Prof Manseira:
+\end{flushleft}
+
+
+\end{document}
+
