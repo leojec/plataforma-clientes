@@ -19,6 +19,7 @@ com/crmshot/controller/AuthController.class
 com/crmshot/controller/DashboardController.class
 com/crmshot/CrmshotApplication.class
 com/crmshot/repository/OportunidadeRepository.class
+com/crmshot/config/RdsConfig.class
 com/crmshot/controller/AgendaController.class
 com/crmshot/dto/LoginResponse$UsuarioInfo.class
 com/crmshot/security/JwtUtil.class
@@ -28,7 +29,10 @@ com/crmshot/service/UsuarioService.class
 com/crmshot/entity/Expositor$StatusExpositor.class
 com/crmshot/entity/Oportunidade$StatusOportunidade.class
 com/crmshot/controller/AgendaController$1.class
+com/crmshot/controller/HealthController.class
 com/crmshot/entity/Oportunidade.class
 com/crmshot/controller/OportunidadeController.class
 com/crmshot/config/DataLoader.class
 com/crmshot/controller/CnpjController.class
+com/crmshot/config/RdsConfig$RdsConnectionConfig.class
+com/crmshot/controller/AgendaController$AtividadeRequest.class

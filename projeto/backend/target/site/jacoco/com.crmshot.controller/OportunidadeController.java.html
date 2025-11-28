@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OportunidadeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">crmshot-backend</a> &gt; <a href="index.source.html" class="el_package">com.crmshot.controller</a> &gt; <span class="el_source">OportunidadeController.java</span></div><h1>OportunidadeController.java</h1><pre class="source lang-java linenums">package com.crmshot.controller;
+
+import com.crmshot.entity.Oportunidade;
+import com.crmshot.entity.Expositor;
+import com.crmshot.entity.Usuario;
+import com.crmshot.repository.OportunidadeRepository;
+import com.crmshot.repository.ExpositorRepository;
+import com.crmshot.repository.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.*;
+
+@RestController
+@RequestMapping(&quot;/api/oportunidades&quot;)
+@CrossOrigin(origins = &quot;*&quot;)
+<span class="fc" id="L22">public class OportunidadeController {</span>
+    
+<span class="fc" id="L24">    private static final Logger logger = LoggerFactory.getLogger(OportunidadeController.class);</span>
+    private static final String KEY_TITULO = &quot;titulo&quot;;
+    private static final String KEY_STATUS = &quot;status&quot;;
+    private static final String KEY_VALOR_ESTIMADO = &quot;valorEstimado&quot;;
+    
+    @Autowired
+    private OportunidadeRepository oportunidadeRepository;
+    
+    @Autowired
+    private ExpositorRepository expositorRepository;
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    
+    @GetMapping
+    public ResponseEntity&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt; listarOportunidades() {
+        try {
+<span class="fc" id="L41">            List&lt;Oportunidade&gt; oportunidades = oportunidadeRepository.findAll();</span>
+            
+<span class="fc" id="L43">            List&lt;Map&lt;String, Object&gt;&gt; oportunidadesSimples = oportunidades.stream()</span>
+<span class="fc" id="L44">                .map(oportunidade -&gt; {</span>
+<span class="fc" id="L45">                    Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L46">                    map.put(&quot;id&quot;, oportunidade.getId());</span>
+<span class="fc" id="L47">                    map.put(KEY_TITULO, oportunidade.getTitulo());</span>
+<span class="fc" id="L48">                    map.put(&quot;descricao&quot;, oportunidade.getDescricao());</span>
+<span class="fc" id="L49">                    map.put(KEY_STATUS, oportunidade.getStatus());</span>
+<span class="fc" id="L50">                    map.put(&quot;fonte&quot;, oportunidade.getFonte());</span>
+<span class="fc" id="L51">                    map.put(KEY_VALOR_ESTIMADO, oportunidade.getValorEstimado());</span>
+<span class="fc" id="L52">                    map.put(&quot;probabilidadeFechamento&quot;, oportunidade.getProbabilidadeFechamento());</span>
+<span class="fc" id="L53">                    map.put(&quot;dataPrevistaFechamento&quot;, oportunidade.getDataPrevistaFechamento());</span>
+<span class="fc" id="L54">                    map.put(&quot;dataCriacao&quot;, oportunidade.getDataCriacao());</span>
+                    
+                    // Informações do expositor
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                    if (oportunidade.getExpositor() != null) {</span>
+<span class="fc" id="L58">                        Map&lt;String, Object&gt; expositor = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L59">                        expositor.put(&quot;id&quot;, oportunidade.getExpositor().getId());</span>
+<span class="fc" id="L60">                        expositor.put(&quot;nomeFantasia&quot;, oportunidade.getExpositor().getNomeFantasia());</span>
+<span class="fc" id="L61">                        expositor.put(&quot;razaoSocial&quot;, oportunidade.getExpositor().getRazaoSocial());</span>
+<span class="fc" id="L62">                        map.put(&quot;expositor&quot;, expositor);</span>
+                    }
+                    
+                    // Informações do vendedor
+<span class="fc bfc" id="L66" title="All 2 branches covered.">                    if (oportunidade.getVendedor() != null) {</span>
+<span class="fc" id="L67">                        Map&lt;String, Object&gt; vendedor = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L68">                        vendedor.put(&quot;id&quot;, oportunidade.getVendedor().getId());</span>
+<span class="fc" id="L69">                        vendedor.put(&quot;nome&quot;, oportunidade.getVendedor().getNome());</span>
+<span class="fc" id="L70">                        vendedor.put(&quot;email&quot;, oportunidade.getVendedor().getEmail());</span>
+<span class="fc" id="L71">                        map.put(&quot;vendedor&quot;, vendedor);</span>
+                    }
+                    
+<span class="fc" id="L74">                    return map;</span>
+                })
+<span class="fc" id="L76">                .collect(java.util.stream.Collectors.toList());</span>
+            
+<span class="fc" id="L78">            return ResponseEntity.ok(oportunidadesSimples);</span>
+<span class="fc" id="L79">        } catch (Exception e) {</span>
+<span class="fc" id="L80">            logger.error(&quot;Erro ao listar oportunidades: {}&quot;, e.getMessage(), e);</span>
+<span class="fc" id="L81">            return ResponseEntity.internalServerError().build();</span>
+        }
+    }
+    
+    @PostMapping(&quot;/criar-exemplo&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; criarOportunidadesExemplo() {
+        try {
+            // Buscar expositores e vendedores existentes
+<span class="fc" id="L89">            List&lt;Expositor&gt; expositores = expositorRepository.findAll();</span>
+<span class="fc" id="L90">            List&lt;Usuario&gt; vendedores = usuarioRepository.findByAtivoTrue();</span>
+            
+<span class="pc bpc" id="L92" title="1 of 4 branches missed.">            if (expositores.isEmpty() || vendedores.isEmpty()) {</span>
+<span class="fc" id="L93">                Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L94">                errorResponse.put(&quot;erro&quot;, &quot;Não há expositores ou vendedores cadastrados&quot;);</span>
+<span class="fc" id="L95">                return ResponseEntity.badRequest().body(errorResponse);</span>
+            }
+            
+<span class="fc" id="L98">            List&lt;Oportunidade&gt; oportunidadesCriadas = new ArrayList&lt;&gt;();</span>
+            
+            // Criar oportunidades de exemplo
+<span class="fc" id="L101">            Oportunidade op1 = new Oportunidade();</span>
+<span class="fc" id="L102">            op1.setTitulo(&quot;Stand Principal - Feira ABC 2025&quot;);</span>
+<span class="fc" id="L103">            op1.setDescricao(&quot;Oportunidade para stand principal na feira ABC 2025&quot;);</span>
+<span class="fc" id="L104">            op1.setExpositor(expositores.get(0));</span>
+<span class="fc" id="L105">            op1.setVendedor(vendedores.get(0));</span>
+<span class="fc" id="L106">            op1.setStatus(Oportunidade.StatusOportunidade.PROSPECCAO);</span>
+<span class="fc" id="L107">            op1.setFonte(Oportunidade.FonteOportunidade.INDICACAO);</span>
+<span class="fc" id="L108">            op1.setValorEstimado(new BigDecimal(&quot;50000.00&quot;));</span>
+<span class="fc" id="L109">            op1.setProbabilidadeFechamento(25);</span>
+<span class="fc" id="L110">            op1.setDataPrevistaFechamento(LocalDateTime.now().plusMonths(2));</span>
+<span class="fc" id="L111">            oportunidadesCriadas.add(oportunidadeRepository.save(op1));</span>
+            
+<span class="fc" id="L113">            Oportunidade op2 = new Oportunidade();</span>
+<span class="fc" id="L114">            op2.setTitulo(&quot;Stand Secundário - Evento XYZ&quot;);</span>
+<span class="fc" id="L115">            op2.setDescricao(&quot;Oportunidade para stand secundário no evento XYZ&quot;);</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">            op2.setExpositor(expositores.size() &gt; 1 ? expositores.get(1) : expositores.get(0));</span>
+<span class="fc" id="L117">            op2.setVendedor(vendedores.get(0));</span>
+<span class="fc" id="L118">            op2.setStatus(Oportunidade.StatusOportunidade.QUALIFICACAO);</span>
+<span class="fc" id="L119">            op2.setFonte(Oportunidade.FonteOportunidade.SITE);</span>
+<span class="fc" id="L120">            op2.setValorEstimado(new BigDecimal(&quot;25000.00&quot;));</span>
+<span class="fc" id="L121">            op2.setProbabilidadeFechamento(50);</span>
+<span class="fc" id="L122">            op2.setDataPrevistaFechamento(LocalDateTime.now().plusMonths(1));</span>
+<span class="fc" id="L123">            oportunidadesCriadas.add(oportunidadeRepository.save(op2));</span>
+            
+<span class="fc" id="L125">            Oportunidade op3 = new Oportunidade();</span>
+<span class="fc" id="L126">            op3.setTitulo(&quot;Stand Premium - Feira Internacional&quot;);</span>
+<span class="fc" id="L127">            op3.setDescricao(&quot;Oportunidade para stand premium na feira internacional&quot;);</span>
+<span class="fc" id="L128">            op3.setExpositor(expositores.get(0));</span>
+<span class="fc" id="L129">            op3.setVendedor(vendedores.get(0));</span>
+<span class="fc" id="L130">            op3.setStatus(Oportunidade.StatusOportunidade.PROPOSTA);</span>
+<span class="fc" id="L131">            op3.setFonte(Oportunidade.FonteOportunidade.TELEFONE);</span>
+<span class="fc" id="L132">            op3.setValorEstimado(new BigDecimal(&quot;100000.00&quot;));</span>
+<span class="fc" id="L133">            op3.setProbabilidadeFechamento(75);</span>
+<span class="fc" id="L134">            op3.setDataPrevistaFechamento(LocalDateTime.now().plusMonths(3));</span>
+<span class="fc" id="L135">            oportunidadesCriadas.add(oportunidadeRepository.save(op3));</span>
+            
+<span class="fc" id="L137">            Oportunidade op4 = new Oportunidade();</span>
+<span class="fc" id="L138">            op4.setTitulo(&quot;Stand Básico - Evento Regional&quot;);</span>
+<span class="fc" id="L139">            op4.setDescricao(&quot;Oportunidade para stand básico no evento regional&quot;);</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">            op4.setExpositor(expositores.size() &gt; 1 ? expositores.get(1) : expositores.get(0));</span>
+<span class="fc" id="L141">            op4.setVendedor(vendedores.get(0));</span>
+<span class="fc" id="L142">            op4.setStatus(Oportunidade.StatusOportunidade.FECHADA_GANHA);</span>
+<span class="fc" id="L143">            op4.setFonte(Oportunidade.FonteOportunidade.EMAIL);</span>
+<span class="fc" id="L144">            op4.setValorEstimado(new BigDecimal(&quot;15000.00&quot;));</span>
+<span class="fc" id="L145">            op4.setProbabilidadeFechamento(100);</span>
+<span class="fc" id="L146">            op4.setDataPrevistaFechamento(LocalDateTime.now().minusDays(10));</span>
+<span class="fc" id="L147">            op4.setDataFechamento(LocalDateTime.now().minusDays(5));</span>
+<span class="fc" id="L148">            oportunidadesCriadas.add(oportunidadeRepository.save(op4));</span>
+            
+<span class="fc" id="L150">            Oportunidade op5 = new Oportunidade();</span>
+<span class="fc" id="L151">            op5.setTitulo(&quot;Stand Corporativo - Feira Empresarial&quot;);</span>
+<span class="fc" id="L152">            op5.setDescricao(&quot;Oportunidade para stand corporativo na feira empresarial&quot;);</span>
+<span class="fc" id="L153">            op5.setExpositor(expositores.get(0));</span>
+<span class="fc" id="L154">            op5.setVendedor(vendedores.get(0));</span>
+<span class="fc" id="L155">            op5.setStatus(Oportunidade.StatusOportunidade.FECHADA_PERDIDA);</span>
+<span class="fc" id="L156">            op5.setFonte(Oportunidade.FonteOportunidade.REDE_SOCIAL);</span>
+<span class="fc" id="L157">            op5.setValorEstimado(new BigDecimal(&quot;30000.00&quot;));</span>
+<span class="fc" id="L158">            op5.setProbabilidadeFechamento(0);</span>
+<span class="fc" id="L159">            op5.setDataPrevistaFechamento(LocalDateTime.now().minusDays(20));</span>
+<span class="fc" id="L160">            op5.setDataFechamento(LocalDateTime.now().minusDays(15));</span>
+<span class="fc" id="L161">            oportunidadesCriadas.add(oportunidadeRepository.save(op5));</span>
+            
+<span class="fc" id="L163">            Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L164">            response.put(&quot;sucesso&quot;, true);</span>
+<span class="fc" id="L165">            response.put(&quot;mensagem&quot;, &quot;Oportunidades de exemplo criadas com sucesso&quot;);</span>
+<span class="fc" id="L166">            response.put(&quot;totalCriadas&quot;, oportunidadesCriadas.size());</span>
+<span class="fc" id="L167">            response.put(&quot;oportunidades&quot;, oportunidadesCriadas.stream().map(op -&gt; {</span>
+<span class="fc" id="L168">                Map&lt;String, Object&gt; opData = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L169">                opData.put(&quot;id&quot;, op.getId());</span>
+<span class="fc" id="L170">                opData.put(KEY_TITULO, op.getTitulo());</span>
+<span class="fc" id="L171">                opData.put(KEY_STATUS, op.getStatus());</span>
+<span class="fc" id="L172">                opData.put(KEY_VALOR_ESTIMADO, op.getValorEstimado());</span>
+<span class="fc" id="L173">                return opData;</span>
+<span class="fc" id="L174">            }).collect(java.util.stream.Collectors.toList()));</span>
+            
+<span class="fc" id="L176">            return ResponseEntity.ok(response);</span>
+            
+<span class="nc" id="L178">        } catch (Exception e) {</span>
+<span class="nc" id="L179">            Map&lt;String, Object&gt; errorResponse = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L180">            errorResponse.put(&quot;erro&quot;, &quot;Erro ao criar oportunidades de exemplo: &quot; + e.getMessage());</span>
+<span class="nc" id="L181">            return ResponseEntity.badRequest().body(errorResponse);</span>
+        }
+    }
+    
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; buscarOportunidade(@PathVariable Long id) {
+        try {
+<span class="fc" id="L188">            Optional&lt;Oportunidade&gt; oportunidadeOpt = oportunidadeRepository.findById(id);</span>
+            
+<span class="fc bfc" id="L190" title="All 2 branches covered.">            if (oportunidadeOpt.isPresent()) {</span>
+<span class="fc" id="L191">                Oportunidade oportunidade = oportunidadeOpt.get();</span>
+                
+<span class="fc" id="L193">                Map&lt;String, Object&gt; oportunidadeSimples = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L194">                oportunidadeSimples.put(&quot;id&quot;, oportunidade.getId());</span>
+<span class="fc" id="L195">                oportunidadeSimples.put(KEY_TITULO, oportunidade.getTitulo());</span>
+<span class="fc" id="L196">                oportunidadeSimples.put(&quot;descricao&quot;, oportunidade.getDescricao());</span>
+<span class="fc" id="L197">                oportunidadeSimples.put(KEY_STATUS, oportunidade.getStatus());</span>
+<span class="fc" id="L198">                oportunidadeSimples.put(&quot;fonte&quot;, oportunidade.getFonte());</span>
+<span class="fc" id="L199">                oportunidadeSimples.put(KEY_VALOR_ESTIMADO, oportunidade.getValorEstimado());</span>
+<span class="fc" id="L200">                oportunidadeSimples.put(&quot;probabilidadeFechamento&quot;, oportunidade.getProbabilidadeFechamento());</span>
+<span class="fc" id="L201">                oportunidadeSimples.put(&quot;dataPrevistaFechamento&quot;, oportunidade.getDataPrevistaFechamento());</span>
+<span class="fc" id="L202">                oportunidadeSimples.put(&quot;dataCriacao&quot;, oportunidade.getDataCriacao());</span>
+                
+                // Informações do expositor
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">                if (oportunidade.getExpositor() != null) {</span>
+<span class="fc" id="L206">                    Map&lt;String, Object&gt; expositor = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L207">                    expositor.put(&quot;id&quot;, oportunidade.getExpositor().getId());</span>
+<span class="fc" id="L208">                    expositor.put(&quot;nomeFantasia&quot;, oportunidade.getExpositor().getNomeFantasia());</span>
+<span class="fc" id="L209">                    expositor.put(&quot;razaoSocial&quot;, oportunidade.getExpositor().getRazaoSocial());</span>
+<span class="fc" id="L210">                    oportunidadeSimples.put(&quot;expositor&quot;, expositor);</span>
+                }
+                
+                // Informações do vendedor
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">                if (oportunidade.getVendedor() != null) {</span>
+<span class="fc" id="L215">                    Map&lt;String, Object&gt; vendedor = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L216">                    vendedor.put(&quot;id&quot;, oportunidade.getVendedor().getId());</span>
+<span class="fc" id="L217">                    vendedor.put(&quot;nome&quot;, oportunidade.getVendedor().getNome());</span>
+<span class="fc" id="L218">                    vendedor.put(&quot;email&quot;, oportunidade.getVendedor().getEmail());</span>
+<span class="fc" id="L219">                    oportunidadeSimples.put(&quot;vendedor&quot;, vendedor);</span>
+                }
+                
+<span class="fc" id="L222">                return ResponseEntity.ok(oportunidadeSimples);</span>
+            } else {
+<span class="fc" id="L224">                return ResponseEntity.notFound().build();</span>
+            }
+<span class="fc" id="L226">        } catch (Exception e) {</span>
+<span class="fc" id="L227">            logger.error(&quot;Erro ao buscar oportunidade: {}&quot;, e.getMessage(), e);</span>
+<span class="fc" id="L228">            return ResponseEntity.internalServerError().build();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

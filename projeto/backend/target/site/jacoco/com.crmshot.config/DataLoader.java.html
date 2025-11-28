@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataLoader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">crmshot-backend</a> &gt; <a href="index.source.html" class="el_package">com.crmshot.config</a> &gt; <span class="el_source">DataLoader.java</span></div><h1>DataLoader.java</h1><pre class="source lang-java linenums">package com.crmshot.config;
+
+import com.crmshot.entity.Usuario;
+import com.crmshot.repository.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+
+@Component
+public class DataLoader implements CommandLineRunner {
+
+<span class="fc" id="L17">    private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);</span>
+
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final String defaultAdminPassword;
+    private final String defaultUserPassword;
+
+    public DataLoader(
+            UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder,
+            @Value(&quot;${app.default.admin.password:${DEFAULT_ADMIN_PASSWORD:}}&quot;) String defaultAdminPassword,
+<span class="fc" id="L28">            @Value(&quot;${app.default.user.password:${DEFAULT_USER_PASSWORD:}}&quot;) String defaultUserPassword) {</span>
+<span class="fc" id="L29">        this.usuarioRepository = usuarioRepository;</span>
+<span class="fc" id="L30">        this.passwordEncoder = passwordEncoder;</span>
+<span class="fc" id="L31">        this.defaultAdminPassword = defaultAdminPassword;</span>
+<span class="fc" id="L32">        this.defaultUserPassword = defaultUserPassword;</span>
+<span class="fc" id="L33">    }</span>
+
+    @Override
+    public void run(String... args) throws Exception {
+        // Verificar se já existem usuários para evitar limpeza desnecessária
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (usuarioRepository.count() &gt; 0) {</span>
+<span class="fc" id="L39">            logger.info(&quot;Banco já possui dados. DataLoader não executará limpeza.&quot;);</span>
+<span class="fc" id="L40">            return;</span>
+        }
+        
+<span class="fc" id="L43">        logger.info(&quot;Primeira execução: Criando usuários básicos...&quot;);</span>
+        
+        // Validar que as senhas padrão estão configuradas
+<span class="pc bpc" id="L46" title="1 of 4 branches missed.">        if (defaultAdminPassword == null || defaultAdminPassword.isEmpty()) {</span>
+<span class="fc" id="L47">            logger.warn(&quot;DEFAULT_ADMIN_PASSWORD não configurado. Usuários padrão não serão criados.&quot;);</span>
+<span class="fc" id="L48">            logger.warn(&quot;Configure a variável de ambiente DEFAULT_ADMIN_PASSWORD para criar usuários padrão.&quot;);</span>
+<span class="fc" id="L49">            return;</span>
+        }
+        
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">        if (defaultUserPassword == null || defaultUserPassword.isEmpty()) {</span>
+<span class="fc" id="L53">            logger.warn(&quot;DEFAULT_USER_PASSWORD não configurado. Usuários padrão não serão criados.&quot;);</span>
+<span class="fc" id="L54">            logger.warn(&quot;Configure a variável de ambiente DEFAULT_USER_PASSWORD para criar usuários padrão.&quot;);</span>
+<span class="fc" id="L55">            return;</span>
+        }
+        
+        // Criar apenas usuários básicos
+<span class="fc" id="L59">        Usuario admin = new Usuario();</span>
+<span class="fc" id="L60">        admin.setNome(&quot;Administrador&quot;);</span>
+<span class="fc" id="L61">        admin.setEmail(&quot;admin@crmshot.com&quot;);</span>
+<span class="fc" id="L62">        admin.setSenha(passwordEncoder.encode(defaultAdminPassword));</span>
+<span class="fc" id="L63">        admin.setPerfil(Usuario.PerfilUsuario.ADMINISTRADOR);</span>
+<span class="fc" id="L64">        admin.setAtivo(true);</span>
+<span class="fc" id="L65">        admin.setDataCriacao(LocalDateTime.now());</span>
+<span class="fc" id="L66">        usuarioRepository.save(admin);</span>
+
+<span class="fc" id="L68">        Usuario vendedor1 = new Usuario();</span>
+<span class="fc" id="L69">        vendedor1.setNome(&quot;João Silva&quot;);</span>
+<span class="fc" id="L70">        vendedor1.setEmail(&quot;joao@crmshot.com&quot;);</span>
+<span class="fc" id="L71">        vendedor1.setSenha(passwordEncoder.encode(defaultUserPassword));</span>
+<span class="fc" id="L72">        vendedor1.setPerfil(Usuario.PerfilUsuario.VENDEDOR);</span>
+<span class="fc" id="L73">        vendedor1.setAtivo(true);</span>
+<span class="fc" id="L74">        vendedor1.setDataCriacao(LocalDateTime.now());</span>
+<span class="fc" id="L75">        usuarioRepository.save(vendedor1);</span>
+
+<span class="fc" id="L77">        Usuario vendedor2 = new Usuario();</span>
+<span class="fc" id="L78">        vendedor2.setNome(&quot;Maria Santos&quot;);</span>
+<span class="fc" id="L79">        vendedor2.setEmail(&quot;maria@crmshot.com&quot;);</span>
+<span class="fc" id="L80">        vendedor2.setSenha(passwordEncoder.encode(defaultUserPassword));</span>
+<span class="fc" id="L81">        vendedor2.setPerfil(Usuario.PerfilUsuario.VENDEDOR);</span>
+<span class="fc" id="L82">        vendedor2.setAtivo(true);</span>
+<span class="fc" id="L83">        vendedor2.setDataCriacao(LocalDateTime.now());</span>
+<span class="fc" id="L84">        usuarioRepository.save(vendedor2);</span>
+
+<span class="fc" id="L86">        logger.info(&quot;Banco limpo! Apenas usuários básicos criados.&quot;);</span>
+<span class="fc" id="L87">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

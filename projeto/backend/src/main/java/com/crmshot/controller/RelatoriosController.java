@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,6 +16,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/relatorios")
 @CrossOrigin(origins = "*")
 public class RelatoriosController {
+
+    private static final String KEY_DADOS = "dados";
 
     @Autowired
     private ExpositorRepository expositorRepository;
@@ -71,7 +72,7 @@ public class RelatoriosController {
             }
         }
         
-        resultado.put("dados", dados);
+        resultado.put(KEY_DADOS, dados);
         return resultado;
     }
 
@@ -117,7 +118,7 @@ public class RelatoriosController {
             dados.add(item);
         }
         
-        resultado.put("dados", dados);
+        resultado.put(KEY_DADOS, dados);
         return resultado;
     }
 
@@ -162,7 +163,7 @@ public class RelatoriosController {
             dados.add(vendedorData);
         }
         
-        resultado.put("dados", dados);
+        resultado.put(KEY_DADOS, dados);
         return resultado;
     }
 
@@ -225,7 +226,7 @@ public class RelatoriosController {
             dados.add(item);
         }
         
-        resultado.put("dados", dados);
+        resultado.put(KEY_DADOS, dados);
         resultado.put("totalAtividades", atividades.size());
         resultado.put("periodo", meses + " meses");
         

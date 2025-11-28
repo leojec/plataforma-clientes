@@ -248,6 +248,110 @@ class ExpositorControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
+
+    @Test
+    void testAtualizarStatus_DiferentesStatus() {
+        when(expositorService.buscarPorId(1L)).thenReturn(Optional.of(expositor));
+        when(expositorService.atualizarExpositor(any(Expositor.class))).thenReturn(expositor);
+
+        String[] statuses = {"Lead", "Em Andamento", "Em Negociação", "Stand Fechado"};
+        
+        for (String status : statuses) {
+            Map<String, String> statusData = new java.util.HashMap<>();
+            statusData.put("status", status);
+
+            ResponseEntity<Map<String, Object>> response = expositorController.atualizarStatus(1L, statusData);
+
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+        }
+    }
+
+    @Test
+    void testAtualizarStatus_StatusInvalido() {
+        when(expositorService.buscarPorId(1L)).thenReturn(Optional.of(expositor));
+
+        Map<String, String> statusData = new java.util.HashMap<>();
+        statusData.put("status", "Status Invalido");
+
+        ResponseEntity<Map<String, Object>> response = expositorController.atualizarStatus(1L, statusData);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testAtualizarStatus_Exception() {
+        when(expositorService.buscarPorId(1L)).thenReturn(Optional.of(expositor));
+        when(expositorService.atualizarExpositor(any(Expositor.class))).thenThrow(new RuntimeException("Erro"));
+
+        Map<String, String> statusData = new java.util.HashMap<>();
+        statusData.put("status", "Em Andamento");
+
+        ResponseEntity<Map<String, Object>> response = expositorController.atualizarStatus(1L, statusData);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    void testListarExpositores_ComVendedor() {
+        expositor.setVendedor(vendedor);
+        List<Expositor> expositores = Arrays.asList(expositor);
+        when(expositorService.listarExpositores()).thenReturn(expositores);
+
+        ResponseEntity<List<Map<String, Object>>> response = expositorController.listarExpositores();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().get(0).containsKey("vendedor"));
+    }
+
+    @Test
+    void testListarExpositores_SemVendedor() {
+        expositor.setVendedor(null);
+        List<Expositor> expositores = Arrays.asList(expositor);
+        when(expositorService.listarExpositores()).thenReturn(expositores);
+
+        ResponseEntity<List<Map<String, Object>>> response = expositorController.listarExpositores();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertFalse(response.getBody().get(0).containsKey("vendedor"));
+    }
+
+    @Test
+    void testBuscarExpositor_ComVendedor() {
+        expositor.setVendedor(vendedor);
+        when(expositorService.buscarPorId(1L)).thenReturn(Optional.of(expositor));
+
+        ResponseEntity<?> response = expositorController.buscarExpositor(1L);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testBuscarExpositor_Exception() {
+        when(expositorService.buscarPorId(1L)).thenThrow(new RuntimeException("Erro"));
+
+        ResponseEntity<?> response = expositorController.buscarExpositor(1L);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    void testAtualizarExpositor_Exception() {
+        when(expositorService.atualizarExpositor(1L, request))
+                .thenThrow(new RuntimeException("Erro ao atualizar"));
+
+        ResponseEntity<?> response = expositorController.atualizarExpositor(1L, request);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testExcluirExpositor_Exception() {
+        doThrow(new RuntimeException("Erro")).when(expositorService).excluirExpositor(1L);
+
+        ResponseEntity<?> response = expositorController.excluirExpositor(1L);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
 }
 
 

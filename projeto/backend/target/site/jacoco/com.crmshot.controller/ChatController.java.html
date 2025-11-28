@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">crmshot-backend</a> &gt; <a href="index.source.html" class="el_package">com.crmshot.controller</a> &gt; <span class="el_source">ChatController.java</span></div><h1>ChatController.java</h1><pre class="source lang-java linenums">package com.crmshot.controller;
+
+import com.crmshot.entity.Interacao;
+import com.crmshot.entity.Expositor;
+import com.crmshot.repository.InteracaoRepository;
+import com.crmshot.repository.ExpositorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping(&quot;/api/chat&quot;)
+@CrossOrigin(origins = &quot;*&quot;)
+<span class="fc" id="L19">public class ChatController {</span>
+
+    @Autowired
+    private InteracaoRepository interacaoRepository;
+
+    @Autowired
+    private ExpositorRepository expositorRepository;
+
+    @PostMapping(&quot;/perguntar&quot;)
+    public ResponseEntity&lt;Map&lt;String, String&gt;&gt; processarPergunta(@RequestBody Map&lt;String, String&gt; request) {
+<span class="fc" id="L29">        String pergunta = request.get(&quot;pergunta&quot;).toLowerCase();</span>
+        
+        try {
+<span class="fc" id="L32">            String resposta = processarPerguntaInterna(pergunta);</span>
+<span class="fc" id="L33">            return buildRespostaResponse(resposta);</span>
+<span class="nc" id="L34">        } catch (Exception e) {</span>
+<span class="nc" id="L35">            return buildErrorResponse();</span>
+        }
+    }
+
+    private String processarPerguntaInterna(String pergunta) {
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (isPerguntaProximaReuniao(pergunta)) {</span>
+<span class="fc" id="L41">            return buscarProximaReuniao();</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        } else if (isPerguntaQuantosLeads(pergunta)) {</span>
+<span class="fc" id="L43">            return contarLeads();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        } else if (isPerguntaAtividadesHoje(pergunta)) {</span>
+<span class="fc" id="L45">            return buscarAtividadesHoje();</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        } else if (isPerguntaValorPropostas(pergunta)) {</span>
+<span class="fc" id="L47">            return buscarValorPropostas();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        } else if (isPerguntaUltimaAtividade(pergunta)) {</span>
+<span class="fc" id="L49">            return buscarUltimaAtividade();</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        } else if (isPerguntaAtividadesPendentes(pergunta)) {</span>
+<span class="fc" id="L51">            return buscarAtividadesPendentes();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        } else if (isPerguntaMetrosVendidos(pergunta)) {</span>
+<span class="fc" id="L53">            return buscarMetrosVendidos();</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        } else if (isPerguntaResumo(pergunta)) {</span>
+<span class="fc" id="L55">            return gerarResumo();</span>
+        } else {
+<span class="fc" id="L57">            return getMensagemAjuda();</span>
+        }
+    }
+
+    private boolean isPerguntaProximaReuniao(String pergunta) {
+<span class="pc bpc" id="L62" title="1 of 4 branches missed.">        return pergunta.contains(&quot;próxima reunião&quot;) || pergunta.contains(&quot;proxima reuniao&quot;) || </span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">               pergunta.contains(&quot;próximo encontro&quot;) || </span>
+<span class="pc bpc" id="L64" title="3 of 4 branches missed.">               (pergunta.contains(&quot;quando&quot;) &amp;&amp; pergunta.contains(&quot;reunião&quot;));</span>
+    }
+
+    private boolean isPerguntaQuantosLeads(String pergunta) {
+<span class="fc bfc" id="L68" title="All 4 branches covered.">        return pergunta.contains(&quot;quantos leads&quot;) || pergunta.contains(&quot;quantidade de leads&quot;) ||</span>
+<span class="pc bpc" id="L69" title="2 of 4 branches missed.">               pergunta.contains(&quot;quantos clientes&quot;) || pergunta.contains(&quot;total de leads&quot;);</span>
+    }
+
+    private boolean isPerguntaAtividadesHoje(String pergunta) {
+<span class="pc bpc" id="L73" title="1 of 4 branches missed.">        return pergunta.contains(&quot;atividades hoje&quot;) || pergunta.contains(&quot;atividade hoje&quot;) ||</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">               pergunta.contains(&quot;o que tenho hoje&quot;);</span>
+    }
+
+    private boolean isPerguntaValorPropostas(String pergunta) {
+<span class="pc bpc" id="L78" title="3 of 6 branches missed.">        return pergunta.contains(&quot;propostas&quot;) &amp;&amp; (pergunta.contains(&quot;valor&quot;) || pergunta.contains(&quot;quanto&quot;));</span>
+    }
+
+    private boolean isPerguntaUltimaAtividade(String pergunta) {
+<span class="pc bpc" id="L82" title="1 of 4 branches missed.">        return pergunta.contains(&quot;última atividade&quot;) || pergunta.contains(&quot;ultima atividade&quot;) ||</span>
+<span class="pc bpc" id="L83" title="1 of 4 branches missed.">               pergunta.contains(&quot;último contato&quot;) || pergunta.contains(&quot;ultimo contato&quot;);</span>
+    }
+
+    private boolean isPerguntaAtividadesPendentes(String pergunta) {
+<span class="pc bpc" id="L87" title="1 of 4 branches missed.">        return pergunta.contains(&quot;atividades pendentes&quot;) || pergunta.contains(&quot;atividade pendente&quot;) ||</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">               pergunta.contains(&quot;tarefas pendentes&quot;);</span>
+    }
+
+    private boolean isPerguntaMetrosVendidos(String pergunta) {
+<span class="pc bpc" id="L92" title="1 of 6 branches missed.">        return pergunta.contains(&quot;m²&quot;) || pergunta.contains(&quot;metros&quot;) || pergunta.contains(&quot;area vendida&quot;);</span>
+    }
+
+    private boolean isPerguntaResumo(String pergunta) {
+<span class="pc bpc" id="L96" title="2 of 6 branches missed.">        return pergunta.contains(&quot;resumo&quot;) || pergunta.contains(&quot;overview&quot;) || pergunta.contains(&quot;visão geral&quot;);</span>
+    }
+
+    private String getMensagemAjuda() {
+<span class="fc" id="L100">        return &quot;Desculpe, não entendi sua pergunta. Tente perguntar sobre:\n\n&quot; +</span>
+               &quot;• Próximas reuniões\n&quot; +
+               &quot;• Quantidade de leads\n&quot; +
+               &quot;• Atividades de hoje\n&quot; +
+               &quot;• Valor de propostas\n&quot; +
+               &quot;• Última atividade\n&quot; +
+               &quot;• Atividades pendentes\n&quot; +
+               &quot;• Metros quadrados vendidos\n&quot; +
+               &quot;• Resumo geral&quot;;
+    }
+
+    private ResponseEntity&lt;Map&lt;String, String&gt;&gt; buildRespostaResponse(String resposta) {
+<span class="fc" id="L112">        Map&lt;String, String&gt; response = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L113">        response.put(&quot;resposta&quot;, resposta);</span>
+<span class="fc" id="L114">        return ResponseEntity.ok(response);</span>
+    }
+
+    private ResponseEntity&lt;Map&lt;String, String&gt;&gt; buildErrorResponse() {
+<span class="nc" id="L118">        Map&lt;String, String&gt; errorResponse = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L119">        errorResponse.put(&quot;resposta&quot;, &quot;Desculpe, ocorreu um erro ao processar sua pergunta. Tente novamente.&quot;);</span>
+<span class="nc" id="L120">        return ResponseEntity.ok(errorResponse);</span>
+    }
+
+    private String buscarProximaReuniao() {
+<span class="fc" id="L124">        LocalDateTime agora = LocalDateTime.now();</span>
+<span class="fc" id="L125">        LocalDateTime limite = agora.plusDays(30);</span>
+        
+<span class="fc" id="L127">        List&lt;Interacao&gt; proximasInteracoes = interacaoRepository.findProximasAcoes(limite)</span>
+<span class="fc" id="L128">                .stream()</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">                .filter(i -&gt; i.getTipo() == Interacao.TipoInteracao.REUNIAO)</span>
+<span class="fc" id="L130">                .sorted(Comparator.comparing(Interacao::getDataProximaAcao))</span>
+<span class="fc" id="L131">                .collect(Collectors.toList());</span>
+
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (proximasInteracoes.isEmpty()) {</span>
+<span class="fc" id="L134">            return &quot;Você não tem reuniões agendadas para os próximos 30 dias.&quot;;</span>
+        }
+
+<span class="fc" id="L137">        Interacao proximaReuniao = proximasInteracoes.get(0);</span>
+<span class="fc" id="L138">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy 'às' HH:mm&quot;);</span>
+<span class="fc" id="L139">        String dataFormatada = proximaReuniao.getDataProximaAcao().format(formatter);</span>
+        
+<span class="fc" id="L141">        return String.format(&quot;Sua próxima reunião é no dia %s com %s.\n\nAssunto: %s&quot;,</span>
+                dataFormatada,
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">                proximaReuniao.getExpositor().getNomeFantasia() != null ? </span>
+<span class="fc" id="L144">                    proximaReuniao.getExpositor().getNomeFantasia() : </span>
+<span class="pc" id="L145">                    proximaReuniao.getExpositor().getRazaoSocial(),</span>
+<span class="fc" id="L146">                proximaReuniao.getAssunto());</span>
+    }
+
+    private String contarLeads() {
+<span class="fc" id="L150">        long totalLeads = expositorRepository.count();</span>
+<span class="fc" id="L151">        long leadsAtivos = expositorRepository.countByStatus(Expositor.StatusExpositor.ATIVO);</span>
+<span class="fc" id="L152">        long leadsPotenciais = expositorRepository.countByStatus(Expositor.StatusExpositor.POTENCIAL);</span>
+        
+<span class="fc" id="L154">        return String.format(&quot;Você tem um total de %d leads cadastrados:\n\n&quot; +</span>
+                           &quot;• %d leads ativos\n&quot; +
+                           &quot;• %d leads potenciais\n\n&quot; +
+                           &quot;Continue prospectando! 💪&quot;,
+<span class="fc" id="L158">                           totalLeads, leadsAtivos, leadsPotenciais);</span>
+    }
+
+    private String buscarAtividadesHoje() {
+<span class="fc" id="L162">        LocalDateTime inicioDia = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);</span>
+<span class="fc" id="L163">        LocalDateTime fimDia = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);</span>
+        
+<span class="fc" id="L165">        List&lt;Interacao&gt; atividadesHoje = interacaoRepository.findByDataProximaAcao(LocalDateTime.now())</span>
+<span class="fc" id="L166">                .stream()</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">                .filter(i -&gt; !i.getConcluida())</span>
+<span class="fc" id="L168">                .collect(Collectors.toList());</span>
+
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        if (atividadesHoje.isEmpty()) {</span>
+<span class="fc" id="L171">            return &quot;Você não tem atividades agendadas para hoje. Aproveite para prospectar novos leads! 🎯&quot;;</span>
+        }
+
+<span class="fc" id="L174">        StringBuilder resposta = new StringBuilder(String.format(&quot;Você tem %d atividade(s) para hoje:\n\n&quot;, atividadesHoje.size()));</span>
+        
+<span class="fc" id="L176">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;HH:mm&quot;);</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        for (Interacao atividade : atividadesHoje) {</span>
+<span class="fc" id="L178">            resposta.append(String.format(&quot;• %s - %s (%s)\n&quot;,</span>
+<span class="fc" id="L179">                    atividade.getDataProximaAcao().format(formatter),</span>
+<span class="fc" id="L180">                    atividade.getAssunto(),</span>
+<span class="fc" id="L181">                    mapTipoInteracao(atividade.getTipo())));</span>
+<span class="fc" id="L182">        }</span>
+
+<span class="fc" id="L184">        return resposta.toString();</span>
+    }
+
+    private String buscarValorPropostas() {
+<span class="fc" id="L188">        Double valorAbertas = interacaoRepository.somarValorPropostasAbertas();</span>
+<span class="fc" id="L189">        Double valorGanhas = interacaoRepository.somarValorPropostasGanhas();</span>
+<span class="fc" id="L190">        Long qtdAbertas = interacaoRepository.contarPropostasAbertas();</span>
+<span class="fc" id="L191">        Long qtdGanhas = interacaoRepository.contarPropostasGanhas();</span>
+        
+<span class="fc" id="L193">        return String.format(&quot;💰 Situação das propostas:\n\n&quot; +</span>
+                           &quot;Propostas em aberto:\n&quot; +
+                           &quot;• %d proposta(s)\n&quot; +
+                           &quot;• Valor total: R$ %.2f\n\n&quot; +
+                           &quot;Propostas fechadas:\n&quot; +
+                           &quot;• %d proposta(s)\n&quot; +
+                           &quot;• Valor total: R$ %.2f\n\n&quot; +
+                           &quot;Continue trabalhando nas propostas abertas! 🚀&quot;,
+                           qtdAbertas, valorAbertas,
+                           qtdGanhas, valorGanhas);
+    }
+
+    private String buscarUltimaAtividade() {
+<span class="fc" id="L206">        List&lt;Interacao&gt; atividades = interacaoRepository.findAll();</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">        if (atividades.isEmpty()) {</span>
+<span class="nc" id="L208">            return &quot;Nenhuma atividade registrada ainda.&quot;;</span>
+        }
+
+<span class="fc" id="L211">        Interacao ultima = atividades.stream()</span>
+<span class="fc" id="L212">                .max(Comparator.comparing(Interacao::getDataCriacao))</span>
+<span class="fc" id="L213">                .orElse(null);</span>
+
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">        if (ultima == null) {</span>
+<span class="nc" id="L216">            return &quot;Nenhuma atividade encontrada.&quot;;</span>
+        }
+
+<span class="fc" id="L219">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy 'às' HH:mm&quot;);</span>
+<span class="fc" id="L220">        return String.format(&quot;Sua última atividade foi:\n\n&quot; +</span>
+                           &quot;📅 %s\n&quot; +
+                           &quot;🏢 %s\n&quot; +
+                           &quot;📝 %s\n&quot; +
+                           &quot;Tipo: %s&quot;,
+<span class="fc" id="L225">                           ultima.getDataCriacao().format(formatter),</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">                           ultima.getExpositor().getNomeFantasia() != null ? </span>
+<span class="fc" id="L227">                               ultima.getExpositor().getNomeFantasia() : </span>
+<span class="fc" id="L228">                               ultima.getExpositor().getRazaoSocial(),</span>
+<span class="fc" id="L229">                           ultima.getAssunto(),</span>
+<span class="fc" id="L230">                           mapTipoInteracao(ultima.getTipo()));</span>
+    }
+
+    private String buscarAtividadesPendentes() {
+<span class="fc" id="L234">        LocalDateTime agora = LocalDateTime.now();</span>
+<span class="fc" id="L235">        List&lt;Interacao&gt; pendentes = interacaoRepository.findProximasAcoes(agora.plusDays(7))</span>
+<span class="fc" id="L236">                .stream()</span>
+<span class="pc bpc" id="L237" title="1 of 2 branches missed.">                .filter(i -&gt; !i.getConcluida())</span>
+<span class="fc" id="L238">                .sorted(Comparator.comparing(Interacao::getDataProximaAcao))</span>
+<span class="fc" id="L239">                .limit(5)</span>
+<span class="fc" id="L240">                .collect(Collectors.toList());</span>
+
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        if (pendentes.isEmpty()) {</span>
+<span class="fc" id="L243">            return &quot;Parabéns! Você não tem atividades pendentes para os próximos 7 dias. ✅&quot;;</span>
+        }
+
+<span class="fc" id="L246">        StringBuilder resposta = new StringBuilder(String.format(&quot;Você tem %d atividade(s) pendente(s):\n\n&quot;, pendentes.size()));</span>
+        
+<span class="fc" id="L248">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;dd/MM 'às' HH:mm&quot;);</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">        for (Interacao atividade : pendentes) {</span>
+<span class="fc" id="L250">            resposta.append(String.format(&quot;• %s - %s\n&quot;,</span>
+<span class="fc" id="L251">                    atividade.getDataProximaAcao().format(formatter),</span>
+<span class="fc" id="L252">                    atividade.getAssunto()));</span>
+<span class="fc" id="L253">        }</span>
+
+<span class="fc" id="L255">        return resposta.toString();</span>
+    }
+
+    private String buscarMetrosVendidos() {
+<span class="fc" id="L259">        Double metrosVendidos = interacaoRepository.somarMetrosQuadradosVendidos();</span>
+<span class="fc" id="L260">        return String.format(&quot;📏 Total de área vendida: %.2f m²\n\n&quot; +</span>
+                           &quot;Excelente trabalho! Continue assim! 🎉&quot;,
+<span class="fc bfc" id="L262" title="All 2 branches covered.">                           metrosVendidos != null ? metrosVendidos : 0.0);</span>
+    }
+
+    private String gerarResumo() {
+<span class="fc" id="L266">        long totalLeads = expositorRepository.count();</span>
+<span class="fc" id="L267">        long totalAtividades = interacaoRepository.count();</span>
+<span class="fc" id="L268">        Double valorPropostas = interacaoRepository.somarValorPropostasAbertas();</span>
+<span class="fc" id="L269">        Double metrosVendidos = interacaoRepository.somarMetrosQuadradosVendidos();</span>
+<span class="fc" id="L270">        Long qtdGanhos = interacaoRepository.contarPropostasGanhas();</span>
+        
+<span class="fc" id="L272">        LocalDateTime agora = LocalDateTime.now();</span>
+<span class="fc" id="L273">        long atividadesHoje = interacaoRepository.findByDataProximaAcao(agora)</span>
+<span class="fc" id="L274">                .stream()</span>
+<span class="pc bnc" id="L275" title="All 2 branches missed.">                .filter(i -&gt; !i.getConcluida())</span>
+<span class="fc" id="L276">                .count();</span>
+
+<span class="fc" id="L278">        return String.format(&quot;📊 Resumo do CRM:\n\n&quot; +</span>
+                           &quot;👥 Total de leads: %d\n&quot; +
+                           &quot;📋 Total de atividades: %d\n&quot; +
+                           &quot;📅 Atividades hoje: %d\n\n&quot; +
+                           &quot;💰 Propostas em aberto: R$ %.2f\n&quot; +
+                           &quot;✅ Negócios fechados: %d\n&quot; +
+                           &quot;📏 Área vendida: %.2f m²\n\n&quot; +
+                           &quot;Continue o ótimo trabalho! 🚀&quot;,
+<span class="fc" id="L286">                           totalLeads, totalAtividades, atividadesHoje,</span>
+<span class="pc bpc" id="L287" title="1 of 2 branches missed.">                           valorPropostas != null ? valorPropostas : 0.0,</span>
+                           qtdGanhos,
+<span class="pc bpc" id="L289" title="1 of 2 branches missed.">                           metrosVendidos != null ? metrosVendidos : 0.0);</span>
+    }
+
+    private String mapTipoInteracao(Interacao.TipoInteracao tipo) {
+<span class="pc bpc" id="L293" title="6 of 7 branches missed.">        switch (tipo) {</span>
+<span class="nc" id="L294">            case LIGACAO: return &quot;Ligação&quot;;</span>
+<span class="fc" id="L295">            case EMAIL: return &quot;Email&quot;;</span>
+<span class="nc" id="L296">            case REUNIAO: return &quot;Reunião&quot;;</span>
+<span class="nc" id="L297">            case WHATSAPP: return &quot;WhatsApp&quot;;</span>
+<span class="nc" id="L298">            case PROPOSTA: return &quot;Proposta&quot;;</span>
+<span class="nc" id="L299">            case FECHADO: return &quot;Fechado&quot;;</span>
+<span class="nc" id="L300">            default: return &quot;Outros&quot;;</span>
+        }
+    }
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

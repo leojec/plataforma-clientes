@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RdsConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">crmshot-backend</a> &gt; <a href="index.source.html" class="el_package">com.crmshot.config</a> &gt; <span class="el_source">RdsConfig.java</span></div><h1>RdsConfig.java</h1><pre class="source lang-java linenums">package com.crmshot.config;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
+import javax.sql.DataSource;
+
+@Configuration
+<span class="fc" id="L14">public class RdsConfig {</span>
+
+<span class="fc" id="L16">    private static final Logger logger = LoggerFactory.getLogger(RdsConfig.class);</span>
+    private static final String SEPARATOR = &quot;============================================================&quot;;
+    private static final String DEFAULT_PORT = &quot;5432&quot;;
+    private static final String DEFAULT_DATABASE_EB = &quot;ebdb&quot;;
+    private static final String DEFAULT_DATABASE = &quot;crmshot&quot;;
+    private static final String DEFAULT_USERNAME = &quot;postgres&quot;;
+
+    @Value(&quot;${app.rds.host:${AWS_RDS_HOST:}}&quot;)
+    private String awsRdsHost;
+
+    @Value(&quot;${app.rds.database:${AWS_RDS_DATABASE:}}&quot;)
+    private String awsRdsDatabase;
+
+    @Value(&quot;${app.rds.username:${AWS_RDS_USERNAME:}}&quot;)
+    private String awsRdsUsername;
+
+    @Value(&quot;${app.rds.password:${AWS_RDS_PASSWORD:}}&quot;)
+    private String awsRdsPassword;
+
+    @Value(&quot;${app.rds.port:${AWS_RDS_PORT:5432}}&quot;)
+    private String awsRdsPort;
+
+    @Bean
+    @Primary
+    public DataSource dataSource() {
+<span class="fc" id="L41">        logDataSourceStart();</span>
+        
+<span class="fc" id="L43">        RdsConnectionConfig config = buildRdsConnectionConfig();</span>
+<span class="fc" id="L44">        validateConfig(config);</span>
+<span class="fc" id="L45">        logConnectionDetails(config);</span>
+        
+<span class="fc" id="L47">        return createDataSource(config);</span>
+    }
+
+    private void logDataSourceStart() {
+<span class="fc" id="L51">        logger.info(SEPARATOR);</span>
+<span class="fc" id="L52">        logger.info(&quot;INICIANDO CONFIGURAÇÃO DO DATASOURCE&quot;);</span>
+<span class="fc" id="L53">        logger.info(SEPARATOR);</span>
+<span class="fc" id="L54">    }</span>
+
+    private RdsConnectionConfig buildRdsConnectionConfig() {
+<span class="fc" id="L57">        String rdsHostname = System.getenv(&quot;RDS_HOSTNAME&quot;);</span>
+        
+<span class="pc bpc" id="L59" title="3 of 4 branches missed.">        if (rdsHostname != null &amp;&amp; !rdsHostname.isEmpty()) {</span>
+<span class="nc" id="L60">            return buildElasticBeanstalkConfig(rdsHostname);</span>
+        } else {
+<span class="fc" id="L62">            return buildAwsRdsConfig();</span>
+        }
+    }
+
+    private RdsConnectionConfig buildElasticBeanstalkConfig(String hostname) {
+<span class="nc" id="L67">        String port = getEnvOrDefault(&quot;RDS_PORT&quot;, DEFAULT_PORT);</span>
+<span class="nc" id="L68">        String database = getEnvOrDefault(&quot;RDS_DB_NAME&quot;, DEFAULT_DATABASE_EB);</span>
+<span class="nc" id="L69">        String username = getEnvOrDefault(&quot;RDS_USERNAME&quot;, DEFAULT_USERNAME);</span>
+<span class="nc" id="L70">        String password = getEnvOrDefault(&quot;RDS_PASSWORD&quot;, &quot;&quot;);</span>
+        
+<span class="nc" id="L72">        logger.info(&quot;Usando variáveis RDS do Elastic Beanstalk&quot;);</span>
+        
+<span class="nc" id="L74">        return new RdsConnectionConfig(hostname, port, database, username, password);</span>
+    }
+
+    private RdsConnectionConfig buildAwsRdsConfig() {
+<span class="fc" id="L78">        String hostname = getValueOrDefault(awsRdsHost, &quot;AWS_RDS_HOST&quot;);</span>
+<span class="fc" id="L79">        String port = getValueOrDefault(awsRdsPort, &quot;AWS_RDS_PORT&quot;);</span>
+<span class="fc" id="L80">        String database = getValueOrDefault(awsRdsDatabase, &quot;AWS_RDS_DATABASE&quot;);</span>
+<span class="fc" id="L81">        String username = getValueOrDefault(awsRdsUsername, &quot;AWS_RDS_USERNAME&quot;);</span>
+<span class="fc" id="L82">        String password = getValueOrDefault(awsRdsPassword, &quot;AWS_RDS_PASSWORD&quot;);</span>
+        
+<span class="pc bpc" id="L84" title="1 of 4 branches missed.">        port = (port == null || port.isEmpty()) ? DEFAULT_PORT : port;</span>
+<span class="pc bpc" id="L85" title="1 of 4 branches missed.">        database = (database == null || database.isEmpty()) ? DEFAULT_DATABASE : database;</span>
+<span class="pc bpc" id="L86" title="1 of 4 branches missed.">        username = (username == null || username.isEmpty()) ? DEFAULT_USERNAME : username;</span>
+        
+<span class="fc" id="L88">        logger.info(&quot;Usando credenciais RDS configuradas via variáveis de ambiente/propriedades&quot;);</span>
+        
+<span class="fc" id="L90">        return new RdsConnectionConfig(hostname, port, database, username, password);</span>
+    }
+
+    private String getEnvOrDefault(String envVar, String defaultValue) {
+<span class="nc" id="L94">        String value = System.getenv(envVar);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        return (value != null &amp;&amp; !value.isEmpty()) ? value : defaultValue;</span>
+    }
+
+    private String getValueOrDefault(String propertyValue, String envVar) {
+<span class="fc bfc" id="L99" title="All 4 branches covered.">        if (propertyValue != null &amp;&amp; !propertyValue.isEmpty()) {</span>
+<span class="fc" id="L100">            return propertyValue;</span>
+        }
+<span class="fc" id="L102">        return System.getenv(envVar);</span>
+    }
+
+    private void validateConfig(RdsConnectionConfig config) {
+<span class="pc bpc" id="L106" title="1 of 4 branches missed.">        if (config.hostname == null || config.hostname.isEmpty()) {</span>
+<span class="fc" id="L107">            logger.error(&quot;AWS_RDS_HOST não configurado! Configure a variável de ambiente.&quot;);</span>
+<span class="fc" id="L108">            throw new IllegalStateException(&quot;AWS_RDS_HOST não está configurado. Configure a variável de ambiente AWS_RDS_HOST.&quot;);</span>
+        }
+        
+<span class="pc bpc" id="L111" title="1 of 4 branches missed.">        if (config.password == null || config.password.isEmpty()) {</span>
+<span class="fc" id="L112">            logger.error(&quot;AWS_RDS_PASSWORD não configurado! Configure a variável de ambiente.&quot;);</span>
+<span class="fc" id="L113">            throw new IllegalStateException(&quot;AWS_RDS_PASSWORD não está configurado. Configure a variável de ambiente AWS_RDS_PASSWORD.&quot;);</span>
+        }
+<span class="fc" id="L115">    }</span>
+
+    private void logConnectionDetails(RdsConnectionConfig config) {
+<span class="fc" id="L118">        String jdbcUrl = String.format(&quot;jdbc:postgresql://%s:%s/%s&quot;, config.hostname, config.port, config.database);</span>
+        
+<span class="fc" id="L120">        logger.info(&quot;Host: {}&quot;, config.hostname);</span>
+<span class="fc" id="L121">        logger.info(&quot;Port: {}&quot;, config.port);</span>
+<span class="fc" id="L122">        logger.info(&quot;Database: {}&quot;, config.database);</span>
+<span class="fc" id="L123">        logger.info(&quot;Username: {}&quot;, config.username);</span>
+<span class="fc" id="L124">        logger.info(&quot;JDBC URL: {}&quot;, jdbcUrl);</span>
+<span class="fc" id="L125">        logger.info(SEPARATOR);</span>
+<span class="fc" id="L126">    }</span>
+
+    private DataSource createDataSource(RdsConnectionConfig config) {
+<span class="fc" id="L129">        String jdbcUrl = String.format(&quot;jdbc:postgresql://%s:%s/%s&quot;, config.hostname, config.port, config.database);</span>
+        
+<span class="fc" id="L131">        return DataSourceBuilder.create()</span>
+<span class="fc" id="L132">                .url(jdbcUrl)</span>
+<span class="fc" id="L133">                .username(config.username)</span>
+<span class="fc" id="L134">                .password(config.password)</span>
+<span class="fc" id="L135">                .driverClassName(&quot;org.postgresql.Driver&quot;)</span>
+<span class="fc" id="L136">                .build();</span>
+    }
+
+    private static class RdsConnectionConfig {
+        final String hostname;
+        final String port;
+        final String database;
+        final String username;
+        final String password;
+
+<span class="fc" id="L146">        RdsConnectionConfig(String hostname, String port, String database, String username, String password) {</span>
+<span class="fc" id="L147">            this.hostname = hostname;</span>
+<span class="fc" id="L148">            this.port = port;</span>
+<span class="fc" id="L149">            this.database = database;</span>
+<span class="fc" id="L150">            this.username = username;</span>
+<span class="fc" id="L151">            this.password = password;</span>
+<span class="fc" id="L152">        }</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -204,7 +204,7 @@ public class ExpositorController {
     @PutMapping("/{id}/status")
     public ResponseEntity<Map<String, Object>> atualizarStatus(@PathVariable Long id, @RequestBody Map<String, String> statusData) {
         try {
-            String novoStatus = statusData.get("status");
+            String novoStatus = statusData.get(KEY_STATUS);
             
             if (novoStatus == null || novoStatus.trim().isEmpty()) {
                 Map<String, Object> errorResponse = new HashMap<>();

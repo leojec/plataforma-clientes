@@ -1,9 +1,11 @@
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/entity/Expositor.java
+/Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/config/RdsConfig.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/security/JwtUtil.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/security/JwtAuthenticationFilter.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/RelatoriosController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/ChatController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/OportunidadeController.java
+/Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/HealthController.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/CrmshotApplication.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/dto/ExpositorRequest.java
 /Users/leonardorocha/Documents/TCC/projeto/backend/src/main/java/com/crmshot/controller/AuthController.java
