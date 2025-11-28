@@ -4,14 +4,14 @@ import ChatBot from '../ChatBot';
 import { api } from '../../services/api';
 import toast from 'react-hot-toast';
 
-// Mock do api
+
 jest.mock('../../services/api', () => ({
   api: {
     post: jest.fn()
   }
 }));
 
-// Mock do toast
+
 jest.mock('react-hot-toast', () => ({
   __esModule: true,
   default: {
@@ -34,7 +34,7 @@ describe('ChatBot', () => {
     render(<ChatBot />);
     const chatButton = screen.getByRole('button');
     fireEvent.click(chatButton);
-    // Verifica que o componente renderiza após clicar
+
     expect(document.body).toBeInTheDocument();
   });
 });

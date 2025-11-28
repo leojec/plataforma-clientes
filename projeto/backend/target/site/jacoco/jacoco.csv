@@ -3,7 +3,7 @@ crmshot-backend,com.crmshot.service,ExpositorService,5,234,1,3,0,53,2,18,1,17
 crmshot-backend,com.crmshot.service,UsuarioService,10,154,1,3,0,32,3,19,2,18
 crmshot-backend,com.crmshot.controller,ChatController,44,728,34,81,10,139,32,55,1,26
 crmshot-backend,com.crmshot.controller,OportunidadeController,26,679,5,13,4,140,5,11,0,7
-crmshot-backend,com.crmshot.controller,CnpjController,0,70,0,2,0,17,0,3,0,2
+crmshot-backend,com.crmshot.controller,CnpjController,22,48,0,2,5,12,0,3,0,2
 crmshot-backend,com.crmshot.controller,AuthController,76,0,6,0,20,0,6,0,3,0
 crmshot-backend,com.crmshot.controller,RelatoriosController,124,770,22,28,14,139,23,21,6,13
 crmshot-backend,com.crmshot.controller,DashboardController,6,216,1,15,1,43,1,11,0,4

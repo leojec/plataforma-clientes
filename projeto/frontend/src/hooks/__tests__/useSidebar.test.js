@@ -1,6 +1,6 @@
 import { useSidebar } from '../useSidebar';
 
-// Teste básico do hook
+
 describe('useSidebar Hook', () => {
   it('deve exportar a função useSidebar', () => {
     expect(typeof useSidebar).toBe('function');

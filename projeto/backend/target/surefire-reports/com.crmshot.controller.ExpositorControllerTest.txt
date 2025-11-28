@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.crmshot.controller.ExpositorControllerTest
 -------------------------------------------------------------------------------
-Tests run: 25, Failures: 0, Errors: 25, Skipped: 0, Time elapsed: 1.207 s <<< FAILURE! -- in com.crmshot.controller.ExpositorControllerTest
-com.crmshot.controller.ExpositorControllerTest.testAtualizarExpositor_NotFound -- Time elapsed: 0.155 s <<< ERROR!
+Tests run: 25, Failures: 0, Errors: 25, Skipped: 0, Time elapsed: 0.812 s <<< FAILURE! -- in com.crmshot.controller.ExpositorControllerTest
+com.crmshot.controller.ExpositorControllerTest.testAtualizarExpositor_NotFound -- Time elapsed: 0.054 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -23,14 +23,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -83,7 +83,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testBuscarExpositor_Success -- Time elapsed: 0.130 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testBuscarExpositor_Success -- Time elapsed: 0.036 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -104,14 +104,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -164,7 +164,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_DiferentesStatus -- Time elapsed: 0.044 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_DiferentesStatus -- Time elapsed: 0.032 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -185,14 +185,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -245,7 +245,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testListarExpositoresPorVendedor -- Time elapsed: 0.040 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testListarExpositoresPorVendedor -- Time elapsed: 0.032 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -266,14 +266,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -326,7 +326,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testExcluirExpositor_Exception -- Time elapsed: 0.038 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testExcluirExpositor_Exception -- Time elapsed: 0.029 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -347,14 +347,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -407,7 +407,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testAtualizarExpositor_Exception -- Time elapsed: 0.037 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testAtualizarExpositor_Exception -- Time elapsed: 0.031 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -428,14 +428,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -488,7 +488,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testBuscarExpositor_Exception -- Time elapsed: 0.032 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testBuscarExpositor_Exception -- Time elapsed: 0.029 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -509,14 +509,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -569,7 +569,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testListarExpositoresPaginado -- Time elapsed: 0.035 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testListarExpositoresPaginado -- Time elapsed: 0.028 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -590,14 +590,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -650,7 +650,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_ExpositorNaoEncontrado -- Time elapsed: 0.030 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_ExpositorNaoEncontrado -- Time elapsed: 0.027 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -671,14 +671,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -731,7 +731,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testBuscarExpositor_NotFound -- Time elapsed: 0.030 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testBuscarExpositor_NotFound -- Time elapsed: 0.029 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -752,14 +752,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -812,7 +812,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testListarExpositores_Exception -- Time elapsed: 0.030 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testListarExpositores_Exception -- Time elapsed: 0.028 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -833,14 +833,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -893,7 +893,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testListarExpositores_Success -- Time elapsed: 0.038 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testListarExpositores_Success -- Time elapsed: 0.037 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -914,14 +914,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -974,7 +974,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testCriarExpositor_Success -- Time elapsed: 0.036 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testCriarExpositor_Success -- Time elapsed: 0.029 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -995,14 +995,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1055,7 +1055,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_Exception -- Time elapsed: 0.031 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_Exception -- Time elapsed: 0.030 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1076,14 +1076,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1136,7 +1136,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testBuscarExpositor_ComVendedor -- Time elapsed: 0.032 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testBuscarExpositor_ComVendedor -- Time elapsed: 0.030 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1157,14 +1157,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1217,7 +1217,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testListarExpositoresPorStatus -- Time elapsed: 0.032 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testListarExpositoresPorStatus -- Time elapsed: 0.028 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1238,14 +1238,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1298,7 +1298,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testAtualizarExpositor_Success -- Time elapsed: 0.028 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testAtualizarExpositor_Success -- Time elapsed: 0.029 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1319,14 +1319,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1379,7 +1379,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testCriarExpositor_CnpjJaExiste -- Time elapsed: 0.029 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testCriarExpositor_CnpjJaExiste -- Time elapsed: 0.028 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1400,14 +1400,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1460,7 +1460,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testListarExpositores_SemVendedor -- Time elapsed: 0.029 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testListarExpositores_SemVendedor -- Time elapsed: 0.027 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1481,14 +1481,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1541,7 +1541,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testExcluirExpositor_Success -- Time elapsed: 0.028 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testExcluirExpositor_Success -- Time elapsed: 0.029 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1562,14 +1562,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1622,7 +1622,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_Success -- Time elapsed: 0.028 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_Success -- Time elapsed: 0.030 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1643,14 +1643,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1703,7 +1703,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testCriarExpositor_Exception -- Time elapsed: 0.028 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testCriarExpositor_Exception -- Time elapsed: 0.029 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1724,14 +1724,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1784,7 +1784,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_StatusVazio -- Time elapsed: 0.029 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_StatusVazio -- Time elapsed: 0.028 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1805,14 +1805,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1865,7 +1865,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testListarExpositores_ComVendedor -- Time elapsed: 0.038 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testListarExpositores_ComVendedor -- Time elapsed: 0.030 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1886,14 +1886,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1946,7 +1946,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_StatusInvalido -- Time elapsed: 0.068 s <<< ERROR!
+com.crmshot.controller.ExpositorControllerTest.testAtualizarStatus_StatusInvalido -- Time elapsed: 0.029 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
@@ -1967,14 +1967,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)

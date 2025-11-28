@@ -19,8 +19,8 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // Aqui você pode fazer uma chamada para validar o token e buscar dados do usuário
-      setUser({ token }); // Por enquanto, apenas define o token
+
+      setUser({ token });
     }
     setLoading(false);
   }, []);
@@ -29,16 +29,16 @@ export function AuthProvider({ children }) {
     try {
       const response = await api.post('/auth/login', { email, senha });
       const { token, usuario } = response.data;
-      
+
       localStorage.setItem('token', token);
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser({ ...usuario, token });
-      
+
       return { success: true };
     } catch (error) {
       let errorMessage = 'Erro ao fazer login';
-      
-      // Verificar se é erro de HTML ao invés de JSON
+
+
       if (error.isHtmlResponse || (error.response?.data && typeof error.response.data === 'string' && error.response.data.trim().startsWith('<!'))) {
         errorMessage = 'API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint.';
         console.error('❌ Erro: API retornou HTML. URL:', error.config?.url);
@@ -59,7 +59,7 @@ export function AuthProvider({ children }) {
       } else if (!error.response) {
         errorMessage = 'Não foi possível conectar ao servidor. Verifique a URL da API.';
       }
-      
+
       console.error('❌ Erro no login:', {
         message: error.message,
         response: error.response?.data,
@@ -67,9 +67,9 @@ export function AuthProvider({ children }) {
         url: error.config?.url,
         baseURL: api.defaults.baseURL
       });
-      
-      return { 
-        success: false, 
+
+      return {
+        success: false,
         message: errorMessage
       };
     }

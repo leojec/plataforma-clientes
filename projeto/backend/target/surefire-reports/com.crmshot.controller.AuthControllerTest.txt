@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.crmshot.controller.AuthControllerTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 7, Skipped: 0, Time elapsed: 0.243 s <<< FAILURE! -- in com.crmshot.controller.AuthControllerTest
-com.crmshot.controller.AuthControllerTest.testLogin_Success -- Time elapsed: 0.050 s <<< ERROR!
+Tests run: 7, Failures: 0, Errors: 7, Skipped: 0, Time elapsed: 0.227 s <<< FAILURE! -- in com.crmshot.controller.AuthControllerTest
+com.crmshot.controller.AuthControllerTest.testLogin_Success -- Time elapsed: 0.047 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -23,14 +23,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -104,14 +104,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -164,7 +164,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testRegister_Exception -- Time elapsed: 0.030 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testRegister_Exception -- Time elapsed: 0.033 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -185,14 +185,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -245,7 +245,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testRegister_Success -- Time elapsed: 0.028 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testRegister_Success -- Time elapsed: 0.027 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -266,14 +266,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -326,7 +326,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testLogin_Exception -- Time elapsed: 0.035 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testLogin_Exception -- Time elapsed: 0.025 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -347,14 +347,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -407,7 +407,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testRegister_EmailJaExiste -- Time elapsed: 0.030 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testRegister_EmailJaExiste -- Time elapsed: 0.027 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -428,14 +428,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -488,7 +488,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testLogin_UsuarioNaoEncontrado -- Time elapsed: 0.027 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testLogin_UsuarioNaoEncontrado -- Time elapsed: 0.030 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -509,14 +509,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, interface org.springframework.security.core.userdetails.UserDetailsService, class com.crmshot.service.UsuarioService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.UsuarioService, interface org.springframework.security.core.userdetails.UserDetailsService]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)

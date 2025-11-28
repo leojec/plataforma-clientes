@@ -5,12 +5,12 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Dashboard from '../Dashboard';
 import { AuthProvider } from '../../contexts/AuthContext';
 
-// Mock do useSidebar
+
 jest.mock('../../hooks/useSidebar', () => ({
   useSidebar: () => ({ sidebarExpanded: true })
 }));
 
-// Mock do CanvasJS
+
 global.window.CanvasJS = {
   Chart: jest.fn().mockImplementation(() => ({
     render: jest.fn()
@@ -41,6 +41,4 @@ describe('Dashboard Page', () => {
     expect(document.body).toBeInTheDocument();
   });
 });
-
-
 

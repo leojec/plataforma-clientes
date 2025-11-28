@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSidebar } from '../hooks/useSidebar';
 import { useQuery, useQueryClient } from 'react-query';
 import { api } from '../services/api';
-import { 
-  DndContext, 
-  DragOverlay, 
+import {
+  DndContext,
+  DragOverlay,
   closestCenter,
   KeyboardSensor,
   PointerSensor,
@@ -15,9 +15,9 @@ import {
 import {
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
-import { 
-  Phone, 
-  MapPin, 
+import {
+  Phone,
+  MapPin,
   Calendar,
   Filter,
   Plus,
@@ -29,8 +29,8 @@ function KanbanBoard() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { sidebarExpanded } = useSidebar();
-  
-  // Estado para os leads
+
+
   const [leads, setLeads] = useState({
     lead: [],
     emAndamento: [],
@@ -38,19 +38,19 @@ function KanbanBoard() {
     standFechado: []
   });
 
-  // Buscar expositores do backend (apenas dados reais)
+
   const { isLoading } = useQuery(
     'expositores',
     () => api.get('/expositores').then(res => {
-      // Validar se a resposta é um array
+
       if (!Array.isArray(res.data)) {
         console.error('❌ Resposta da API não é um array:', res.data);
-        // Se for string (HTML), tentar extrair JSON ou retornar array vazio
+
         if (typeof res.data === 'string') {
           console.error('❌ API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint.');
           return [];
         }
-        // Se for objeto, tentar converter para array
+
         if (res.data && typeof res.data === 'object') {
           return [];
         }
@@ -63,8 +63,8 @@ function KanbanBoard() {
       retry: 1,
       onSuccess: (data) => {
         console.log('✅ Expositores carregados com sucesso:', data);
-        
-        // Garantir que data é um array
+
+
         if (!Array.isArray(data)) {
           console.error('❌ Data não é um array:', data);
           setLeads({
@@ -75,8 +75,8 @@ function KanbanBoard() {
           });
           return;
         }
-        
-        // Organizar expositores por status
+
+
         const leadsOrganizados = {
           lead: [],
           emAndamento: [],
@@ -95,7 +95,7 @@ function KanbanBoard() {
             status: expositor.status
           };
 
-          // Mapear status reais do backend para colunas do kanban
+
           switch (expositor.status) {
             case 'POTENCIAL':
               leadsOrganizados.lead.push(leadCard);
@@ -125,7 +125,7 @@ function KanbanBoard() {
           status: error.response?.status,
           url: error.config?.url
         });
-        // Garantir que o estado seja inicializado mesmo em caso de erro
+
         setLeads({
           lead: [],
           emAndamento: [],
@@ -139,33 +139,33 @@ function KanbanBoard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeId, setActiveId] = useState(null);
 
-  // Função para mover lead entre colunas
+
   const moveLeadToColumn = (leadId, newStatus) => {
     console.log('🔄 Movendo lead:', leadId, 'para status:', newStatus);
-    
-    // Mapear status para colunas
+
+
     const statusToColumn = {
       'Lead': 'lead',
       'Em Andamento': 'emAndamento',
       'Em Negociação': 'emNegociacao',
       'Stand Fechado': 'standFechado'
     };
-    
+
     const targetColumn = statusToColumn[newStatus];
     console.log('🎯 Coluna de destino:', targetColumn);
-    
+
     if (!targetColumn) {
       console.log('❌ Status não mapeado:', newStatus);
       return;
     }
-    
+
     setLeads(prevLeads => {
       console.log('📊 Estado atual:', prevLeads);
-      
-      // Encontrar o lead
+
+
       let leadToMove = null;
       let sourceColumn = null;
-      
+
       for (const [columnName, leadsInColumn] of Object.entries(prevLeads)) {
         const foundLead = leadsInColumn.find(lead => lead.id === leadId);
         if (foundLead) {
@@ -175,43 +175,43 @@ function KanbanBoard() {
           break;
         }
       }
-      
+
       if (!leadToMove) {
         console.log('❌ Lead não encontrado:', leadId);
         return prevLeads;
       }
-      
+
       if (sourceColumn === targetColumn) {
         console.log('ℹ️ Lead já está na coluna correta');
         return prevLeads;
       }
-      
+
       console.log(`🚀 Movendo de ${sourceColumn} para ${targetColumn}`);
-      
-      // Criar novo estado
+
+
       const newLeads = { ...prevLeads };
-      
-      // Remover da coluna atual
+
+
       newLeads[sourceColumn] = newLeads[sourceColumn].filter(lead => lead.id !== leadId);
-      
-      // Adicionar à nova coluna
+
+
       newLeads[targetColumn] = [...newLeads[targetColumn], leadToMove];
-      
+
       console.log('✨ Novo estado:', newLeads);
       return newLeads;
     });
   };
 
-  // Escutar mudanças de status
+
   useEffect(() => {
     const handleStatusChange = (event) => {
       console.log('📨 Evento recebido:', event.detail);
       const { leadId, newStatus } = event.detail;
-      
-      // Mover o lead na interface
+
+
       moveLeadToColumn(leadId, newStatus);
-      
-      // Invalidar cache e recarregar dados do backend
+
+
       console.log('🔄 Invalidando cache e recarregando dados...');
       queryClient.invalidateQueries('expositores');
     };
@@ -240,10 +240,10 @@ function KanbanBoard() {
     const activeId = active.id;
     const overId = over.id;
 
-    // Verificar se overId é uma string
+
     if (typeof overId !== 'string') return;
 
-    // Encontrar a coluna de origem
+
     let sourceColumn = null;
     for (const [columnId, items] of Object.entries(leads)) {
       if (items.find(item => item.id === activeId)) {
@@ -252,7 +252,7 @@ function KanbanBoard() {
       }
     }
 
-    // Encontrar a coluna de destino
+
     let targetColumn = null;
     if (overId.startsWith('column-')) {
       targetColumn = overId.replace('column-', '');
@@ -267,23 +267,23 @@ function KanbanBoard() {
 
     if (!sourceColumn || !targetColumn) return;
 
-    // Permitir mover apenas para a próxima coluna sequencialmente
+
     const columnOrder = ['lead', 'emAndamento', 'emNegociacao', 'standFechado'];
     const sourceIndex = columnOrder.indexOf(sourceColumn);
     const targetIndex = columnOrder.indexOf(targetColumn);
 
     if (targetIndex !== sourceIndex + 1) {
-      return; // Não permite pular colunas
+      return;
     }
 
-    // Remover da coluna de origem
+
     const sourceItems = leads[sourceColumn].filter(item => item.id !== activeId);
     const draggedItem = leads[sourceColumn].find(item => item.id === activeId);
 
-    // Adicionar à coluna de destino
+
     const targetItems = [...leads[targetColumn]];
-    
-    // Se está sendo movido para "emAndamento", adicionar responsável
+
+
     if (targetColumn === 'emAndamento') {
       draggedItem.responsavel = 'Simoni Jarschel';
       draggedItem.dataContato = new Date().toLocaleString('pt-BR');
@@ -298,19 +298,19 @@ function KanbanBoard() {
 
   const handleAddClient = (newExpositor) => {
     console.log('🎉 Novo expositor adicionado, atualizando lista...');
-    
-    // Invalidar cache e refetch
+
+
     queryClient.invalidateQueries('expositores');
   };
 
-  // Componente LeadCard (simplificado para teste)
+
   const LeadCard = ({ lead, columnId }) => {
     const getResponsavelColor = (responsavel) => {
       return responsavel ? 'bg-blue-500' : 'bg-green-500';
     };
 
     const handleCardClick = () => {
-      console.log('Clicando no lead:', lead.id); // Debug
+      console.log('Clicando no lead:', lead.id);
       navigate(`/lead/${lead.id}`);
     };
 
@@ -322,26 +322,26 @@ function KanbanBoard() {
         <div className="flex items-center justify-between mb-2">
           <h3 className="font-semibold text-gray-900 text-sm">{lead.nome}</h3>
         </div>
-        
+
         {lead.endereco && (
           <div className="flex items-center mb-2 text-xs text-gray-600">
             <MapPin className="w-3 h-3 mr-1" />
             <span className="truncate">{lead.endereco}</span>
           </div>
         )}
-        
+
         <div className="flex items-center mb-2 text-xs text-gray-600">
           <Phone className="w-3 h-3 mr-1" />
           <span>{lead.telefone}</span>
         </div>
-        
+
         {lead.dataContato && (
           <div className="flex items-center mb-2 text-xs text-blue-600">
             <Calendar className="w-3 h-3 mr-1" />
             <span>{lead.dataContato}</span>
           </div>
         )}
-        
+
         {lead.responsavel && (
           <div className="flex items-center justify-end">
             <span className={`px-2 py-1 rounded-full text-xs text-white ${getResponsavelColor(lead.responsavel)}`}>
@@ -354,30 +354,30 @@ function KanbanBoard() {
   };
 
   const columns = [
-    { 
-      id: 'lead', 
-      title: 'Lead', 
+    {
+      id: 'lead',
+      title: 'Lead',
       count: leads.lead.length,
       bgColor: 'bg-gray-50',
       borderColor: 'border-gray-200'
     },
-    { 
-      id: 'emAndamento', 
-      title: 'Em Andamento', 
+    {
+      id: 'emAndamento',
+      title: 'Em Andamento',
       count: leads.emAndamento.length,
       bgColor: 'bg-blue-50',
       borderColor: 'border-blue-200'
     },
-    { 
-      id: 'emNegociacao', 
-      title: 'Em Negociação', 
+    {
+      id: 'emNegociacao',
+      title: 'Em Negociação',
       count: leads.emNegociacao.length,
       bgColor: 'bg-yellow-50',
       borderColor: 'border-yellow-200'
     },
-    { 
-      id: 'standFechado', 
-      title: 'Stand Fechado', 
+    {
+      id: 'standFechado',
+      title: 'Stand Fechado',
       count: leads.standFechado.length,
       bgColor: 'bg-green-50',
       borderColor: 'border-green-200'
@@ -404,7 +404,7 @@ function KanbanBoard() {
       onDragEnd={handleDragEnd}
     >
       <div className="h-full flex flex-col bg-gray-50">
-        {/* Header com fundo azul igual ao Dashboard */}
+        {}
         <div className={`bg-gradient-to-r from-blue-50 to-indigo-50 py-6 border-b border-blue-100 transition-all duration-200 ease-out ${sidebarExpanded ? 'px-4 sm:px-6' : 'px-6 sm:px-8'}`}>
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <div className="flex items-center space-x-4">
@@ -416,7 +416,7 @@ function KanbanBoard() {
                 <p className="text-sm text-gray-600 mt-0.5">Gerencie seus leads e oportunidades</p>
               </div>
             </div>
-            <button 
+            <button
               onClick={() => setIsModalOpen(true)}
               className="btn-success flex items-center space-x-2 w-full sm:w-auto"
             >
@@ -426,13 +426,13 @@ function KanbanBoard() {
           </div>
         </div>
 
-        {/* Kanban Board - Área principal */}
+        {}
         <div className={`flex-1 overflow-hidden transition-all duration-200 ease-out ${sidebarExpanded ? 'p-3 sm:p-4' : 'p-4 sm:p-6'}`}>
           <div className="h-full overflow-x-auto">
             <div className={`flex min-w-max h-full transition-all duration-200 ease-out ${sidebarExpanded ? 'space-x-3' : 'space-x-4'}`}>
               {columns.map((column) => (
                 <div key={column.id} className={`flex-shrink-0 w-80 lg:w-96 ${column.bgColor} rounded-xl border-2 ${column.borderColor} flex flex-col shadow-soft`}>
-                  {/* Column Header */}
+                  {}
                   <div className="p-4 border-b border-gray-200 flex-shrink-0">
                     <div className="flex items-center justify-between">
                       <h2 className="text-sm font-semibold text-gray-900">
@@ -444,13 +444,13 @@ function KanbanBoard() {
                     </div>
                   </div>
 
-                  {/* Column Content */}
+                  {}
                   <div className={`flex-1 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-3' : 'p-4'}`}>
                     {leads[column.id].map((lead) => (
                       <LeadCard key={lead.id} lead={lead} columnId={column.id} />
                     ))}
-                    
-                    {/* Empty state */}
+
+                    {}
                     {leads[column.id].length === 0 && (
                       <div className="text-center py-8 text-gray-500 h-full flex flex-col items-center justify-center">
                         <div className="w-12 h-12 mb-2 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -468,14 +468,14 @@ function KanbanBoard() {
         </div>
       </div>
 
-      {/* Modal de Adicionar Cliente */}
+      {}
       <AddClientModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAddClient={handleAddClient}
       />
 
-      {/* Drag Overlay */}
+      {}
       <DragOverlay>
         {activeId ? (
           <div className="p-4 mb-3 bg-white rounded-lg shadow-lg border border-gray-200 opacity-90">

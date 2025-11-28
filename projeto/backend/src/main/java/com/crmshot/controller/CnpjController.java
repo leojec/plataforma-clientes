@@ -15,29 +15,29 @@ public class CnpjController {
     @GetMapping("/{cnpj}")
     public ResponseEntity<Object> buscarCNPJ(@PathVariable String cnpj) {
         try {
-            // Remover formatação do CNPJ
+
             String cnpjLimpo = cnpj.replaceAll("[^0-9]", "");
-            
-            // Validar se tem 14 dígitos
+
+
             if (cnpjLimpo.length() != 14) {
                 Map<String, String> erro = new HashMap<>();
                 erro.put("status", "ERROR");
                 erro.put("message", "CNPJ deve ter 14 dígitos");
                 return ResponseEntity.badRequest().body(erro);
             }
-            
-            // Criar RestTemplate para fazer a chamada
+
+
             RestTemplate restTemplate = new RestTemplate();
             String url = "https://www.receitaws.com.br/v1/cnpj/" + cnpjLimpo;
-            
-            // Fazer a chamada para a API da ReceitaWS
+
+
             @SuppressWarnings("unchecked")
-            ResponseEntity<Map<String, Object>> response = (ResponseEntity<Map<String, Object>>) 
+            ResponseEntity<Map<String, Object>> response = (ResponseEntity<Map<String, Object>>)
                 (ResponseEntity<?>) restTemplate.getForEntity(url, Map.class);
-            
-            // Retornar os dados
+
+
             return ResponseEntity.ok(response.getBody());
-            
+
         } catch (Exception e) {
             Map<String, String> erro = new HashMap<>();
             erro.put("status", "ERROR");
@@ -46,5 +46,4 @@ public class CnpjController {
         }
     }
 }
-
 

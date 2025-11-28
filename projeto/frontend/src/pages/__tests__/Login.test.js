@@ -6,14 +6,14 @@ import { AuthProvider } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
 import toast from 'react-hot-toast';
 
-// Mock do react-router-dom
+
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
 
-// Mock do react-hot-toast
+
 jest.mock('react-hot-toast', () => ({
   __esModule: true,
   default: {
@@ -22,7 +22,7 @@ jest.mock('react-hot-toast', () => ({
   },
 }));
 
-// Mock do api
+
 jest.mock('../../services/api', () => ({
   api: {
     post: jest.fn(),
@@ -52,7 +52,7 @@ describe('Login Page', () => {
 
   it('deve renderizar o formulário de login', () => {
     renderLogin();
-    
+
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/senha/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument();
@@ -60,28 +60,28 @@ describe('Login Page', () => {
 
   it('deve permitir digitar email e senha', () => {
     renderLogin();
-    
+
     const emailInput = screen.getByPlaceholderText(/email/i);
     const senhaInput = screen.getByPlaceholderText(/senha/i);
-    
+
     fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
     fireEvent.change(senhaInput, { target: { value: 'password123' } });
-    
+
     expect(emailInput.value).toBe('test@test.com');
     expect(senhaInput.value).toBe('password123');
   });
 
   it('deve alternar visibilidade da senha', () => {
     renderLogin();
-    
+
     const senhaInput = screen.getByPlaceholderText(/sua senha/i);
     const toggleButtons = screen.getAllByRole('button');
-    const toggleButton = toggleButtons.find(btn => 
+    const toggleButton = toggleButtons.find(btn =>
       btn.querySelector('svg') || btn.getAttribute('aria-label')?.includes('senha')
     ) || toggleButtons[1];
-    
+
     expect(senhaInput.type).toBe('password');
-    
+
     if (toggleButton) {
       fireEvent.click(toggleButton);
       expect(senhaInput).toBeInTheDocument();
@@ -90,14 +90,14 @@ describe('Login Page', () => {
 
   it('deve permitir submeter formulário de login', () => {
     renderLogin();
-    
+
     const emailInput = screen.getByPlaceholderText(/seu@email.com/i);
     const senhaInput = screen.getByPlaceholderText(/sua senha/i);
     const submitButton = screen.getByRole('button', { name: /entrar/i });
-    
+
     fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
     fireEvent.change(senhaInput, { target: { value: 'password123' } });
-    
+
     expect(emailInput.value).toBe('test@test.com');
     expect(senhaInput.value).toBe('password123');
     expect(submitButton).toBeInTheDocument();
@@ -105,16 +105,16 @@ describe('Login Page', () => {
 
   it('deve submeter formulário de login', async () => {
     renderLogin();
-    
+
     const emailInput = screen.getByPlaceholderText(/seu@email.com/i);
     const senhaInput = screen.getByPlaceholderText(/sua senha/i);
     const form = emailInput.closest('form');
-    
+
     fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
     fireEvent.change(senhaInput, { target: { value: 'password123' } });
     fireEvent.submit(form);
-    
-    // Apenas verifica que o formulário foi submetido
+
+
     await waitFor(() => {
       expect(emailInput.value).toBe('test@test.com');
     });

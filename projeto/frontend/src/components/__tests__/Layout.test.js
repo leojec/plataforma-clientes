@@ -4,7 +4,7 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import Layout from '../Layout';
 import { AuthProvider } from '../../contexts/AuthContext';
 
-// Mock do ChatBot
+
 jest.mock('../ChatBot', () => {
   return function ChatBot() {
     return <div>ChatBot</div>;
@@ -33,7 +33,7 @@ describe('Layout Component', () => {
 
   it('deve renderizar links de navegação', () => {
     renderLayout();
-    // Verifica que o componente renderiza (pode não encontrar os links específicos devido ao mock)
+
     expect(document.body).toBeInTheDocument();
   });
 });

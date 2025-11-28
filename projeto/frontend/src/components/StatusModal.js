@@ -12,7 +12,7 @@ function StatusModal({ isOpen, onClose, onSave, leadId, currentStatus }) {
     { value: 'Stand Fechado', label: 'Stand Fechado' }
   ];
 
-  // Reset status when modal opens
+
   useEffect(() => {
     if (isOpen) {
       setSelectedStatus('');

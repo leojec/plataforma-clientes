@@ -23,14 +23,14 @@ import java.util.Optional;
 @RequestMapping("/api/expositores")
 @CrossOrigin(origins = "*")
 public class ExpositorController {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(ExpositorController.class);
     private static final String KEY_EMAIL = "email";
     private static final String KEY_STATUS = "status";
-    
+
     @Autowired
     private ExpositorService expositorService;
-    
+
     @PostMapping
     public ResponseEntity<Object> criarExpositor(@Valid @RequestBody ExpositorRequest request) {
         try {
@@ -38,16 +38,16 @@ public class ExpositorController {
                 return ResponseEntity.badRequest()
                     .body("CNPJ já está cadastrado");
             }
-            
+
             Expositor expositor = expositorService.criarExpositor(request);
             return ResponseEntity.ok(expositor);
-            
+
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                 .body("Erro ao criar expositor: " + e.getMessage());
         }
     }
-    
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -58,13 +58,13 @@ public class ExpositorController {
         });
         return ResponseEntity.badRequest().body(errors);
     }
-    
+
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> listarExpositores() {
         try {
             List<Expositor> expositores = expositorService.listarExpositores();
-            
-            // Converter para um formato simples sem referências circulares
+
+
             List<Map<String, Object>> expositoresSimples = expositores.stream()
                 .map(expositor -> {
                     Map<String, Object> map = new HashMap<>();
@@ -84,8 +84,8 @@ public class ExpositorController {
                     map.put(KEY_STATUS, expositor.getStatus());
                     map.put("dataCadastro", expositor.getDataCadastro());
                     map.put("dataAtualizacao", expositor.getDataAtualizacao());
-                    
-                    // Apenas informações básicas do vendedor
+
+
                     if (expositor.getVendedor() != null) {
                         Map<String, Object> vendedor = new HashMap<>();
                         vendedor.put("id", expositor.getVendedor().getId());
@@ -93,38 +93,38 @@ public class ExpositorController {
                         vendedor.put(KEY_EMAIL, expositor.getVendedor().getEmail());
                         map.put("vendedor", vendedor);
                     }
-                    
+
                     return map;
                 })
                 .collect(java.util.stream.Collectors.toList());
-            
+
             return ResponseEntity.ok(expositoresSimples);
         } catch (Exception e) {
             logger.error("Erro ao listar expositores: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
-    
+
     @GetMapping("/paginado")
     public ResponseEntity<Page<Expositor>> listarExpositoresPaginado(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) Expositor.StatusExpositor status,
             @RequestParam(required = false) Long vendedorId,
             Pageable pageable) {
-        
+
         Page<Expositor> expositores = expositorService.buscarExpositores(nome, status, vendedorId, pageable);
         return ResponseEntity.ok(expositores);
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> buscarExpositor(@PathVariable Long id) {
         try {
             Optional<Expositor> expositorOpt = expositorService.buscarPorId(id);
-            
+
             if (expositorOpt.isPresent()) {
                 Expositor expositor = expositorOpt.get();
-                
-                // Converter para um formato simples sem referências circulares
+
+
                 Map<String, Object> expositorSimples = new HashMap<>();
                 expositorSimples.put("id", expositor.getId());
                 expositorSimples.put("razaoSocial", expositor.getRazaoSocial());
@@ -142,8 +142,8 @@ public class ExpositorController {
                 expositorSimples.put(KEY_STATUS, expositor.getStatus());
                 expositorSimples.put("dataCadastro", expositor.getDataCadastro());
                 expositorSimples.put("dataAtualizacao", expositor.getDataAtualizacao());
-                
-                // Apenas informações básicas do vendedor
+
+
                 if (expositor.getVendedor() != null) {
                     Map<String, Object> vendedor = new HashMap<>();
                     vendedor.put("id", expositor.getVendedor().getId());
@@ -151,7 +151,7 @@ public class ExpositorController {
                     vendedor.put(KEY_EMAIL, expositor.getVendedor().getEmail());
                     expositorSimples.put("vendedor", vendedor);
                 }
-                
+
                 return ResponseEntity.ok(expositorSimples);
             } else {
                 return ResponseEntity.notFound().build();
@@ -161,14 +161,14 @@ public class ExpositorController {
             return ResponseEntity.internalServerError().build();
         }
     }
-    
+
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizarExpositor(@PathVariable Long id, 
+    public ResponseEntity<Object> atualizarExpositor(@PathVariable Long id,
                                               @Valid @RequestBody ExpositorRequest request) {
         try {
             Expositor expositor = expositorService.atualizarExpositor(id, request);
             return ResponseEntity.ok(expositor);
-            
+
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
@@ -176,54 +176,54 @@ public class ExpositorController {
                 .body("Erro ao atualizar expositor: " + e.getMessage());
         }
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> excluirExpositor(@PathVariable Long id) {
         try {
             expositorService.excluirExpositor(id);
             return ResponseEntity.ok("Expositor excluído com sucesso");
-            
+
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                 .body("Erro ao excluir expositor: " + e.getMessage());
         }
     }
-    
+
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Expositor>> listarExpositoresPorStatus(@PathVariable Expositor.StatusExpositor status) {
         List<Expositor> expositores = expositorService.listarExpositoresPorStatus(status);
         return ResponseEntity.ok(expositores);
     }
-    
+
     @GetMapping("/vendedor/{vendedorId}")
     public ResponseEntity<List<Expositor>> listarExpositoresPorVendedor(@PathVariable Long vendedorId) {
         List<Expositor> expositores = expositorService.listarExpositoresPorVendedor(vendedorId);
         return ResponseEntity.ok(expositores);
     }
-    
+
     @PutMapping("/{id}/status")
     public ResponseEntity<Map<String, Object>> atualizarStatus(@PathVariable Long id, @RequestBody Map<String, String> statusData) {
         try {
             String novoStatus = statusData.get(KEY_STATUS);
-            
+
             if (novoStatus == null || novoStatus.trim().isEmpty()) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("erro", "Status não pode ser vazio");
                 return ResponseEntity.badRequest().body(errorResponse);
             }
-            
+
             Optional<Expositor> expositorOpt = expositorService.buscarPorId(id);
-            
+
             if (!expositorOpt.isPresent()) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("erro", "Expositor não encontrado");
                 return ResponseEntity.notFound().build();
             }
-            
+
             Expositor expositor = expositorOpt.get();
             Expositor.StatusExpositor statusAnterior = expositor.getStatus();
-            
-            // Mapear status do frontend para enum do backend
+
+
             Expositor.StatusExpositor novoStatusEnum;
             switch (novoStatus) {
                 case "Lead":
@@ -243,10 +243,10 @@ public class ExpositorController {
                     errorResponse.put("erro", "Status inválido: " + novoStatus);
                     return ResponseEntity.badRequest().body(errorResponse);
             }
-            
+
             expositor.setStatus(novoStatusEnum);
             expositorService.atualizarExpositor(expositor);
-            
+
             Map<String, Object> response = new HashMap<>();
             response.put("sucesso", true);
             response.put("mensagem", "Status atualizado com sucesso");
@@ -254,9 +254,9 @@ public class ExpositorController {
             response.put("statusAnterior", statusAnterior.name());
             response.put("novoStatus", novoStatusEnum.name());
             response.put("statusFrontend", novoStatus);
-            
+
             return ResponseEntity.ok(response);
-            
+
         } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("erro", "Erro ao atualizar status: " + e.getMessage());

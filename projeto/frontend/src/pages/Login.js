@@ -20,7 +20,7 @@ function Login() {
     confirmarSenha: ''
   });
   const [creatingUser, setCreatingUser] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ function Login() {
 
   const handleCreateUser = async (e) => {
     e.preventDefault();
-    
+
     if (createUserData.senha !== createUserData.confirmarSenha) {
       toast.error('As senhas não coincidem');
       return;
@@ -59,7 +59,7 @@ function Login() {
         senha: createUserData.senha,
         perfil: 'VENDEDOR'
       });
-      
+
       toast.success('Usuário criado com sucesso! Faça login para continuar.');
       setShowCreateUser(false);
       setCreateUserData({ nome: '', email: '', senha: '', confirmarSenha: '' });
@@ -77,7 +77,7 @@ function Login() {
 
     try {
       const result = await login(formData.email, formData.senha);
-      
+
       if (result.success) {
         toast.success('Login realizado com sucesso!');
         navigate('/');
@@ -97,18 +97,18 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          {/* Logo CRM Shot */}
+          {}
           <div className="mx-auto flex items-center justify-center">
             <div className="w-16 h-16 bg-red-500 rounded-lg flex items-center justify-center relative">
-              {/* Speech bubble icon */}
+              {}
               <div className="w-12 h-12 border-4 border-white rounded-lg relative">
-                {/* Growth bars inside */}
+                {}
                 <div className="absolute bottom-2 left-2 flex items-end space-x-1">
                   <div className="w-1.5 h-4 bg-white"></div>
                   <div className="w-1.5 h-6 bg-white"></div>
                   <div className="w-1.5 h-8 bg-white"></div>
                 </div>
-                {/* Growth arrow */}
+                {}
                 <div className="absolute top-1 right-1 w-0 h-0 border-l-4 border-b-4 border-white transform rotate-45"></div>
               </div>
             </div>
@@ -124,7 +124,7 @@ function Login() {
             Faça login em sua conta
           </p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
@@ -142,7 +142,7 @@ function Login() {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div>
               <label htmlFor="senha" className="block text-sm font-medium text-gray-700">
                 Senha
@@ -195,7 +195,7 @@ function Login() {
         </form>
       </div>
 
-      {/* Modal de Criar Usuário */}
+      {}
       {showCreateUser && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">

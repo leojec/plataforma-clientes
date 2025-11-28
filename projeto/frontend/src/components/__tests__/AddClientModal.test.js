@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import AddClientModal from '../AddClientModal';
 import { api } from '../../services/api';
 
-// Mock do api
+
 jest.mock('../../services/api', () => ({
   api: {
     get: jest.fn(),
@@ -11,7 +11,7 @@ jest.mock('../../services/api', () => ({
   }
 }));
 
-// Mock do toast
+
 jest.mock('react-hot-toast', () => ({
   __esModule: true,
   default: {
@@ -46,19 +46,19 @@ describe('AddClientModal', () => {
 
   it('deve formatar CNPJ corretamente', () => {
     render(<AddClientModal {...defaultProps} />);
-    // Apenas verifica que o componente renderiza
+
     expect(document.body).toBeInTheDocument();
   });
 
   it('deve permitir preencher campos do formulário', () => {
     render(<AddClientModal {...defaultProps} />);
-    
+
     const inputs = screen.getAllByRole('textbox');
     if (inputs.length > 0) {
       const cnpjInput = inputs.find(input => input.name === 'cnpj') || inputs[0];
       fireEvent.change(cnpjInput, { target: { value: '12345678000190', name: 'cnpj' } });
     }
-    
+
     expect(document.body).toBeInTheDocument();
   });
 
@@ -73,25 +73,25 @@ describe('AddClientModal', () => {
 
   it('deve buscar dados do CNPJ quando CNPJ completo', async () => {
     api.get.mockResolvedValue({ data: { razaoSocial: 'Teste LTDA' } });
-    
+
     render(<AddClientModal {...defaultProps} />);
-    
+
     const inputs = screen.getAllByRole('textbox');
     const cnpjInput = inputs.find(input => input.name === 'cnpj');
-    
+
     if (cnpjInput) {
       fireEvent.change(cnpjInput, { target: { value: '12345678000190', name: 'cnpj' } });
     }
-    
-    // Aguarda um pouco para a busca assíncrona
+
+
     await new Promise(resolve => setTimeout(resolve, 100));
-    
+
     expect(document.body).toBeInTheDocument();
   });
 
   it('deve mostrar erro quando campos obrigatórios não preenchidos', async () => {
     render(<AddClientModal {...defaultProps} />);
-    
+
     const submitButtons = screen.getAllByText(/salvar|adicionar/i);
     if (submitButtons.length > 0) {
       const form = submitButtons[0].closest('form');
@@ -99,7 +99,7 @@ describe('AddClientModal', () => {
         fireEvent.submit(form);
       }
     }
-    
+
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalled();
     });
@@ -107,12 +107,12 @@ describe('AddClientModal', () => {
 
   it('deve permitir preencher múltiplos campos', () => {
     render(<AddClientModal {...defaultProps} />);
-    
+
     const inputs = screen.getAllByRole('textbox');
     if (inputs.length > 0) {
       const razaoSocialInput = inputs.find(input => input.name === 'razaoSocial') || inputs[0];
       const emailInput = inputs.find(input => input.name === 'email') || inputs[1];
-      
+
       if (razaoSocialInput) {
         fireEvent.change(razaoSocialInput, { target: { value: 'Empresa Teste', name: 'razaoSocial' } });
       }
@@ -120,7 +120,7 @@ describe('AddClientModal', () => {
         fireEvent.change(emailInput, { target: { value: 'teste@teste.com', name: 'email' } });
       }
     }
-    
+
     expect(document.body).toBeInTheDocument();
   });
 
@@ -131,14 +131,14 @@ describe('AddClientModal', () => {
 
   it('deve criar cliente com sucesso quando todos os campos obrigatórios preenchidos', async () => {
     api.post.mockResolvedValue({ data: { id: 1, razaoSocial: 'Teste LTDA' } });
-    
+
     render(<AddClientModal {...defaultProps} />);
-    
+
     const inputs = screen.getAllByRole('textbox');
     const razaoSocialInput = inputs.find(input => input.name === 'razaoSocial');
     const cnpjInput = inputs.find(input => input.name === 'cnpj');
     const emailInput = inputs.find(input => input.name === 'email');
-    
+
     if (razaoSocialInput) {
       fireEvent.change(razaoSocialInput, { target: { value: 'Empresa Teste', name: 'razaoSocial' } });
     }
@@ -148,7 +148,7 @@ describe('AddClientModal', () => {
     if (emailInput) {
       fireEvent.change(emailInput, { target: { value: 'teste@teste.com', name: 'email' } });
     }
-    
+
     const submitButtons = screen.getAllByText(/salvar|adicionar/i);
     if (submitButtons.length > 0) {
       const form = submitButtons[0].closest('form');
@@ -156,7 +156,7 @@ describe('AddClientModal', () => {
         fireEvent.submit(form);
       }
     }
-    
+
     await waitFor(() => {
       expect(api.post).toHaveBeenCalled();
     });

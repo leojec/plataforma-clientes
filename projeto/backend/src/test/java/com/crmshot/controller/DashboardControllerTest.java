@@ -41,7 +41,7 @@ class DashboardControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Setup básico
+
     }
 
     @Test

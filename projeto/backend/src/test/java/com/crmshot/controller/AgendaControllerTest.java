@@ -503,7 +503,7 @@ class AgendaControllerTest {
     @Test
     void testSalvarAtividade_DiferentesTiposAtividade() {
         String[] tipos = {"Ligação", "Email", "Reunião", "Contato WhatsApp", "Proposta", "Fechado", "Outros"};
-        
+
         for (String tipo : tipos) {
             Map<String, Object> atividadeData = new HashMap<>();
             atividadeData.put("tipoAtividade", tipo);

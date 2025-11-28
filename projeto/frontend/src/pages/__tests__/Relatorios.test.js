@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from '../../contexts/AuthContext';
 
-// Mock do api ANTES de importar Relatorios
+
 jest.mock('../../services/api', () => ({
   api: {
     get: jest.fn(() => Promise.resolve({ data: [] })),
@@ -19,12 +19,12 @@ jest.mock('../../services/api', () => ({
   }
 }));
 
-// Mock do useSidebar
+
 jest.mock('../../hooks/useSidebar', () => ({
   useSidebar: () => ({ sidebarExpanded: true })
 }));
 
-// Mock do useNavigate
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => jest.fn(),

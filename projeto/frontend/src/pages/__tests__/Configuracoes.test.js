@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '../../contexts/AuthContext';
 
-// Mock do api ANTES de importar Configuracoes
+
 jest.mock('../../services/api', () => ({
   api: {
     get: jest.fn(() => Promise.resolve({ data: [] })),
@@ -18,7 +18,7 @@ jest.mock('../../services/api', () => ({
   }
 }));
 
-// Mock do useSidebar
+
 jest.mock('../../hooks/useSidebar', () => ({
   useSidebar: () => ({ sidebarExpanded: true })
 }));

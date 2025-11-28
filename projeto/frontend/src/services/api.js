@@ -1,27 +1,25 @@
 import axios from 'axios';
 
-// Normalizar e limpar a URL da API (remover caracteres invisíveis)
+
 const normalizeURL = (url) => {
   if (!url) return 'http://localhost:8080/api';
-  // Remove caracteres zero-width e espaços invisíveis
+
   return url.replace(/[\u200B-\u200D\uFEFF\u200C\u200D]/g, '').trim().replace(/\/+$/, '');
 };
 
-// Detectar se estamos em produção (HTTPS)
+
 const isProduction = window.location.protocol === 'https:';
 
-// Priorizar REACT_APP_API_URL (CloudFront com HTTPS) quando disponível
-// Caso contrário, usar REACT_APP_BACKEND_URL (URL direta do backend)
-// Em desenvolvimento local, usar localhost
+
 const backendURL = process.env.REACT_APP_BACKEND_URL;
 const apiURL = process.env.REACT_APP_API_URL;
 
 let baseURL;
-// Sempre priorizar REACT_APP_API_URL (CloudFront) quando disponível
+
 if (apiURL) {
   baseURL = apiURL;
 } else if (isProduction && backendURL) {
-  // Em produção (HTTPS), tentar converter HTTP para HTTPS se possível
+
   if (backendURL.startsWith('http://') && backendURL.includes('elasticbeanstalk.com')) {
     baseURL = backendURL.replace('http://', 'https://');
     console.warn('⚠️ Convertendo backend URL de HTTP para HTTPS para evitar Mixed Content');
@@ -29,14 +27,14 @@ if (apiURL) {
     baseURL = backendURL;
   }
 } else if (backendURL) {
-  // Em desenvolvimento, usar backend URL se disponível
+
   baseURL = backendURL;
 } else {
-  // Fallback para localhost
+
   baseURL = 'http://localhost:8080/api';
 }
 
-// Normalizar e garantir que termina com /api
+
 const normalizedURL = normalizeURL(baseURL);
 const finalBaseURL = normalizedURL.endsWith('/api') ? normalizedURL : `${normalizedURL}/api`;
 
@@ -45,13 +43,12 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Log da URL base para debug (sempre, para ajudar no troubleshooting)
 console.log('🔗 API Base URL:', finalBaseURL);
 console.log('🔗 Ambiente:', isProduction ? 'Produção (HTTPS)' : 'Desenvolvimento');
 console.log('🔗 REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL || 'não definido');
 console.log('🔗 REACT_APP_API_URL:', process.env.REACT_APP_API_URL || 'não definido');
 
-// Interceptor para adicionar token automaticamente
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -65,16 +62,15 @@ api.interceptors.request.use(
   }
 );
 
-// Interceptor para tratar respostas
 api.interceptors.response.use(
   (response) => {
-    // Verificar se a resposta é HTML ao invés de JSON
+
     const contentType = response.headers['content-type'] || '';
     if (contentType.includes('text/html')) {
       console.error('❌ API retornou HTML ao invés de JSON. URL:', response.config?.url);
       console.error('❌ Resposta HTML:', response.data?.substring(0, 200));
       console.error('💡 Dica: Configure REACT_APP_BACKEND_URL com a URL direta do backend (Elastic Beanstalk)');
-      // Criar um erro customizado
+
       const error = new Error('API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint. Se estiver usando CloudFront, configure REACT_APP_BACKEND_URL com a URL direta do backend.');
       error.response = {
         ...response,
@@ -83,8 +79,7 @@ api.interceptors.response.use(
       };
       return Promise.reject(error);
     }
-    
-    // Verificar se response.data é uma string que parece HTML
+
     if (typeof response.data === 'string' && response.data.trim().startsWith('<!')) {
       console.error('❌ API retornou HTML ao invés de JSON. URL:', response.config?.url);
       console.error('💡 Dica: Configure REACT_APP_BACKEND_URL com a URL direta do backend (Elastic Beanstalk)');
@@ -95,7 +90,7 @@ api.interceptors.response.use(
       };
       return Promise.reject(error);
     }
-    
+
     return response;
   },
   (error) => {
@@ -103,23 +98,21 @@ api.interceptors.response.use(
       localStorage.removeItem('token');
       window.location.href = '/login';
     }
-    
-    // Verificar se o erro é HTML
+
     if (error.response?.data && typeof error.response.data === 'string' && error.response.data.trim().startsWith('<!')) {
       console.error('❌ Erro: API retornou HTML ao invés de JSON');
       error.message = 'API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint.';
       error.isHtmlResponse = true;
     }
-    
-    // Garantir que o erro seja uma string ou objeto simples
+
     if (error.response?.data && !error.isHtmlResponse) {
       const errorData = error.response.data;
       if (typeof errorData === 'object' && errorData !== null) {
-        // Se for um objeto complexo, converter para string
+
         error.message = errorData.message || errorData.error || 'Erro do servidor';
       }
     }
-    
+
     return Promise.reject(error);
   }
 );

@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from '../../contexts/AuthContext';
 
-// Mock do api ANTES de importar Expositores
+
 jest.mock('../../services/api', () => ({
   api: {
     get: jest.fn(() => Promise.resolve({ data: [] })),

@@ -10,11 +10,11 @@ class SecurityConfigTest {
     @Test
     void testPasswordEncoder() {
         SecurityConfig config = new SecurityConfig();
-        
+
         PasswordEncoder passwordEncoder = config.passwordEncoder();
         assertNotNull(passwordEncoder);
-        
-        // Testar que o encoder funciona
+
+
         String encoded = passwordEncoder.encode("teste123");
         assertNotNull(encoded);
         assertTrue(passwordEncoder.matches("teste123", encoded));

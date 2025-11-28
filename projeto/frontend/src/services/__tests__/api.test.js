@@ -1,4 +1,4 @@
-// Mock do axios antes de importar
+
 jest.mock('axios', () => {
   const mockAxios = jest.fn(() => Promise.resolve({ data: {} }));
   mockAxios.create = jest.fn(() => {
@@ -48,27 +48,27 @@ describe('API Service', () => {
 
   it('deve adicionar token no header quando existe no localStorage', () => {
     localStorage.setItem('token', 'test-token');
-    
+
     const config = {
       headers: {}
     };
-    
+
     const interceptor = api.interceptors.request.handlers[0].fulfilled;
     const result = interceptor(config);
-    
+
     expect(result.headers.Authorization).toBe('Bearer test-token');
   });
 
   it('não deve adicionar token quando não existe no localStorage', () => {
     localStorage.removeItem('token');
-    
+
     const config = {
       headers: {}
     };
-    
+
     const interceptor = api.interceptors.request.handlers[0].fulfilled;
     const result = interceptor(config);
-    
+
     expect(result.headers.Authorization).toBeUndefined();
   });
 
@@ -78,20 +78,20 @@ describe('API Service', () => {
         status: 401
       }
     };
-    
+
     const interceptor = api.interceptors.response.handlers[0].rejected;
-    
+
     interceptor(error).catch(() => {});
-    
+
     expect(localStorage.getItem('token')).toBeNull();
   });
 
   it('deve retornar response quando sucesso', () => {
     const response = { data: { success: true } };
-    
+
     const interceptor = api.interceptors.response.handlers[0].fulfilled;
     const result = interceptor(response);
-    
+
     expect(result).toBe(response);
   });
 
@@ -102,14 +102,14 @@ describe('API Service', () => {
         data: { message: 'Unauthorized' }
       }
     };
-    
+
     delete window.location;
     window.location = { href: '' };
-    
+
     const interceptor = api.interceptors.response.handlers[0].rejected;
-    
+
     interceptor(error).catch(() => {});
-    
+
     expect(localStorage.getItem('token')).toBeNull();
     expect(window.location.href).toBe('/login');
   });
@@ -121,9 +121,9 @@ describe('API Service', () => {
         data: { message: 'Server error', error: 'Internal error' }
       }
     };
-    
+
     const interceptor = api.interceptors.response.handlers[0].rejected;
-    
+
     return interceptor(error).catch((err) => {
       expect(err.message).toBe('Server error');
     });
@@ -136,9 +136,9 @@ describe('API Service', () => {
         data: 'Bad request'
       }
     };
-    
+
     const interceptor = api.interceptors.response.handlers[0].rejected;
-    
+
     return interceptor(error).catch((err) => {
       expect(err).toBeDefined();
     });
@@ -150,9 +150,9 @@ describe('API Service', () => {
         status: 500
       }
     };
-    
+
     const interceptor = api.interceptors.response.handlers[0].rejected;
-    
+
     return interceptor(error).catch((err) => {
       expect(err).toBeDefined();
     });
@@ -160,9 +160,9 @@ describe('API Service', () => {
 
   it('deve tratar erro no request interceptor', () => {
     const error = new Error('Request error');
-    
+
     const interceptor = api.interceptors.request.handlers[0].rejected;
-    
+
     return interceptor(error).catch((err) => {
       expect(err).toBe(error);
     });

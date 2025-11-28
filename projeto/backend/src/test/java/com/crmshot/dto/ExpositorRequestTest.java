@@ -10,7 +10,7 @@ class ExpositorRequestTest {
     @Test
     void testDefaultConstructor() {
         ExpositorRequest request = new ExpositorRequest();
-        
+
         assertNull(request.getRazaoSocial());
         assertNull(request.getNomeFantasia());
         assertNull(request.getCnpj());
@@ -20,7 +20,7 @@ class ExpositorRequestTest {
     @Test
     void testGettersAndSetters() {
         ExpositorRequest request = new ExpositorRequest();
-        
+
         request.setRazaoSocial("Empresa Teste LTDA");
         request.setNomeFantasia("Teste");
         request.setCnpj("12.345.678/0001-90");
@@ -35,7 +35,7 @@ class ExpositorRequestTest {
         request.setDescricao("Descrição teste");
         request.setStatus(Expositor.StatusExpositor.POTENCIAL);
         request.setVendedorId(1L);
-        
+
         assertEquals("Empresa Teste LTDA", request.getRazaoSocial());
         assertEquals("Teste", request.getNomeFantasia());
         assertEquals("12.345.678/0001-90", request.getCnpj());

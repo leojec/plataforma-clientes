@@ -34,7 +34,7 @@ class ChatControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Setup básico
+
     }
 
     @Test
@@ -168,13 +168,13 @@ class ChatControllerTest {
     @Test
     void testProcessarPergunta_Exception() {
         Map<String, String> request = new HashMap<>();
-        // Não adicionar "pergunta" ao map para simular null
+
 
         ResponseEntity<Map<String, String>> response = chatController.processarPergunta(request);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().get("resposta").contains("erro") || 
+        assertTrue(response.getBody().get("resposta").contains("erro") ||
                    response.getBody().get("resposta").contains("Desculpe"));
     }
 

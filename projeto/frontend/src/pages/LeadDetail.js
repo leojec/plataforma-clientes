@@ -3,10 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
 import { useSidebar } from '../hooks/useSidebar';
-import { 
-  ArrowLeft, 
-  Mail, 
-  Settings2, 
+import {
+  ArrowLeft,
+  Mail,
+  Settings2,
   Plus,
   Calendar,
   User,
@@ -26,7 +26,7 @@ function LeadDetail() {
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [atividades, setAtividades] = useState([]);
 
-  // Buscar dados reais do expositor
+
   const { data: leadData, isLoading, isError } = useQuery(
     ['lead', id],
     async () => {
@@ -36,16 +36,15 @@ function LeadDetail() {
     { enabled: !!id, refetchOnWindowFocus: false, retry: 1 }
   );
 
-  // Buscar atividades do lead
   const { isLoading: isLoadingAtividades, refetch: refetchAtividades } = useQuery(
     ['atividades', id],
     async () => {
       const res = await api.get(`/agenda/atividades/lead/${id}`);
       return res.data;
     },
-    { 
-      enabled: !!id, 
-      refetchOnWindowFocus: false, 
+    {
+      enabled: !!id,
+      refetchOnWindowFocus: false,
       retry: 1,
       onSuccess: (data) => {
         setAtividades(data || []);
@@ -86,21 +85,20 @@ function LeadDetail() {
 
   const handleSaveActivity = async (activityData) => {
     console.log('Atividade salva para o lead:', id, activityData);
-    
+
     try {
-      // Salvar atividade no backend
       const response = await api.post('/agenda/atividades', {
         ...activityData,
         leadId: `lead-${id}`
       });
-      
+
       if (response.data.sucesso) {
-        // Recarregar atividades do banco de dados
+
         refetchAtividades();
-        
+
         setIsActivityModalOpen(false);
-        
-        // Mostrar mensagem de sucesso
+
+
         console.log('Atividade salva com sucesso na agenda!');
       }
     } catch (error) {
@@ -112,38 +110,33 @@ function LeadDetail() {
 
   const handleSaveStatus = async (statusData) => {
     console.log('📝 Status alterado para o lead:', id, statusData);
-    
+
     try {
-      // Atualizar status no backend
+
       const response = await api.put(`/expositores/${id}/status`, {
         status: statusData.newStatus
       });
-      
+
       if (response.data.sucesso) {
         console.log('✅ Status atualizado no backend:', response.data);
-        
-        // Preparar dados da mudança de status
+
         const statusChange = {
           leadId: id.toString(),
           newStatus: statusData.newStatus,
           timestamp: new Date().toISOString()
         };
-        
+
         console.log('🚀 Disparando evento statusChanged:', statusChange);
-        
-        // Disparar evento customizado para notificar o Kanban
-        const event = new CustomEvent('statusChanged', { 
-          detail: statusChange 
+
+        const event = new CustomEvent('statusChanged', {
+          detail: statusChange
         });
         window.dispatchEvent(event);
-        
-        // Salvar no localStorage como backup
+
         localStorage.setItem('statusChange', JSON.stringify(statusChange));
-        
-        // Fechar modal
+
         setIsStatusModalOpen(false);
-        
-        // Navegar de volta para o Kanban para ver a mudança
+
         setTimeout(() => {
           console.log('🔄 Navegando de volta para o Kanban...');
           navigate('/kanban');
@@ -160,10 +153,10 @@ function LeadDetail() {
 
   return (
     <div className="h-full flex flex-col bg-white">
-      {/* Header com navegação */}
+      {}
       <div className={`bg-gradient-to-r from-blue-50 to-indigo-50 py-6 flex items-center justify-between transition-all duration-200 ease-out border-b border-blue-100 ${sidebarExpanded ? 'px-6' : 'px-8'}`}>
         <div className="flex items-center space-x-4">
-          <button 
+          <button
             onClick={() => navigate('/kanban')}
             className="btn-ghost p-2"
           >
@@ -174,19 +167,19 @@ function LeadDetail() {
             <p className="text-sm text-gray-600 mt-0.5">{leadData.nomeFantasia || leadData.razaoSocial} - {leadData.razaoSocial}</p>
           </div>
         </div>
-        
+
         <div className="flex items-center space-x-3">
           <button className="btn-success p-2">
             <Mail className="h-4 w-4" />
           </button>
-          <button 
+          <button
             onClick={() => setIsStatusModalOpen(true)}
             className="btn-secondary p-2"
             title="Alterar Status do Lead"
           >
             <Settings2 className="h-4 w-4" />
           </button>
-          <button 
+          <button
             onClick={() => setIsActivityModalOpen(true)}
             className="btn-primary p-2"
           >
@@ -195,7 +188,7 @@ function LeadDetail() {
         </div>
       </div>
 
-      {/* Tabs de navegação */}
+      {}
       <div className="border-b border-gray-200 bg-white">
         <nav className={`flex space-x-8 transition-all duration-200 ease-out ${sidebarExpanded ? 'px-6' : 'px-8'}`}>
           {tabs.map((tab) => (
@@ -214,7 +207,7 @@ function LeadDetail() {
         </nav>
       </div>
 
-      {/* Conteúdo das abas */}
+      {}
       <div className={`flex-1 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-6' : 'p-8'}`}>
         {activeTab === 'atividades' && (
           <div className="space-y-4">
@@ -225,7 +218,7 @@ function LeadDetail() {
               </div>
             </div>
 
-            {/* Tabela de atividades */}
+            {}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               {isLoadingAtividades ? (
                 <div className="text-center py-8 text-gray-500">
@@ -239,7 +232,7 @@ function LeadDetail() {
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Nenhuma atividade registrada ainda</h3>
                   <p className="text-sm text-gray-500 mb-6">Clique no botão "+" para adicionar uma atividade</p>
-                  <button 
+                  <button
                     onClick={() => setIsActivityModalOpen(true)}
                     className="btn-primary inline-flex items-center space-x-2"
                   >
@@ -284,9 +277,9 @@ function LeadDetail() {
                             {atividade.descricao}
                             {atividade.link && (
                               <div className="mt-1">
-                                <a 
-                                  href={atividade.link} 
-                                  target="_blank" 
+                                <a
+                                  href={atividade.link}
+                                  target="_blank"
                                   rel="noopener noreferrer"
                                   className="text-blue-600 hover:text-blue-800 text-xs font-medium"
                                 >
@@ -316,7 +309,7 @@ function LeadDetail() {
         {activeTab === 'dados' && (
           <div className="space-y-6">
             <h2 className="text-xl font-bold text-gray-900">Dados do Lead</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="card p-6 fade-in">
                 <h3 className="text-lg font-semibold text-gray-900 mb-6">Informações Pessoais</h3>
@@ -412,7 +405,7 @@ function LeadDetail() {
         )}
       </div>
 
-      {/* Modal de Cadastro de Atividade */}
+      {}
       <ActivityModal
         isOpen={isActivityModalOpen}
         onClose={() => setIsActivityModalOpen(false)}
@@ -420,7 +413,7 @@ function LeadDetail() {
         leadId={id}
       />
 
-      {/* Modal de Alterar Status */}
+      {}
       <StatusModal
         isOpen={isStatusModalOpen}
         onClose={() => setIsStatusModalOpen(false)}

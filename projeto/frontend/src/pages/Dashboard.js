@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSidebar } from '../hooks/useSidebar';
-import { 
-  Calendar, 
+import {
+  Calendar,
   UserPlus,
   CheckSquare,
   Hand,
@@ -19,26 +19,26 @@ function Dashboard() {
   const navigate = useNavigate();
   const { sidebarExpanded } = useSidebar();
 
-  // Buscar dados do dashboard da API
+
   const { data: dashboardStats, isLoading, error } = useQuery(
     'dashboardStats',
     () => api.get('/dashboard/stats').then(res => res.data),
     {
-      refetchInterval: 30000, // Atualizar a cada 30 segundos
+      refetchInterval: 30000,
       retry: 3
     }
   );
 
-  // Buscar dados do gráfico
+
   const { data: graficoData } = useQuery(
     'dashboardGrafico',
     () => api.get('/dashboard/atividades-grafico').then(res => res.data),
     {
-      refetchInterval: 60000, // Atualizar a cada 1 minuto
+      refetchInterval: 60000,
     }
   );
 
-  // Dados dos cards de resumo (dinâmicos)
+
   const summaryCards = [
     {
       id: 1,
@@ -90,24 +90,21 @@ function Dashboard() {
     }
   ];
 
-  // Processar dados do gráfico vindos do backend
   const processChartData = () => {
     if (!graficoData || !graficoData.dados) return {};
-    
+
     const chartData = {};
     const usuarios = graficoData.usuarios || [];
-    
-    // Inicializar arrays para cada usuário
+
     usuarios.forEach(usuario => {
       chartData[usuario] = [];
     });
-    
-    // Processar cada ponto de dados
+
     graficoData.dados.forEach(ponto => {
       const [dia, mes] = ponto.data.split('/');
       const ano = new Date().getFullYear();
       const data = new Date(ano, parseInt(mes) - 1, parseInt(dia));
-      
+
       usuarios.forEach(usuario => {
         const quantidade = ponto[usuario] || 0;
         chartData[usuario].push({
@@ -116,13 +113,12 @@ function Dashboard() {
         });
       });
     });
-    
+
     return chartData;
   };
-  
+
   const chartData = processChartData();
 
-  // Inicializar o gráfico quando o componente montar
   useEffect(() => {
     const initializeChart = () => {
       if (window.CanvasJS && window.CanvasJS.Chart && document.getElementById("chartContainer")) {
@@ -169,16 +165,13 @@ function Dashboard() {
           console.warn('Erro ao renderizar gráfico:', error);
         }
       } else {
-        // Se CanvasJS não estiver carregado, tenta novamente em 100ms
         setTimeout(initializeChart, 100);
       }
     };
 
-    // Aguarda um pouco para garantir que o CanvasJS esteja carregado
     setTimeout(initializeChart, 500);
   }, [graficoData, chartData]); // Re-renderizar quando os dados do gráfico mudarem
 
-  // Loading state
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center bg-gray-50">
@@ -190,7 +183,6 @@ function Dashboard() {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <div className="h-full flex items-center justify-center bg-gray-50">
@@ -207,7 +199,7 @@ function Dashboard() {
 
   return (
     <div className="h-full flex flex-col bg-gray-50">
-      {/* Header */}
+      {}
       <div className={`bg-gradient-to-r from-blue-50 to-indigo-50 py-6 flex items-center justify-between transition-all duration-200 ease-out border-b border-blue-100 ${sidebarExpanded ? 'px-6' : 'px-8'}`}>
         <div className="flex items-center space-x-4">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -220,7 +212,7 @@ function Dashboard() {
         </div>
 
         <div className="flex items-center space-x-3">
-          <button 
+          <button
             onClick={() => navigate('/agenda')}
             className="btn-ghost flex items-center space-x-2"
             title="Abrir Agenda"
@@ -231,20 +223,20 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {}
       <div className={`flex-1 space-y-6 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-6' : 'p-8'}`}>
-        {/* Summary Cards */}
+        {}
         <div className={`grid gap-8 transition-all duration-200 ease-out grid-cols-1 md:grid-cols-2 lg:grid-cols-3`}>
           {summaryCards.map((card) => (
             <div key={card.id} className="dashboard-card p-8 fade-in min-h-[200px]">
               <div className="flex flex-col h-full">
-                {/* Header com ícone e trend */}
+                {}
                 <div className="flex items-start justify-between mb-6">
                   <div className={`p-4 rounded-2xl shadow-lg ${card.color}`}>
                     <card.icon className="w-8 h-8 text-white" />
                   </div>
-                  
-                  {/* Trend indicator */}
+
+                  {}
                   <div className="flex items-center">
                     <span className={`badge ${card.tendencia === 'up' ? 'badge-success' : 'badge-danger'} flex items-center space-x-1 px-3 py-1`}>
                       {card.tendencia === 'up' ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
@@ -252,15 +244,15 @@ function Dashboard() {
                     </span>
                   </div>
                 </div>
-                
-                {/* Conteúdo principal */}
+
+                {}
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-gray-700 mb-4 leading-tight">{card.title}</h3>
                   <p className="text-4xl font-bold text-gray-900 mb-2">{card.value}</p>
                   <p className="text-sm text-gray-500">vs. período anterior</p>
                 </div>
-                
-                {/* Footer com gradiente sutil */}
+
+                {}
                 <div className="mt-6 pt-4 border-t border-gray-100">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Última atualização</span>
@@ -272,7 +264,7 @@ function Dashboard() {
           ))}
         </div>
 
-        {/* Chart */}
+        {}
         <div className="card p-6">
           <div className="flex items-center justify-between mb-6">
             <div>

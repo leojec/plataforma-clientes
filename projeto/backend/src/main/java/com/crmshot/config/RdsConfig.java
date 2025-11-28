@@ -18,8 +18,8 @@ public class RdsConfig {
     private static final String DEFAULT_DATABASE_EB = "ebdb";
     private static final String DEFAULT_DATABASE = "crmshot";
     private static final String DEFAULT_USERNAME = "postgres";
-    
-    // Credenciais padrão do RDS (podem ser sobrescritas por variáveis de ambiente)
+
+
     private static final String DEFAULT_RDS_HOST = "database-2.cvmowqi02j3c.us-east-2.rds.amazonaws.com";
     private static final String DEFAULT_RDS_PASSWORD = "34367746";
 
@@ -43,11 +43,11 @@ public class RdsConfig {
     @Primary
     public DataSource dataSource() {
         logDataSourceStart();
-        
+
         RdsConnectionConfig config = buildRdsConnectionConfig();
         validateConfig(config);
         logConnectionDetails(config);
-        
+
         return createDataSource(config);
     }
 
@@ -58,15 +58,15 @@ public class RdsConfig {
     }
 
     private RdsConnectionConfig buildRdsConnectionConfig() {
-        // 1. Verificar variáveis do Elastic Beanstalk primeiro (RDS_HOSTNAME é automático quando RDS está conectado)
+
         String rdsHostname = System.getenv("RDS_HOSTNAME");
-        
+
         if (rdsHostname != null && !rdsHostname.isEmpty()) {
             logger.info("RDS_HOSTNAME encontrado: {}", rdsHostname);
             return buildElasticBeanstalkConfig(rdsHostname);
         }
-        
-        // 2. Usar configuração padrão (valores do código ou variáveis de ambiente se configuradas)
+
+
         logger.info("RDS_HOSTNAME não encontrado, usando configuração padrão do código");
         return buildAwsRdsConfig();
     }
@@ -76,37 +76,37 @@ public class RdsConfig {
         String database = getEnvOrDefault("RDS_DB_NAME", DEFAULT_DATABASE_EB);
         String username = getEnvOrDefault("RDS_USERNAME", DEFAULT_USERNAME);
         String password = getEnvOrDefault("RDS_PASSWORD", "");
-        
+
         logger.info("Usando variáveis RDS do Elastic Beanstalk");
-        
+
         return new RdsConnectionConfig(hostname, port, database, username, password);
     }
 
     private RdsConnectionConfig buildAwsRdsConfig() {
-        // Tentar obter valores de variáveis de ambiente ou propriedades, senão usar padrões
+
         String hostname = getValueOrDefault(awsRdsHost, "AWS_RDS_HOST");
         if (hostname == null || hostname.isEmpty()) {
             hostname = DEFAULT_RDS_HOST;
             logger.info("Usando host padrão do RDS: {}", hostname);
         }
-        
+
         String port = getValueOrDefault(awsRdsPort, "AWS_RDS_PORT");
         port = (port == null || port.isEmpty()) ? DEFAULT_PORT : port;
-        
+
         String database = getValueOrDefault(awsRdsDatabase, "AWS_RDS_DATABASE");
         database = (database == null || database.isEmpty()) ? DEFAULT_DATABASE : database;
-        
+
         String username = getValueOrDefault(awsRdsUsername, "AWS_RDS_USERNAME");
         username = (username == null || username.isEmpty()) ? DEFAULT_USERNAME : username;
-        
+
         String password = getValueOrDefault(awsRdsPassword, "AWS_RDS_PASSWORD");
         if (password == null || password.isEmpty()) {
             password = DEFAULT_RDS_PASSWORD;
             logger.info("Usando senha padrão do RDS");
         }
-        
+
         logger.info("Usando credenciais RDS configuradas (variáveis de ambiente ou padrões do código)");
-        
+
         return new RdsConnectionConfig(hostname, port, database, username, password);
     }
 
@@ -135,7 +135,7 @@ public class RdsConfig {
                 "Consulte os logs para mais detalhes."
             );
         }
-        
+
         if (config.password == null || config.password.isEmpty()) {
             logger.error(SEPARATOR);
             logger.error("ERRO: Senha do banco de dados não configurada!");
@@ -152,7 +152,7 @@ public class RdsConfig {
 
     private void logConnectionDetails(RdsConnectionConfig config) {
         String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", config.hostname, config.port, config.database);
-        
+
         logger.info("Host: {}", config.hostname);
         logger.info("Port: {}", config.port);
         logger.info("Database: {}", config.database);
@@ -163,7 +163,7 @@ public class RdsConfig {
 
     private DataSource createDataSource(RdsConnectionConfig config) {
         String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", config.hostname, config.port, config.database);
-        
+
         return DataSourceBuilder.create()
                 .url(jdbcUrl)
                 .username(config.username)

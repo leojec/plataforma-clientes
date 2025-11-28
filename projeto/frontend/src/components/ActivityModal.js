@@ -14,7 +14,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
 
   const tiposAtividade = [
     'Ligação',
-    'Contato WhatsApp', 
+    'Contato WhatsApp',
     'Reunião',
     'Email',
     'Proposta',
@@ -30,8 +30,8 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    // Para campos numéricos de proposta, aceitar apenas números e ponto decimal
+
+
     if ((name === 'valorProposta' || name === 'metrosQuadrados') && value !== '') {
       const numericValue = value.replace(/[^\d.,]/g, '').replace(',', '.');
       setFormData({
@@ -66,7 +66,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
 
   const handleCadastrarProximo = () => {
     handleSubmit({ preventDefault: () => {} });
-    // Não fecha o modal, apenas limpa os campos
+
   };
 
   if (!isOpen) return null;
@@ -74,7 +74,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-        {/* Header */}
+        {}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">Cadastro de Atividade</h2>
           <button
@@ -85,9 +85,9 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
           </button>
         </div>
 
-        {/* Form */}
+        {}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {/* Tipo de Atividade */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tipo de Atividade
@@ -108,10 +108,10 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
             </select>
           </div>
 
-          {/* Campos condicionais - Proposta/Fechado ou Descrição */}
+          {}
           {(formData.tipoAtividade === 'Proposta' || formData.tipoAtividade === 'Fechado') ? (
             <>
-              {/* Valor da Proposta */}
+              {}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Valor (R$)
@@ -130,7 +130,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
                 </div>
               </div>
 
-              {/* Metros Quadrados */}
+              {}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Área (m²)
@@ -150,7 +150,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
               </div>
             </>
           ) : (
-            /* Descrição para outros tipos */
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Descrição
@@ -167,7 +167,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
             </div>
           )}
 
-          {/* Link */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Link
@@ -182,7 +182,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
             />
           </div>
 
-          {/* Data Agendamento */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Data Agendamento
@@ -199,7 +199,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
             </div>
           </div>
 
-          {/* Horário Agendamento */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Horário Agendamento
@@ -222,7 +222,7 @@ function ActivityModal({ isOpen, onClose, onSave, leadId }) {
             </div>
           </div>
 
-          {/* Buttons */}
+          {}
           <div className="flex space-x-3 pt-4">
             <button
               type="button"

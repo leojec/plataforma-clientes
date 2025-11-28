@@ -23,7 +23,7 @@ class LoginResponseTest {
     @Test
     void testDefaultConstructor() {
         LoginResponse response = new LoginResponse();
-        
+
         assertNull(response.getToken());
         assertEquals("Bearer", response.getTipo());
         assertNull(response.getUsuario());
@@ -32,7 +32,7 @@ class LoginResponseTest {
     @Test
     void testParameterizedConstructor() {
         LoginResponse response = new LoginResponse("token123", usuario);
-        
+
         assertEquals("token123", response.getToken());
         assertEquals("Bearer", response.getTipo());
         assertNotNull(response.getUsuario());
@@ -43,10 +43,10 @@ class LoginResponseTest {
     @Test
     void testGettersAndSetters() {
         LoginResponse response = new LoginResponse();
-        
+
         response.setToken("novoToken");
         response.setTipo("JWT");
-        
+
         assertEquals("novoToken", response.getToken());
         assertEquals("JWT", response.getTipo());
     }
@@ -55,7 +55,7 @@ class LoginResponseTest {
     void testUsuarioInfo() {
         LoginResponse response = new LoginResponse("token", usuario);
         LoginResponse.UsuarioInfo usuarioInfo = response.getUsuario();
-        
+
         assertNotNull(usuarioInfo);
         assertEquals(1L, usuarioInfo.getId());
         assertEquals("Teste Usuario", usuarioInfo.getNome());
@@ -67,13 +67,13 @@ class LoginResponseTest {
     @Test
     void testUsuarioInfoGettersAndSetters() {
         LoginResponse.UsuarioInfo usuarioInfo = new LoginResponse.UsuarioInfo();
-        
+
         usuarioInfo.setId(2L);
         usuarioInfo.setNome("Novo Nome");
         usuarioInfo.setEmail("novo@email.com");
         usuarioInfo.setPerfil("ADMINISTRADOR");
         usuarioInfo.setAtivo(false);
-        
+
         assertEquals(2L, usuarioInfo.getId());
         assertEquals("Novo Nome", usuarioInfo.getNome());
         assertEquals("novo@email.com", usuarioInfo.getEmail());

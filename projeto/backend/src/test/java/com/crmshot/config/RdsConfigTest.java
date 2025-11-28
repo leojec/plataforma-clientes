@@ -19,7 +19,7 @@ class RdsConfigTest {
 
     @Test
     void testRdsConfig_UsesDefaultHost_WhenHostnameMissing() {
-        // Agora o código usa valores padrão quando hostname está vazio
+
         RdsConfig rdsConfig = new RdsConfig();
         ReflectionTestUtils.setField(rdsConfig, "awsRdsHost", "");
         ReflectionTestUtils.setField(rdsConfig, "awsRdsPassword", "test-pass");
@@ -27,14 +27,14 @@ class RdsConfigTest {
         ReflectionTestUtils.setField(rdsConfig, "awsRdsDatabase", "testdb");
         ReflectionTestUtils.setField(rdsConfig, "awsRdsUsername", "testuser");
 
-        // Não deve lançar exceção, deve usar o host padrão
+
         DataSource dataSource = rdsConfig.dataSource();
         assertNotNull(dataSource);
     }
 
     @Test
     void testRdsConfig_UsesDefaultPassword_WhenPasswordMissing() {
-        // Agora o código usa valores padrão quando senha está vazia
+
         RdsConfig rdsConfig = new RdsConfig();
         ReflectionTestUtils.setField(rdsConfig, "awsRdsHost", "test-host");
         ReflectionTestUtils.setField(rdsConfig, "awsRdsPassword", "");
@@ -42,7 +42,7 @@ class RdsConfigTest {
         ReflectionTestUtils.setField(rdsConfig, "awsRdsDatabase", "testdb");
         ReflectionTestUtils.setField(rdsConfig, "awsRdsUsername", "testuser");
 
-        // Não deve lançar exceção, deve usar a senha padrão
+
         DataSource dataSource = rdsConfig.dataSource();
         assertNotNull(dataSource);
     }
@@ -77,7 +77,7 @@ class RdsConfigTest {
 
     @Test
     void testRdsConfig_WithAllDefaults() {
-        // Testa que o código funciona usando apenas os valores padrão do código
+
         RdsConfig rdsConfig = new RdsConfig();
         ReflectionTestUtils.setField(rdsConfig, "awsRdsHost", "");
         ReflectionTestUtils.setField(rdsConfig, "awsRdsPassword", "");
@@ -85,7 +85,7 @@ class RdsConfigTest {
         ReflectionTestUtils.setField(rdsConfig, "awsRdsDatabase", "");
         ReflectionTestUtils.setField(rdsConfig, "awsRdsUsername", "");
 
-        // Deve usar todos os valores padrão e não lançar exceção
+
         DataSource dataSource = rdsConfig.dataSource();
         assertNotNull(dataSource);
     }

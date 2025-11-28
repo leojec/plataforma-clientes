@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import StatusModal from '../StatusModal';
 import toast from 'react-hot-toast';
 
-// Mock do react-hot-toast
+
 jest.mock('react-hot-toast', () => ({
   __esModule: true,
   default: {
@@ -50,7 +50,7 @@ describe('StatusModal', () => {
     const saveButtons = screen.getAllByText(/alterar/i);
     const submitButton = saveButtons.find(btn => btn.type === 'submit') || saveButtons[0];
     fireEvent.click(submitButton);
-    
+
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith('Por favor, selecione um status.');
     });
@@ -68,12 +68,12 @@ describe('StatusModal', () => {
     render(<StatusModal {...defaultProps} />);
     const statusSelect = screen.getByLabelText(/selecione um status/i);
     fireEvent.change(statusSelect, { target: { value: 'Em Andamento' } });
-    
+
     const submitButtons = screen.getAllByText(/alterar/i);
     const submitButton = submitButtons.find(btn => btn.type === 'submit') || submitButtons[submitButtons.length - 1];
     const form = submitButton.closest('form');
     fireEvent.submit(form);
-    
+
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
         leadId: '123',
@@ -87,7 +87,7 @@ describe('StatusModal', () => {
   it('deve resetar status quando modal abre', () => {
     const { rerender } = render(<StatusModal {...defaultProps} isOpen={false} />);
     rerender(<StatusModal {...defaultProps} isOpen={true} />);
-    
+
     const statusSelect = screen.getByLabelText(/selecione um status/i);
     expect(statusSelect.value).toBe('');
   });
@@ -96,7 +96,7 @@ describe('StatusModal', () => {
     render(<StatusModal {...defaultProps} />);
     const closeButtons = screen.getAllByRole('button');
     const xButton = closeButtons.find(btn => btn.querySelector('svg'));
-    
+
     if (xButton) {
       fireEvent.click(xButton);
       expect(mockOnClose).toHaveBeenCalled();

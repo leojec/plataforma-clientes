@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ChatBot from './ChatBot';
-import { 
-  Home, 
-  List, 
-  BarChart3, 
+import {
+  Home,
+  List,
+  BarChart3,
   Calendar,
-  Menu, 
-  X, 
+  Menu,
+  X,
   LogOut,
   User,
   Search,
@@ -17,7 +17,7 @@ import {
 
 function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true); // Começar minimizada
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [sidebarHovered, setSidebarHovered] = useState(false);
   const { user, logout } = useAuth();
   const location = useLocation();
@@ -36,30 +36,30 @@ function Layout() {
     return location.pathname.startsWith(path);
   };
 
-  // Determinar se a sidebar deve estar expandida (hover ou não collapsed)
+
   const isExpanded = !sidebarCollapsed || sidebarHovered;
-  
-  // Delay mínimo apenas no hover out para evitar flickering
+
+
   const [hoverTimeout, setHoverTimeout] = useState(null);
-  
+
   const handleMouseEnter = () => {
-    // Cancelar timeout pendente e expandir imediatamente
+
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
       setHoverTimeout(null);
     }
     setSidebarHovered(true);
   };
-  
+
   const handleMouseLeave = () => {
-    // Delay ultra-curto apenas para evitar flickering ao mover entre elementos
+
     const timeout = setTimeout(() => {
       setSidebarHovered(false);
-    }, 10); // Reduzido de 30ms para 10ms
+    }, 10);
     setHoverTimeout(timeout);
   };
 
-  // Cleanup do timeout quando o componente for desmontado
+
   useEffect(() => {
     return () => {
       if (hoverTimeout) {
@@ -70,7 +70,7 @@ function Layout() {
 
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
-      {/* Sidebar Mobile */}
+      {}
       {sidebarOpen && (
         <div className="fixed inset-0 flex z-40 md:hidden">
           <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
@@ -88,9 +88,9 @@ function Layout() {
         </div>
       )}
 
-      {/* Sidebar Desktop - CRM Shot Style */}
+      {}
       <div className="hidden md:flex md:flex-shrink-0">
-        <div 
+        <div
           className={`flex flex-col bg-slate-800 relative ${isExpanded ? 'w-64' : 'w-16'}`}
           style={{
             transition: 'width 180ms cubic-bezier(0.4, 0, 0.2, 1)',
@@ -100,9 +100,9 @@ function Layout() {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <SidebarContent 
-            navigation={navigation} 
-            isCurrentPath={isCurrentPath} 
+          <SidebarContent
+            navigation={navigation}
+            isCurrentPath={isCurrentPath}
             collapsed={sidebarCollapsed}
             expanded={isExpanded}
             onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -110,9 +110,9 @@ function Layout() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {}
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
-        {/* Top Navigation */}
+        {}
         <div className="relative z-10 flex-shrink-0 flex h-16 bg-white/95 backdrop-blur-sm border-b border-gray-200/50 shadow-sm">
           <button
             className="px-4 border-r border-gray-200 text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-all duration-200 ease-out md:hidden"
@@ -120,7 +120,7 @@ function Layout() {
           >
             <Menu className="h-6 w-6" />
           </button>
-          
+
           <div className="flex-1 px-6 flex justify-between items-center">
             <div className="flex-1 flex">
               <div className="w-full flex md:ml-0">
@@ -133,7 +133,7 @@ function Layout() {
                 </div>
               </div>
             </div>
-            
+
             <div className="ml-4 flex items-center md:ml-6">
               <div className="ml-3 relative">
                 <div className="flex items-center space-x-4">
@@ -158,15 +158,15 @@ function Layout() {
           </div>
         </div>
 
-        {/* Page Content */}
+        {}
         <main className={`flex-1 relative overflow-y-auto focus:outline-none transition-all duration-200 ease-out ${isExpanded ? 'ml-0' : 'ml-0'}`}>
           <div className="h-full">
             <Outlet context={{ sidebarExpanded: isExpanded }} />
           </div>
         </main>
       </div>
-      
-      {/* ChatBot */}
+
+      {}
       <ChatBot />
     </div>
   );
@@ -175,29 +175,29 @@ function Layout() {
 function SidebarContent({ navigation, isCurrentPath, collapsed, expanded, onToggleCollapse }) {
   return (
     <div className="flex flex-col h-full bg-slate-800">
-      {/* Header com Logo CRM Shot */}
+      {}
       <div className={`flex items-center py-5 border-b border-slate-700 relative ${expanded ? 'px-4 justify-between' : 'justify-center'}`}>
-        {/* Logo CRM Shot */}
+        {}
         <div className="flex items-center">
           <div className="w-9 h-9 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center relative flex-shrink-0 shadow-lg">
-            {/* Speech bubble icon */}
+            {}
             <div className="w-7 h-7 border-2 border-white rounded-lg relative">
-              {/* Growth bars inside */}
+              {}
               <div className="absolute bottom-1 left-1 flex items-end space-x-0.5">
                 <div className="w-1 h-2 bg-white rounded-sm"></div>
                 <div className="w-1 h-3 bg-white rounded-sm"></div>
                 <div className="w-1 h-4 bg-white rounded-sm"></div>
               </div>
-              {/* Growth arrow */}
+              {}
               <div className="absolute top-0 right-0 w-0 h-0 border-l-2 border-b-2 border-white transform rotate-45"></div>
             </div>
           </div>
-          
-          {/* Texto do logo com animação */}
+
+          {}
           {expanded && (
-            <div 
+            <div
               className="ml-3 whitespace-nowrap transition-opacity duration-200"
-              style={{ 
+              style={{
                 opacity: expanded ? 1 : 0,
                 transitionDelay: expanded ? '50ms' : '0ms'
               }}
@@ -207,8 +207,8 @@ function SidebarContent({ navigation, isCurrentPath, collapsed, expanded, onTogg
             </div>
           )}
         </div>
-        
-        {/* Botão para minimizar/expandir - só aparece quando expandido */}
+
+        {}
         {expanded && !collapsed && (
           <button
             onClick={onToggleCollapse}
@@ -220,12 +220,12 @@ function SidebarContent({ navigation, isCurrentPath, collapsed, expanded, onTogg
         )}
       </div>
 
-      {/* Barra de Pesquisa */}
+      {}
       <div className={`py-4 border-b border-slate-700 ${expanded ? 'px-4' : 'flex justify-center'}`}>
         {expanded ? (
-          <div 
+          <div
             className="relative transition-opacity duration-200"
-            style={{ 
+            style={{
               opacity: expanded ? 1 : 0,
               transitionDelay: expanded ? '50ms' : '0ms'
             }}
@@ -247,7 +247,7 @@ function SidebarContent({ navigation, isCurrentPath, collapsed, expanded, onTogg
         )}
       </div>
 
-      {/* Navigation Menu */}
+      {}
       <nav className={`flex-1 py-4 space-y-1 ${expanded ? 'px-4' : 'px-3'}`}>
         {navigation.map((item) => {
           const Icon = item.icon;
@@ -269,9 +269,9 @@ function SidebarContent({ navigation, isCurrentPath, collapsed, expanded, onTogg
                 } h-5 w-5 flex-shrink-0 transition-colors duration-200`}
               />
               {expanded && (
-                <span 
+                <span
                   className="ml-3 whitespace-nowrap font-medium transition-opacity duration-200"
-                  style={{ 
+                  style={{
                     opacity: expanded ? 1 : 0,
                     transitionDelay: expanded ? '50ms' : '0ms'
                   }}

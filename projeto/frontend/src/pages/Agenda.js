@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
 import { useSidebar } from '../hooks/useSidebar';
-import { 
-  Calendar, 
-  Clock, 
-  User, 
-  Phone, 
-  Mail, 
+import {
+  Calendar,
+  Clock,
+  User,
+  Phone,
+  Mail,
   Video,
   ChevronLeft,
   ChevronRight,
@@ -20,7 +20,7 @@ function Agenda() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { sidebarExpanded } = useSidebar();
 
-  // Buscar atividades da agenda
+
   const { data: agendaData, isLoading, refetch, error } = useQuery(
     ['agenda', selectedDate],
     async () => {
@@ -41,10 +41,10 @@ function Agenda() {
     }
   );
 
-  // Usar dados da API ou dados fictícios como fallback
+
   const atividades = Array.isArray(agendaData?.atividades) ? agendaData.atividades : [];
-  
-  // Debug para identificar problemas
+
+
   if (agendaData && !Array.isArray(agendaData.atividades)) {
     console.error('Dados inválidos recebidos da API:', agendaData);
   }
@@ -54,11 +54,11 @@ function Agenda() {
       if (!date || !(date instanceof Date)) {
         return 'Data inválida';
       }
-      return date.toLocaleDateString('pt-BR', { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+      return date.toLocaleDateString('pt-BR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       });
     } catch (error) {
       console.error('Erro ao formatar data:', error);
@@ -104,12 +104,12 @@ function Agenda() {
 
   const marcarComoConcluida = async (atividadeId) => {
     try {
-      // Fazer requisição para marcar como concluída no backend
+
       await api.put(`/agenda/atividades/${atividadeId}/concluir`);
-      
-      // Refetch dos dados para atualizar a interface
+
+
       refetch();
-      
+
       console.log('Atividade marcada como concluída:', atividadeId);
     } catch (error) {
       console.error('Erro ao marcar atividade como concluída:', error);
@@ -142,7 +142,7 @@ function Agenda() {
 
   return (
     <div className="h-full flex flex-col bg-gray-50">
-      {/* Header */}
+      {}
       <div className={`bg-gradient-to-r from-blue-50 to-indigo-50 py-6 flex items-center justify-between transition-all duration-200 ease-out border-b border-blue-100 ${sidebarExpanded ? 'px-6' : 'px-8'}`}>
         <div className="flex items-center space-x-4">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -161,9 +161,9 @@ function Agenda() {
         </div>
       </div>
 
-      {/* Content */}
+      {}
       <div className={`flex-1 overflow-y-auto transition-all duration-200 ease-out ${sidebarExpanded ? 'p-6' : 'p-8'}`}>
-        {/* Date Navigation */}
+        {}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <button
@@ -191,7 +191,7 @@ function Agenda() {
           </div>
         </div>
 
-        {/* Timeline de Atividades */}
+        {}
         <div className="card">
           <div className="card-header">
             <h3 className="text-lg font-semibold text-gray-900">
@@ -211,12 +211,12 @@ function Agenda() {
                   <div
                     key={atividade.id}
                     className={`flex items-start space-x-4 p-4 rounded-lg border-l-4 ${
-                      atividade.status === 'concluida' 
-                        ? 'border-green-500 bg-green-50' 
+                      atividade.status === 'concluida'
+                        ? 'border-green-500 bg-green-50'
                         : 'border-blue-500 bg-blue-50'
                     } hover:shadow-md transition-shadow cursor-pointer`}
                   >
-                    {/* Horário */}
+                    {}
                     <div className="flex flex-col items-center min-w-0">
                       <div className="flex items-center space-x-1 text-sm font-medium text-gray-900">
                         <Clock className="w-4 h-4" />
@@ -224,7 +224,7 @@ function Agenda() {
                       </div>
                     </div>
 
-                    {/* Conteúdo */}
+                    {}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2 mb-2">
                         <span className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${getTipoColor(atividade.tipo)}`}>
@@ -237,17 +237,17 @@ function Agenda() {
                           <span>{String(atividade.leadNome || '')}</span>
                         </div>
                       </div>
-                      
+
                       <h4 className="text-sm font-medium text-gray-900 mb-1">
                         {String(atividade.titulo || '')}
                       </h4>
-                      
+
                       <p className="text-sm text-gray-600">
                         {String(atividade.descricao || '')}
                       </p>
                     </div>
 
-                    {/* Status e Ações */}
+                    {}
                     <div className="flex items-center space-x-2">
                       {atividade.status === 'concluida' ? (
                         <div className="flex items-center space-x-2">
@@ -278,7 +278,7 @@ function Agenda() {
           </div>
         </div>
 
-        {/* Resumo do Dia */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           <div className="card p-4 fade-in">
             <div className="flex items-center space-x-3">

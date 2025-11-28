@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { AuthProvider, useAuth } from '../AuthContext';
 import { api } from '../../services/api';
 
-// Mock do api
+
 jest.mock('../../services/api', () => ({
   api: {
     post: jest.fn(),
@@ -15,10 +15,10 @@ jest.mock('../../services/api', () => ({
   }
 }));
 
-// Componente de teste para usar o hook
+
 function TestComponent() {
   const { user, login, logout, loading } = useAuth();
-  
+
   return (
     <div>
       {loading ? (
@@ -46,7 +46,7 @@ describe('AuthContext', () => {
         <div>Test</div>
       </AuthProvider>
     );
-    
+
     expect(screen.getByText('Test')).toBeInTheDocument();
   });
 
@@ -56,7 +56,7 @@ describe('AuthContext', () => {
         <TestComponent />
       </AuthProvider>
     );
-    
+
     await waitFor(() => {
       expect(screen.getByTestId('user')).toHaveTextContent('null');
     });
@@ -64,13 +64,13 @@ describe('AuthContext', () => {
 
   it('deve inicializar com token quando existe no localStorage', async () => {
     localStorage.setItem('token', 'test-token');
-    
+
     render(
       <AuthProvider>
         <TestComponent />
       </AuthProvider>
     );
-    
+
     await waitFor(() => {
       expect(api.defaults.headers.common['Authorization']).toBe('Bearer test-token');
     });
@@ -83,20 +83,20 @@ describe('AuthContext', () => {
         usuario: { id: 1, nome: 'Test User', email: 'test@test.com' }
       }
     };
-    
+
     api.post.mockResolvedValue(mockResponse);
-    
+
     render(
       <AuthProvider>
         <TestComponent />
       </AuthProvider>
     );
-    
+
     await waitFor(() => {
       const loginButton = screen.getByText('Login');
       loginButton.click();
     });
-    
+
     await waitFor(() => {
       expect(api.post).toHaveBeenCalledWith('/auth/login', {
         email: 'test@test.com',
@@ -108,18 +108,18 @@ describe('AuthContext', () => {
 
   it('deve fazer logout corretamente', async () => {
     localStorage.setItem('token', 'test-token');
-    
+
     render(
       <AuthProvider>
         <TestComponent />
       </AuthProvider>
     );
-    
+
     await waitFor(() => {
       const logoutButton = screen.getByText('Logout');
       logoutButton.click();
     });
-    
+
     await waitFor(() => {
       expect(localStorage.getItem('token')).toBeNull();
       expect(api.defaults.headers.common['Authorization']).toBeUndefined();
@@ -127,13 +127,13 @@ describe('AuthContext', () => {
   });
 
   it('deve lançar erro quando useAuth é usado fora do provider', () => {
-    // Suprime o erro esperado no console
+
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-    
+
     expect(() => {
       render(<TestComponent />);
     }).toThrow('useAuth deve ser usado dentro de um AuthProvider');
-    
+
     consoleError.mockRestore();
   });
 
@@ -143,18 +143,18 @@ describe('AuthContext', () => {
         data: 'Erro de autenticação'
       }
     });
-    
+
     render(
       <AuthProvider>
         <TestComponent />
       </AuthProvider>
     );
-    
+
     await waitFor(() => {
       const loginButton = screen.getByText('Login');
       loginButton.click();
     });
-    
+
     await waitFor(() => {
       expect(api.post).toHaveBeenCalled();
     });
@@ -166,18 +166,18 @@ describe('AuthContext', () => {
         data: { message: 'Erro de conexão' }
       }
     });
-    
+
     render(
       <AuthProvider>
         <TestComponent />
       </AuthProvider>
     );
-    
+
     await waitFor(() => {
       const loginButton = screen.getByText('Login');
       loginButton.click();
     });
-    
+
     await waitFor(() => {
       expect(api.post).toHaveBeenCalled();
     });
@@ -187,18 +187,18 @@ describe('AuthContext', () => {
     api.post.mockRejectedValue({
       message: 'Network error'
     });
-    
+
     render(
       <AuthProvider>
         <TestComponent />
       </AuthProvider>
     );
-    
+
     await waitFor(() => {
       const loginButton = screen.getByText('Login');
       loginButton.click();
     });
-    
+
     await waitFor(() => {
       expect(api.post).toHaveBeenCalled();
     });

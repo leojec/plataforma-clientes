@@ -15,7 +15,7 @@ class CrmshotApplicationTest {
 
     @Test
     void contextLoads() {
-        // Teste básico para verificar se o contexto Spring carrega corretamente
+
     }
 
     @Configuration
@@ -23,7 +23,7 @@ class CrmshotApplicationTest {
         @Bean
         @Primary
         public DataSource testDataSource() {
-            org.springframework.boot.jdbc.DataSourceBuilder<?> builder = 
+            org.springframework.boot.jdbc.DataSourceBuilder<?> builder =
                 org.springframework.boot.jdbc.DataSourceBuilder.create();
             builder.url("jdbc:h2:mem:testdb");
             builder.driverClassName("org.h2.Driver");

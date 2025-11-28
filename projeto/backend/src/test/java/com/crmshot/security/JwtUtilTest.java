@@ -22,7 +22,7 @@ class JwtUtilTest {
 
     private Usuario usuario;
     private String secret = "mySecretKey123456789012345678901234567890";
-    private Long expiration = TimeUnit.HOURS.toMillis(24); // 24 horas
+    private Long expiration = TimeUnit.HOURS.toMillis(24);
 
     @BeforeEach
     void setUp() {
@@ -39,7 +39,7 @@ class JwtUtilTest {
     @Test
     void testGenerateToken() {
         String token = jwtUtil.generateToken(usuario);
-        
+
         assertNotNull(token);
         assertFalse(token.isEmpty());
     }
@@ -48,7 +48,7 @@ class JwtUtilTest {
     void testExtractUsername() {
         String token = jwtUtil.generateToken(usuario);
         String username = jwtUtil.extractUsername(token);
-        
+
         assertEquals(usuario.getEmail(), username);
     }
 
@@ -56,7 +56,7 @@ class JwtUtilTest {
     void testExtractExpiration() {
         String token = jwtUtil.generateToken(usuario);
         Date expirationDate = jwtUtil.extractExpiration(token);
-        
+
         assertNotNull(expirationDate);
         assertTrue(expirationDate.after(new Date()));
     }
@@ -65,19 +65,19 @@ class JwtUtilTest {
     void testValidateToken_ValidToken() {
         String token = jwtUtil.generateToken(usuario);
         boolean isValid = jwtUtil.validateToken(token, usuario);
-        
+
         assertTrue(isValid);
     }
 
     @Test
     void testValidateToken_InvalidUser() {
         String token = jwtUtil.generateToken(usuario);
-        
+
         Usuario outroUsuario = new Usuario();
         outroUsuario.setEmail("outro@teste.com");
-        
+
         boolean isValid = jwtUtil.validateToken(token, outroUsuario);
-        
+
         assertFalse(isValid);
     }
 
@@ -85,7 +85,7 @@ class JwtUtilTest {
     void testValidateToken_WithoutUserDetails() {
         String token = jwtUtil.generateToken(usuario);
         boolean isValid = jwtUtil.validateToken(token);
-        
+
         assertTrue(isValid);
     }
 
@@ -93,7 +93,7 @@ class JwtUtilTest {
     void testValidateToken_InvalidToken() {
         String invalidToken = "invalid.token.here";
         boolean isValid = jwtUtil.validateToken(invalidToken);
-        
+
         assertFalse(isValid);
     }
 
@@ -101,7 +101,7 @@ class JwtUtilTest {
     void testExtractClaim() {
         String token = jwtUtil.generateToken(usuario);
         String subject = jwtUtil.extractClaim(token, Claims::getSubject);
-        
+
         assertEquals(usuario.getEmail(), subject);
     }
 
@@ -109,14 +109,14 @@ class JwtUtilTest {
     @Test
     void testValidateToken_EmptyToken() {
         boolean isValid = jwtUtil.validateToken("");
-        
+
         assertFalse(isValid);
     }
 
     @Test
     void testValidateToken_NullToken() {
         boolean isValid = jwtUtil.validateToken((String) null);
-        
+
         assertFalse(isValid);
     }
 
@@ -141,6 +141,4 @@ class JwtUtilTest {
         });
     }
 }
-
-
 

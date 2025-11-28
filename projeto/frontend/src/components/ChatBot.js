@@ -27,10 +27,10 @@ function ChatBot() {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    
+
     if (!inputMessage.trim()) return;
 
-    // Adicionar mensagem do usuário
+
     const userMessage = {
       type: 'user',
       text: inputMessage,
@@ -42,12 +42,12 @@ function ChatBot() {
     setIsLoading(true);
 
     try {
-      // Enviar para o backend
+
       const response = await api.post('/chat/perguntar', {
         pergunta: inputMessage
       });
 
-      // Adicionar resposta do bot
+
       const botMessage = {
         type: 'bot',
         text: response.data.resposta,
@@ -55,16 +55,16 @@ function ChatBot() {
       };
 
       setMessages(prev => [...prev, botMessage]);
-      
+
     } catch (error) {
       console.error('Erro ao enviar mensagem:', error);
-      
+
       const errorMessage = {
         type: 'bot',
         text: 'Desculpe, tive um problema ao processar sua pergunta. Tente novamente.',
         timestamp: new Date()
       };
-      
+
       setMessages(prev => [...prev, errorMessage]);
       toast.error('Erro ao processar pergunta');
     } finally {
@@ -89,12 +89,12 @@ function ChatBot() {
   }
 
   return (
-    <div 
+    <div
       className={`fixed bottom-6 right-6 bg-white rounded-lg shadow-2xl transition-all duration-300 z-50 ${
         isMinimized ? 'w-80 h-16' : 'w-96 h-[600px]'
       }`}
     >
-      {/* Header */}
+      {}
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-t-lg flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -125,7 +125,7 @@ function ChatBot() {
 
       {!isMinimized && (
         <>
-          {/* Messages */}
+          {}
           <div className="h-[440px] overflow-y-auto p-4 space-y-4 bg-gray-50">
             {messages.map((message, index) => (
               <div
@@ -148,7 +148,7 @@ function ChatBot() {
                 </div>
               </div>
             ))}
-            
+
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-white text-gray-800 rounded-lg p-3 shadow-sm border border-gray-200">
@@ -160,11 +160,11 @@ function ChatBot() {
                 </div>
               </div>
             )}
-            
+
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
+          {}
           <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-200 bg-white rounded-b-lg">
             <div className="flex space-x-2">
               <input
@@ -194,5 +194,4 @@ function ChatBot() {
 }
 
 export default ChatBot;
-
 

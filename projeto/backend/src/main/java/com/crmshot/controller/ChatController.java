@@ -31,7 +31,7 @@ public class ChatController {
             return buildErrorResponse();
         }
         pergunta = pergunta.toLowerCase();
-        
+
         try {
             String resposta = processarPerguntaInterna(pergunta);
             return buildRespostaResponse(resposta);
@@ -63,8 +63,8 @@ public class ChatController {
     }
 
     private boolean isPerguntaProximaReuniao(String pergunta) {
-        return pergunta.contains("próxima reunião") || pergunta.contains("proxima reuniao") || 
-               pergunta.contains("próximo encontro") || 
+        return pergunta.contains("próxima reunião") || pergunta.contains("proxima reuniao") ||
+               pergunta.contains("próximo encontro") ||
                (pergunta.contains("quando") && pergunta.contains("reunião"));
     }
 
@@ -127,7 +127,7 @@ public class ChatController {
     private String buscarProximaReuniao() {
         LocalDateTime agora = LocalDateTime.now();
         LocalDateTime limite = agora.plusDays(30);
-        
+
         List<Interacao> proximasInteracoes = interacaoRepository.findProximasAcoes(limite)
                 .stream()
                 .filter(i -> i.getTipo() == Interacao.TipoInteracao.REUNIAO)
@@ -141,11 +141,11 @@ public class ChatController {
         Interacao proximaReuniao = proximasInteracoes.get(0);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
         String dataFormatada = proximaReuniao.getDataProximaAcao().format(formatter);
-        
+
         return String.format("Sua próxima reunião é no dia %s com %s.\n\nAssunto: %s",
                 dataFormatada,
-                proximaReuniao.getExpositor().getNomeFantasia() != null ? 
-                    proximaReuniao.getExpositor().getNomeFantasia() : 
+                proximaReuniao.getExpositor().getNomeFantasia() != null ?
+                    proximaReuniao.getExpositor().getNomeFantasia() :
                     proximaReuniao.getExpositor().getRazaoSocial(),
                 proximaReuniao.getAssunto());
     }
@@ -154,7 +154,7 @@ public class ChatController {
         long totalLeads = expositorRepository.count();
         long leadsAtivos = expositorRepository.countByStatus(Expositor.StatusExpositor.ATIVO);
         long leadsPotenciais = expositorRepository.countByStatus(Expositor.StatusExpositor.POTENCIAL);
-        
+
         return String.format("Você tem um total de %d leads cadastrados:\n\n" +
                            "• %d leads ativos\n" +
                            "• %d leads potenciais\n\n" +
@@ -165,7 +165,7 @@ public class ChatController {
     private String buscarAtividadesHoje() {
         LocalDateTime inicioDia = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
         LocalDateTime fimDia = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
-        
+
         List<Interacao> atividadesHoje = interacaoRepository.findByDataProximaAcao(LocalDateTime.now())
                 .stream()
                 .filter(i -> !i.getConcluida())
@@ -176,7 +176,7 @@ public class ChatController {
         }
 
         StringBuilder resposta = new StringBuilder(String.format("Você tem %d atividade(s) para hoje:\n\n", atividadesHoje.size()));
-        
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         for (Interacao atividade : atividadesHoje) {
             resposta.append(String.format("• %s - %s (%s)\n",
@@ -193,7 +193,7 @@ public class ChatController {
         Double valorGanhas = interacaoRepository.somarValorPropostasGanhas();
         Long qtdAbertas = interacaoRepository.contarPropostasAbertas();
         Long qtdGanhas = interacaoRepository.contarPropostasGanhas();
-        
+
         return String.format("💰 Situação das propostas:\n\n" +
                            "Propostas em aberto:\n" +
                            "• %d proposta(s)\n" +
@@ -227,8 +227,8 @@ public class ChatController {
                            "📝 %s\n" +
                            "Tipo: %s",
                            ultima.getDataCriacao().format(formatter),
-                           ultima.getExpositor().getNomeFantasia() != null ? 
-                               ultima.getExpositor().getNomeFantasia() : 
+                           ultima.getExpositor().getNomeFantasia() != null ?
+                               ultima.getExpositor().getNomeFantasia() :
                                ultima.getExpositor().getRazaoSocial(),
                            ultima.getAssunto(),
                            mapTipoInteracao(ultima.getTipo()));
@@ -248,7 +248,7 @@ public class ChatController {
         }
 
         StringBuilder resposta = new StringBuilder(String.format("Você tem %d atividade(s) pendente(s):\n\n", pendentes.size()));
-        
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM 'às' HH:mm");
         for (Interacao atividade : pendentes) {
             resposta.append(String.format("• %s - %s\n",
@@ -272,7 +272,7 @@ public class ChatController {
         Double valorPropostas = interacaoRepository.somarValorPropostasAbertas();
         Double metrosVendidos = interacaoRepository.somarMetrosQuadradosVendidos();
         Long qtdGanhos = interacaoRepository.contarPropostasGanhas();
-        
+
         LocalDateTime agora = LocalDateTime.now();
         long atividadesHoje = interacaoRepository.findByDataProximaAcao(agora)
                 .stream()
@@ -305,5 +305,4 @@ public class ChatController {
         }
     }
 }
-
 

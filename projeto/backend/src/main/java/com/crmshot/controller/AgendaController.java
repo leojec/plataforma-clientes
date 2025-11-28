@@ -45,26 +45,26 @@ public class AgendaController {
     @GetMapping("/atividades/lead/{leadId}")
     public ResponseEntity<List<Map<String, Object>>> getAtividadesPorLead(@PathVariable Long leadId) {
         try {
-            // Buscar todas as interações do lead
+
             List<Interacao> interacoes = interacaoRepository.findByExpositorId(leadId);
-            
+
             List<Map<String, Object>> atividades = new ArrayList<>();
-            
-            // Converter interações para formato da agenda
+
+
             for (Interacao interacao : interacoes) {
                 Map<String, Object> atividade = new HashMap<>();
                 atividade.put("id", interacao.getId());
-                atividade.put("data", interacao.getDataCriacao() != null ? 
+                atividade.put("data", interacao.getDataCriacao() != null ?
                     interacao.getDataCriacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "");
                 atividade.put("tipo", mapTipoInteracao(interacao.getTipo()));
                 atividade.put(KEY_DESCRICAO, interacao.getDescricao());
-                atividade.put("agendamento", interacao.getDataProximaAcao() != null ? 
+                atividade.put("agendamento", interacao.getDataProximaAcao() != null ?
                     "Sim - " + interacao.getDataProximaAcao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "Não");
                 atividade.put("usuario", interacao.getUsuario() != null ? interacao.getUsuario().getNome() : "Administrador");
-                atividade.put("link", ""); // Campo para links futurosss
+                atividade.put("link", "");
                 atividades.add(atividade);
             }
-            
+
             return ResponseEntity.ok(atividades);
         } catch (Exception e) {
             logger.error("Erro ao buscar atividades do lead: {}", e.getMessage(), e);
@@ -76,11 +76,11 @@ public class AgendaController {
     public Map<String, Object> getAtividadesAgenda(
             @RequestParam(required = false) String data,
             @RequestParam(required = false, defaultValue = "dia") String modo) {
-        
+
         LocalDate dataConsulta = parseDataConsulta(data);
         List<Interacao> interacoes = buscarInteracoesDoDia(dataConsulta);
         List<Map<String, Object>> atividades = converterInteracoesParaAtividades(interacoes, dataConsulta);
-        
+
         return buildResponseAtividades(atividades);
     }
 
@@ -94,12 +94,12 @@ public class AgendaController {
 
     private List<Map<String, Object>> converterInteracoesParaAtividades(List<Interacao> interacoes, LocalDate dataConsulta) {
         List<Map<String, Object>> atividades = new ArrayList<>();
-        
+
         for (Interacao interacao : interacoes) {
             Map<String, Object> atividade = criarMapaAtividade(interacao, dataConsulta);
             atividades.add(atividade);
         }
-        
+
         return atividades;
     }
 
@@ -125,18 +125,18 @@ public class AgendaController {
         if (interacao.getExpositor() == null) {
             return "Lead";
         }
-        return interacao.getExpositor().getNomeFantasia() != null ? 
-            interacao.getExpositor().getNomeFantasia() : 
+        return interacao.getExpositor().getNomeFantasia() != null ?
+            interacao.getExpositor().getNomeFantasia() :
             interacao.getExpositor().getRazaoSocial();
     }
 
     private String getExpositorId(Interacao interacao) {
-        return interacao.getExpositor() != null ? 
+        return interacao.getExpositor() != null ?
             interacao.getExpositor().getId().toString() : "0";
     }
 
     private String formatHorario(LocalDateTime dataProximaAcao) {
-        return dataProximaAcao != null ? 
+        return dataProximaAcao != null ?
             dataProximaAcao.format(DateTimeFormatter.ofPattern("HH:mm")) : "00:00";
     }
 
@@ -154,7 +154,7 @@ public class AgendaController {
             .filter(a -> status.equals(a.get(KEY_STATUS)))
             .count();
     }
-    
+
     private String mapTipoInteracao(Interacao.TipoInteracao tipo) {
         switch (tipo) {
             case LIGACAO:
@@ -173,23 +173,23 @@ public class AgendaController {
                 return "Outros";
         }
     }
-    
+
     @PostMapping("/atividades")
     public ResponseEntity<Map<String, Object>> salvarAtividade(@RequestBody Map<String, Object> atividadeData) {
         try {
             AtividadeRequest request = extractAtividadeRequest(atividadeData);
             Interacao.TipoInteracao tipo = mapStringToTipoInteracao(request.tipoAtividade);
-            
+
             Expositor expositor = buscarExpositor(request.leadId);
             Usuario usuario = buscarUsuarioAtivo();
-            
+
             Interacao novaInteracao = criarInteracao(request, tipo, expositor, usuario);
             processarCamposEspecificos(novaInteracao, request, tipo);
             configurarDataProximaAcao(novaInteracao, request);
-            
+
             Interacao atividadeSalva = interacaoRepository.save(novaInteracao);
             return buildSuccessResponse(atividadeSalva.getId());
-            
+
         } catch (Exception e) {
             return buildErrorResponse("Erro ao salvar atividade: " + e.getMessage());
         }
@@ -224,7 +224,7 @@ public class AgendaController {
         return usuarios.get(0);
     }
 
-    private Interacao criarInteracao(AtividadeRequest request, Interacao.TipoInteracao tipo, 
+    private Interacao criarInteracao(AtividadeRequest request, Interacao.TipoInteracao tipo,
                                      Expositor expositor, Usuario usuario) {
         Interacao novaInteracao = new Interacao();
         novaInteracao.setExpositor(expositor);
@@ -235,18 +235,18 @@ public class AgendaController {
     }
 
     private String getNomeExpositor(Expositor expositor) {
-        return expositor.getNomeFantasia() != null ? 
-            expositor.getNomeFantasia() : 
+        return expositor.getNomeFantasia() != null ?
+            expositor.getNomeFantasia() :
             expositor.getRazaoSocial();
     }
 
-    private void processarCamposEspecificos(Interacao interacao, AtividadeRequest request, 
+    private void processarCamposEspecificos(Interacao interacao, AtividadeRequest request,
                                            Interacao.TipoInteracao tipo) {
         if (tipo == Interacao.TipoInteracao.PROPOSTA || tipo == Interacao.TipoInteracao.FECHADO) {
             processarValorProposta(interacao, request.valorPropostaObj);
             processarMetrosQuadrados(interacao, request.metrosQuadradosObj);
             processarDescricaoProposta(interacao, request.descricao, tipo);
-            
+
             if (tipo == Interacao.TipoInteracao.FECHADO) {
                 interacao.setConcluida(true);
             }
@@ -282,9 +282,9 @@ public class AgendaController {
     private void processarDescricaoProposta(Interacao interacao, String descricao, Interacao.TipoInteracao tipo) {
         if (descricao == null || descricao.isEmpty()) {
             String tipoNome = (tipo == Interacao.TipoInteracao.FECHADO) ? "Negócio fechado" : TIPO_PROPOSTA;
-            descricao = String.format("%s no valor de R$ %.2f para área de %.2f m²", 
+            descricao = String.format("%s no valor de R$ %.2f para área de %.2f m²",
                 tipoNome,
-                interacao.getValorProposta(), 
+                interacao.getValorProposta(),
                 interacao.getMetrosQuadrados());
         }
         interacao.setDescricao(descricao);
@@ -310,7 +310,7 @@ public class AgendaController {
         if (leadId == null) {
             return 1L;
         }
-        
+
         if (leadId.startsWith(KEY_LEAD_PREFIX)) {
             try {
                 return Long.parseLong(leadId.replace(KEY_LEAD_PREFIX, ""));
@@ -318,7 +318,7 @@ public class AgendaController {
                 return 1L;
             }
         }
-        
+
         try {
             return Long.parseLong(leadId);
         } catch (NumberFormatException e) {
@@ -356,27 +356,27 @@ public class AgendaController {
         Object valorPropostaObj;
         Object metrosQuadradosObj;
     }
-    
+
     @PutMapping("/atividades/{id}/concluir")
     public ResponseEntity<Map<String, Object>> marcarComoConcluida(@PathVariable Long id) {
         try {
             Optional<Interacao> interacaoOpt = interacaoRepository.findById(id);
-            
+
             if (!interacaoOpt.isPresent()) {
                 return buildErrorResponse(false, "Atividade não encontrada");
             }
-            
+
             Interacao interacao = interacaoOpt.get();
             interacao.setConcluida(true);
             interacao.setDataAtualizacao(LocalDateTime.now());
-            
+
             interacaoRepository.save(interacao);
-            
+
             Map<String, Object> response = new HashMap<>();
             response.put(KEY_SUCESSO, true);
             response.put(KEY_MENSAGEM, "Atividade marcada como concluída");
             response.put("id", id);
-            
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return buildErrorResponse(false, "Erro ao marcar atividade como concluída: " + e.getMessage());

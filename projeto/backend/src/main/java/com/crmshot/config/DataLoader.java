@@ -34,28 +34,28 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Verificar se já existem usuários para evitar limpeza desnecessária
+
         if (usuarioRepository.count() > 0) {
             logger.info("Banco já possui dados. DataLoader não executará limpeza.");
             return;
         }
-        
+
         logger.info("Primeira execução: Criando usuários básicos...");
-        
-        // Validar que as senhas padrão estão configuradas
+
+
         if (defaultAdminPassword == null || defaultAdminPassword.isEmpty()) {
             logger.warn("DEFAULT_ADMIN_PASSWORD não configurado. Usuários padrão não serão criados.");
             logger.warn("Configure a variável de ambiente DEFAULT_ADMIN_PASSWORD para criar usuários padrão.");
             return;
         }
-        
+
         if (defaultUserPassword == null || defaultUserPassword.isEmpty()) {
             logger.warn("DEFAULT_USER_PASSWORD não configurado. Usuários padrão não serão criados.");
             logger.warn("Configure a variável de ambiente DEFAULT_USER_PASSWORD para criar usuários padrão.");
             return;
         }
-        
-        // Criar apenas usuários básicos
+
+
         Usuario admin = new Usuario();
         admin.setNome("Administrador");
         admin.setEmail("admin@crmshot.com");

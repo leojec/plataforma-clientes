@@ -80,7 +80,7 @@ function Expositores() {
         </button>
       </div>
 
-      {/* Barra de Pesquisa */}
+      {}
       <div className="card p-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -94,7 +94,7 @@ function Expositores() {
         </div>
       </div>
 
-      {/* Tabela de Expositores */}
+      {}
       <div className="card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -160,7 +160,7 @@ function Expositores() {
         </div>
       </div>
 
-      {/* Modal de Cadastro/Edição */}
+      {}
       {showModal && (
         <ExpositorModal
           expositor={editingExpositor}
@@ -174,7 +174,6 @@ function Expositores() {
   );
 }
 
-// Componente Modal (simplificado)
 function ExpositorModal({ expositor, onClose }) {
   const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
@@ -230,7 +229,7 @@ function ExpositorModal({ expositor, onClose }) {
           <h3 className="text-lg font-medium text-gray-900 mb-4">
             {expositor ? 'Editar Expositor' : 'Novo Expositor'}
           </h3>
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">Razão Social *</label>
@@ -243,7 +242,7 @@ function ExpositorModal({ expositor, onClose }) {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Nome Fantasia</label>
               <input
@@ -254,7 +253,7 @@ function ExpositorModal({ expositor, onClose }) {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700">CNPJ *</label>
               <input
@@ -266,7 +265,7 @@ function ExpositorModal({ expositor, onClose }) {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
@@ -277,7 +276,7 @@ function ExpositorModal({ expositor, onClose }) {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700">Telefone</label>
               <input
@@ -288,7 +287,7 @@ function ExpositorModal({ expositor, onClose }) {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div className="flex space-x-3 pt-4">
               <button
                 type="submit"

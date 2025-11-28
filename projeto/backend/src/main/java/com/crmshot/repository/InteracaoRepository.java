@@ -13,17 +13,17 @@ import java.util.List;
 
 @Repository
 public interface InteracaoRepository extends JpaRepository<Interacao, Long> {
-    
+
     List<Interacao> findByExpositorId(Long expositorId);
-    
+
     List<Interacao> findByOportunidadeId(Long oportunidadeId);
-    
+
     List<Interacao> findByUsuarioId(Long usuarioId);
-    
+
     List<Interacao> findByTipo(Interacao.TipoInteracao tipo);
-    
+
     Page<Interacao> findByExpositorId(Long expositorId, Pageable pageable);
-    
+
     @Query("SELECT i FROM Interacao i WHERE " +
            "(:expositorId IS NULL OR i.expositor.id = :expositorId) AND " +
            "(:oportunidadeId IS NULL OR i.oportunidade.id = :oportunidadeId) AND " +
@@ -38,55 +38,55 @@ public interface InteracaoRepository extends JpaRepository<Interacao, Long> {
                                  @Param("dataInicio") LocalDateTime dataInicio,
                                  @Param("dataFim") LocalDateTime dataFim,
                                  Pageable pageable);
-    
+
     @Query("SELECT COUNT(i) FROM Interacao i WHERE i.expositor.id = :expositorId")
     Long countByExpositor(@Param("expositorId") Long expositorId);
-    
+
     @Query("SELECT COUNT(i) FROM Interacao i WHERE i.usuario.id = :usuarioId")
     Long countByUsuario(@Param("usuarioId") Long usuarioId);
-    
+
     @Query("SELECT i FROM Interacao i WHERE i.dataProximaAcao IS NOT NULL AND i.dataProximaAcao <= :dataLimite AND i.concluida = false")
     List<Interacao> findProximasAcoes(@Param("dataLimite") LocalDateTime dataLimite);
-    
+
     @Query("SELECT i FROM Interacao i WHERE i.usuario.id = :usuarioId AND i.dataProximaAcao IS NOT NULL AND i.dataProximaAcao <= :dataLimite AND i.concluida = false")
     List<Interacao> findProximasAcoesByUsuario(@Param("usuarioId") Long usuarioId, @Param("dataLimite") LocalDateTime dataLimite);
-    
+
     @Query("SELECT i FROM Interacao i WHERE i.dataProximaAcao IS NOT NULL AND DATE(i.dataProximaAcao) = DATE(:dataConsulta)")
     List<Interacao> findByDataProximaAcao(@Param("dataConsulta") LocalDateTime dataConsulta);
-    
-    // Método para contar interações criadas após uma data
+
+
     Long countByDataCriacaoAfter(LocalDateTime data);
-    
-    // Método para buscar atividades agrupadas por usuário e data para o gráfico
+
+
     @Query("SELECT DATE(i.dataCriacao) as data, u.nome as usuario, COUNT(i) as quantidade " +
            "FROM Interacao i JOIN i.usuario u " +
            "WHERE i.dataCriacao >= :dataInicio AND i.dataCriacao <= :dataFim " +
            "GROUP BY DATE(i.dataCriacao), u.id, u.nome " +
            "ORDER BY DATE(i.dataCriacao)")
-    List<Object[]> findAtividadesPorUsuarioEData(@Param("dataInicio") LocalDateTime dataInicio, 
+    List<Object[]> findAtividadesPorUsuarioEData(@Param("dataInicio") LocalDateTime dataInicio,
                                                  @Param("dataFim") LocalDateTime dataFim);
-    
-    // Método para somar o valor das propostas em aberto
+
+
     @Query("SELECT COALESCE(SUM(i.valorProposta), 0.0) FROM Interacao i " +
            "WHERE i.tipo = 'PROPOSTA' AND (i.concluida = false OR i.concluida IS NULL)")
     Double somarValorPropostasAbertas();
-    
-    // Método para somar o valor das propostas concluídas (ganhas) - inclui PROPOSTA concluída e FECHADO
+
+
     @Query("SELECT COALESCE(SUM(i.valorProposta), 0.0) FROM Interacao i " +
            "WHERE ((i.tipo = 'PROPOSTA' AND i.concluida = true) OR i.tipo = 'FECHADO')")
     Double somarValorPropostasGanhas();
-    
-    // Método para contar propostas em aberto
+
+
     @Query("SELECT COUNT(i) FROM Interacao i " +
            "WHERE i.tipo = 'PROPOSTA' AND (i.concluida = false OR i.concluida IS NULL)")
     Long contarPropostasAbertas();
-    
-    // Método para contar propostas ganhas - inclui PROPOSTA concluída e FECHADO
+
+
     @Query("SELECT COUNT(i) FROM Interacao i " +
            "WHERE ((i.tipo = 'PROPOSTA' AND i.concluida = true) OR i.tipo = 'FECHADO')")
     Long contarPropostasGanhas();
-    
-    // Método para somar metros quadrados de atividades FECHADO
+
+
     @Query("SELECT COALESCE(SUM(i.metrosQuadrados), 0.0) FROM Interacao i " +
            "WHERE i.tipo = 'FECHADO'")
     Double somarMetrosQuadradosVendidos();

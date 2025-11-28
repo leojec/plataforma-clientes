@@ -41,23 +41,23 @@ class CnpjControllerTest {
 
     @Test
     void testBuscarCNPJ_CNPJComFormatacao() {
-        // Este teste vai falhar na chamada real da API, mas cobre a lógica de limpeza
+
         ResponseEntity<Object> response = cnpjController.buscarCNPJ("12.345.678/0001-90");
 
-        // Pode retornar erro da API ou sucesso, mas não deve ser erro de validação
+
         assertNotNull(response);
-        assertTrue(response.getStatusCode() == HttpStatus.OK || 
+        assertTrue(response.getStatusCode() == HttpStatus.OK ||
                    response.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Test
     void testBuscarCNPJ_CNPJValido() {
-        // Este teste vai tentar fazer chamada real, pode falhar se API estiver offline
+
         ResponseEntity<Object> response = cnpjController.buscarCNPJ("12345678000190");
 
-        // Pode retornar sucesso ou erro dependendo da API externa
+
         assertNotNull(response);
-        assertTrue(response.getStatusCode() == HttpStatus.OK || 
+        assertTrue(response.getStatusCode() == HttpStatus.OK ||
                    response.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

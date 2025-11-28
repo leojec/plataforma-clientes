@@ -255,7 +255,7 @@ class ExpositorControllerTest {
         when(expositorService.atualizarExpositor(any(Expositor.class))).thenReturn(expositor);
 
         String[] statuses = {"Lead", "Em Andamento", "Em Negociação", "Stand Fechado"};
-        
+
         for (String status : statuses) {
             Map<String, String> statusData = new java.util.HashMap<>();
             statusData.put("status", status);
@@ -353,6 +353,4 @@ class ExpositorControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }
-
-
 

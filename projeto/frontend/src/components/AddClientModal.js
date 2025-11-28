@@ -37,35 +37,35 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
     }));
   };
 
-  // Função para formatar CNPJ
+
   const formatarCNPJ = (cnpj) => {
     const apenasNumeros = cnpj.replace(/\D/g, '');
     return apenasNumeros.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
   };
 
-  // Função para buscar dados do CNPJ
+
   const buscarDadosCNPJ = async (cnpj) => {
-    // Remover formatação do CNPJ
+
     const cnpjLimpo = cnpj.replace(/\D/g, '');
-    
-    // Validar se tem 14 dígitos
+
+
     if (cnpjLimpo.length !== 14) {
       return;
     }
 
     setBuscandoCNPJ(true);
-    
+
     try {
-      // Usar endpoint do backend para buscar CNPJ
+
       const response = await api.get(`/cnpj/${cnpjLimpo}`);
       const dados = response.data;
-      
+
       if (dados.status === 'ERROR') {
         toast.error(dados.message || 'CNPJ inválido ou não encontrado');
         return;
       }
 
-      // Preencher formulário com os dados retornados
+
       setFormData(prev => ({
         ...prev,
         cnpj: formatarCNPJ(cnpjLimpo),
@@ -87,7 +87,7 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
       }));
 
       toast.success('Dados da empresa carregados com sucesso!');
-      
+
     } catch (error) {
       console.error('Erro ao buscar CNPJ:', error);
       toast.error('Erro ao buscar dados do CNPJ. Tente novamente.');
@@ -96,9 +96,9 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
     }
   };
 
-  // Função auxiliar para formatar data
+
   const formatarDataParaInput = (data) => {
-    // Recebe data no formato DD/MM/YYYY e converte para YYYY-MM-DD
+
     const partes = data.split('/');
     if (partes.length === 3) {
       return `${partes[2]}-${partes[1]}-${partes[0]}`;
@@ -106,18 +106,18 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
     return '';
   };
 
-  // Handler específico para o campo CNPJ
+
   const handleCNPJChange = (e) => {
     const { value } = e.target;
     const cnpjLimpo = value.replace(/\D/g, '');
-    
-    // Atualizar o campo
+
+
     setFormData(prev => ({
       ...prev,
       cnpj: value
     }));
 
-    // Se completou 14 dígitos, buscar automaticamente
+
     if (cnpjLimpo.length === 14 && !buscandoCNPJ) {
       buscarDadosCNPJ(value);
     }
@@ -125,8 +125,8 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validação básica
+
+
     if (!formData.razaoSocial || !formData.cnpj || !formData.email) {
       toast.error('Preencha os campos obrigatórios: Razão Social, CNPJ e E-mail');
       return;
@@ -134,7 +134,7 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
 
     setLoading(true);
     try {
-      // Preparar dados para o backend
+
       const expositorData = {
         razaoSocial: formData.razaoSocial,
         nomeFantasia: formData.nomeFantasia || null,
@@ -142,24 +142,24 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
         email: formData.email,
         telefone: formData.telefone,
         celular: formData.telefoneAlternativo || null,
-        endereco: formData.logradouro && formData.numero ? 
+        endereco: formData.logradouro && formData.numero ?
           `${formData.logradouro}, ${formData.numero}${formData.complemento ? ` - ${formData.complemento}` : ''} - ${formData.bairro}, ${formData.cidade}/${formData.uf}` : null,
         cidade: formData.cidade || null,
         estado: formData.uf || null,
         site: formData.site || null,
         descricao: `CNAE: ${formData.cnaePrincipal} - ${formData.textoCnaePrincipal}. Faturamento: ${formData.faturamentoEstimado}. Funcionários: ${formData.quadroFuncionarios}` || null,
-        status: 'POTENCIAL' // Novos leads começam como POTENCIAL
+        status: 'POTENCIAL'
       };
 
-      // Salvar no backend
+
       const response = await api.post('/expositores', expositorData);
-      
-      // Notificar o componente pai para atualizar a lista
+
+
       if (onAddClient) {
         onAddClient(response.data);
       }
-      
-      // Limpar formulário
+
+
       setFormData({
         cnpj: '',
         telefone: '',
@@ -185,16 +185,16 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
 
       toast.success('Expositor cadastrado com sucesso!');
       onClose();
-      
+
     } catch (error) {
       console.error('Erro ao cadastrar expositor:', error);
-      
-      // Tratar erros de validação do backend
+
+
       if (error.response?.status === 400) {
         const errorData = error.response.data;
-        
+
         if (typeof errorData === 'object' && errorData !== null) {
-          // Erro de validação - mostrar todos os campos com erro
+
           const errorMessages = Object.values(errorData).join(', ');
           toast.error(`Erro de validação: ${errorMessages}`);
         } else if (typeof errorData === 'string') {
@@ -216,7 +216,7 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        {/* Header */}
+        {}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
             Cadastro de Empresa Prospectada
@@ -229,14 +229,14 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
           </button>
         </div>
 
-        {/* Form */}
+        {}
         <form onSubmit={handleSubmit} className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Identificação da Empresa */}
+            {}
             <div className="md:col-span-2 lg:col-span-3">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Identificação da Empresa</h3>
             </div>
-            
+
             <div className="relative">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 CNPJ
@@ -320,7 +320,7 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
               />
             </div>
 
-            {/* Endereço */}
+            {}
             <div className="md:col-span-2 lg:col-span-3 mt-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Endereço</h3>
             </div>
@@ -423,7 +423,7 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
               />
             </div>
 
-            {/* Informações Adicionais */}
+            {}
             <div className="md:col-span-2 lg:col-span-3 mt-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Informações Adicionais</h3>
             </div>
@@ -512,7 +512,7 @@ function AddClientModal({ isOpen, onClose, onAddClient }) {
             </div>
           </div>
 
-          {/* Botão Salvar */}
+          {}
           <div className="flex justify-center mt-8">
             <button
               type="submit"
