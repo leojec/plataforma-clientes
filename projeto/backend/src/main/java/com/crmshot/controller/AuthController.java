@@ -7,9 +7,6 @@ import com.crmshot.security.JwtUtil;
 import com.crmshot.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +16,6 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
 public class AuthController {
-    
-    @Autowired
-    private AuthenticationManager authenticationManager;
     
     @Autowired
     private UsuarioService usuarioService;
@@ -47,8 +41,8 @@ public class AuthController {
                 return ResponseEntity.badRequest().body("Senha incorreta");
             }
             
-            // Gerar token simples
-            String token = "token_" + usuario.getId() + "_" + System.currentTimeMillis();
+            // Gerar token JWT usando UserDetails
+            String token = jwtUtil.generateToken(usuario);
             
             // Atualizar último acesso
             usuarioService.atualizarUltimoAcesso(usuario.getId());
@@ -69,7 +63,7 @@ public class AuthController {
                     .body("Email já está em uso");
             }
             
-            Usuario novoUsuario = usuarioService.criarUsuario(usuario);
+            usuarioService.criarUsuario(usuario);
             return ResponseEntity.ok("Usuário criado com sucesso");
             
         } catch (Exception e) {

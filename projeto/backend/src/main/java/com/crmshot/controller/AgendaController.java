@@ -6,6 +6,8 @@ import com.crmshot.entity.Usuario;
 import com.crmshot.repository.InteracaoRepository;
 import com.crmshot.repository.ExpositorRepository;
 import com.crmshot.repository.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ import java.util.*;
 @RequestMapping("/api/agenda")
 @CrossOrigin(origins = "*")
 public class AgendaController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AgendaController.class);
 
     @Autowired
     private InteracaoRepository interacaoRepository;
@@ -54,8 +58,7 @@ public class AgendaController {
             
             return ResponseEntity.ok(atividades);
         } catch (Exception e) {
-            System.out.println("Erro ao buscar atividades do lead: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Erro ao buscar atividades do lead: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }

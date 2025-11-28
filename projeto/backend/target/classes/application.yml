@@ -13,7 +13,7 @@ spring:
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/crmshot}
     username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:34367746}
+    password: ${DATABASE_PASSWORD:}
     driver-class-name: org.postgresql.Driver
   
   jpa:
@@ -27,13 +27,27 @@ spring:
   
   security:
     user:
-      name: admin
-      password: admin123
+      name: ${SPRING_SECURITY_USER_NAME:admin}
+      password: ${SPRING_SECURITY_USER_PASSWORD:}
 
 # JWT Configuration
 jwt:
-  secret: crmshot_jwt_secret_key_2024_very_secure_key_for_production
+  secret: ${JWT_SECRET:crmshot_jwt_secret_key_2024_very_secure_key_for_production}
   expiration: 86400000 # 24 hours in milliseconds
+
+# Application Configuration
+app:
+  default:
+    admin:
+      password: ${DEFAULT_ADMIN_PASSWORD:}
+    user:
+      password: ${DEFAULT_USER_PASSWORD:}
+  rds:
+    host: ${AWS_RDS_HOST:}
+    database: ${AWS_RDS_DATABASE:}
+    username: ${AWS_RDS_USERNAME:}
+    password: ${AWS_RDS_PASSWORD:}
+    port: ${AWS_RDS_PORT:5432}
 
 # CORS Configuration
 cors:

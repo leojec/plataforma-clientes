@@ -6,7 +6,6 @@ import {
   Home, 
   List, 
   BarChart3, 
-  Settings,
   Calendar,
   Menu, 
   X, 
@@ -28,7 +27,6 @@ function Layout() {
     { name: 'Lista', href: '/kanban', icon: List },
     { name: 'Relatórios', href: '/relatorios', icon: BarChart3 },
     { name: 'Agenda', href: '/agenda', icon: Calendar },
-    { name: 'Configurações', href: '/configuracoes', icon: Settings },
   ];
 
   const isCurrentPath = (path) => {

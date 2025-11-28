@@ -3,6 +3,8 @@ package com.crmshot.controller;
 import com.crmshot.dto.ExpositorRequest;
 import com.crmshot.entity.Expositor;
 import com.crmshot.service.ExpositorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,8 @@ import java.util.Optional;
 @RequestMapping("/api/expositores")
 @CrossOrigin(origins = "*")
 public class ExpositorController {
+    
+    private static final Logger logger = LoggerFactory.getLogger(ExpositorController.class);
     
     @Autowired
     private ExpositorService expositorService;
@@ -94,8 +98,7 @@ public class ExpositorController {
             
             return ResponseEntity.ok(expositoresSimples);
         } catch (Exception e) {
-            System.out.println("Erro ao listar expositores: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Erro ao listar expositores: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -152,8 +155,7 @@ public class ExpositorController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            System.out.println("Erro ao buscar expositor por ID: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Erro ao buscar expositor por ID: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }

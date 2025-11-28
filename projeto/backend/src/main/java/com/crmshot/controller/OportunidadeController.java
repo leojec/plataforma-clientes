@@ -6,6 +6,8 @@ import com.crmshot.entity.Usuario;
 import com.crmshot.repository.OportunidadeRepository;
 import com.crmshot.repository.ExpositorRepository;
 import com.crmshot.repository.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,8 @@ import java.util.*;
 @RequestMapping("/api/oportunidades")
 @CrossOrigin(origins = "*")
 public class OportunidadeController {
+    
+    private static final Logger logger = LoggerFactory.getLogger(OportunidadeController.class);
     
     @Autowired
     private OportunidadeRepository oportunidadeRepository;
@@ -70,8 +74,7 @@ public class OportunidadeController {
             
             return ResponseEntity.ok(oportunidadesSimples);
         } catch (Exception e) {
-            System.out.println("Erro ao listar oportunidades: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Erro ao listar oportunidades: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -218,8 +221,7 @@ public class OportunidadeController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            System.out.println("Erro ao buscar oportunidade: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Erro ao buscar oportunidade: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
