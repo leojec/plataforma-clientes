@@ -43,11 +43,12 @@ app:
     user:
       password: ${DEFAULT_USER_PASSWORD:}
   rds:
-    host: ${AWS_RDS_HOST:}
-    database: ${AWS_RDS_DATABASE:}
-    username: ${AWS_RDS_USERNAME:}
-    password: ${AWS_RDS_PASSWORD:}
-    port: ${AWS_RDS_PORT:5432}
+    # Credenciais padrão do RDS (podem ser sobrescritas por variáveis de ambiente)
+    host: ${AWS_RDS_HOST:${RDS_HOSTNAME:database-2.cvmowqi02j3c.us-east-2.rds.amazonaws.com}}
+    database: ${AWS_RDS_DATABASE:${RDS_DB_NAME:crmshot}}
+    username: ${AWS_RDS_USERNAME:${RDS_USERNAME:postgres}}
+    password: ${AWS_RDS_PASSWORD:${RDS_PASSWORD:34367746}}
+    port: ${AWS_RDS_PORT:${RDS_PORT:5432}}
 
 # CORS Configuration
 cors:
