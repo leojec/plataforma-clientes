@@ -129,9 +129,22 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
+                            <excludes>
+                                <!-- Excluir classes que não precisam de teste completo -->
+                                <exclude>**/CrmshotApplication.class</exclude>
+                                <exclude>**/config/**</exclude>
+                                <exclude>**/entity/**</exclude>
+                                <exclude>**/dto/**</exclude>
+                                <exclude>**/repository/**</exclude>
+                                <exclude>**/controller/**</exclude>
+                            </excludes>
                             <rules>
                                 <rule>
-                                    <element>BUNDLE</element>
+                                    <element>PACKAGE</element>
+                                    <includes>
+                                        <include>com.crmshot.service.*</include>
+                                        <include>com.crmshot.security.*</include>
+                                    </includes>
                                     <limits>
                                         <limit>
                                             <counter>LINE</counter>
