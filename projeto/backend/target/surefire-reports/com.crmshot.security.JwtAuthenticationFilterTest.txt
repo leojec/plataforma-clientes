@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.crmshot.security.JwtAuthenticationFilterTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 8, Skipped: 0, Time elapsed: 0.205 s <<< FAILURE! -- in com.crmshot.security.JwtAuthenticationFilterTest
-com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithInvalidToken -- Time elapsed: 0.040 s <<< ERROR!
+Tests run: 8, Failures: 0, Errors: 8, Skipped: 0, Time elapsed: 0.219 s <<< FAILURE! -- in com.crmshot.security.JwtAuthenticationFilterTest
+com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithInvalidToken -- Time elapsed: 0.034 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.security.JwtUtil.
@@ -83,7 +83,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithEmptyBearerToken -- Time elapsed: 0.019 s <<< ERROR!
+com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithEmptyBearerToken -- Time elapsed: 0.026 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.security.JwtUtil.
@@ -164,7 +164,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithUserNotFound -- Time elapsed: 0.019 s <<< ERROR!
+com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithUserNotFound -- Time elapsed: 0.022 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.security.JwtUtil.
@@ -245,7 +245,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithInvalidTokenValidation -- Time elapsed: 0.020 s <<< ERROR!
+com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithInvalidTokenValidation -- Time elapsed: 0.022 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.security.JwtUtil.
@@ -326,7 +326,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithInvalidAuthorizationFormat -- Time elapsed: 0.020 s <<< ERROR!
+com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithInvalidAuthorizationFormat -- Time elapsed: 0.025 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.security.JwtUtil.
@@ -407,7 +407,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithoutAuthorizationHeader -- Time elapsed: 0.023 s <<< ERROR!
+com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithoutAuthorizationHeader -- Time elapsed: 0.022 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.security.JwtUtil.
@@ -488,7 +488,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WhenAuthenticationAlreadyExists -- Time elapsed: 0.022 s <<< ERROR!
+com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WhenAuthenticationAlreadyExists -- Time elapsed: 0.021 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.security.JwtUtil.
@@ -569,7 +569,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithValidToken -- Time elapsed: 0.023 s <<< ERROR!
+com.crmshot.security.JwtAuthenticationFilterTest.testDoFilterInternal_WithValidToken -- Time elapsed: 0.019 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.security.JwtUtil.

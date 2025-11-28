@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.crmshot.controller.AuthControllerTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 7, Skipped: 0, Time elapsed: 0.275 s <<< FAILURE! -- in com.crmshot.controller.AuthControllerTest
-com.crmshot.controller.AuthControllerTest.testLogin_Success -- Time elapsed: 0.049 s <<< ERROR!
+Tests run: 7, Failures: 0, Errors: 7, Skipped: 0, Time elapsed: 0.243 s <<< FAILURE! -- in com.crmshot.controller.AuthControllerTest
+com.crmshot.controller.AuthControllerTest.testLogin_Success -- Time elapsed: 0.050 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -83,7 +83,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testLogin_SenhaIncorreta -- Time elapsed: 0.039 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testLogin_SenhaIncorreta -- Time elapsed: 0.028 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -164,7 +164,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testRegister_Exception -- Time elapsed: 0.038 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testRegister_Exception -- Time elapsed: 0.030 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -245,7 +245,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testRegister_Success -- Time elapsed: 0.034 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testRegister_Success -- Time elapsed: 0.028 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -326,7 +326,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testLogin_Exception -- Time elapsed: 0.034 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testLogin_Exception -- Time elapsed: 0.035 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -407,7 +407,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testRegister_EmailJaExiste -- Time elapsed: 0.032 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testRegister_EmailJaExiste -- Time elapsed: 0.030 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.
@@ -488,7 +488,7 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
 	... 27 more
 
-com.crmshot.controller.AuthControllerTest.testLogin_UsuarioNaoEncontrado -- Time elapsed: 0.031 s <<< ERROR!
+com.crmshot.controller.AuthControllerTest.testLogin_UsuarioNaoEncontrado -- Time elapsed: 0.027 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.UsuarioService.

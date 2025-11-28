@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.crmshot.controller.ExpositorControllerTest" time="1.181" tests="25" errors="25" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.crmshot.controller.ExpositorControllerTest" time="1.207" tests="25" errors="25" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -13,10 +13,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="BR"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/23.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/leonardorocha/Documents/TCC/projeto/backend/target/surefire/surefirebooter-20251128012437041_3.jar /Users/leonardorocha/Documents/TCC/projeto/backend/target/surefire 2025-11-28T01-24-37_006-jvmRun1 surefire-20251128012437041_1tmp surefire_0-20251128012437041_2tmp"/>
+    <property name="sun.java.command" value="/Users/leonardorocha/Documents/TCC/projeto/backend/target/surefire/surefirebooter-20251128013331489_3.jar /Users/leonardorocha/Documents/TCC/projeto/backend/target/surefire 2025-11-28T01-33-31_449-jvmRun1 surefire-20251128013331489_1tmp surefire_0-20251128013331489_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="ExpositorControllerTest"/>
     <property name="surefire.test.class.path" value="/Users/leonardorocha/Documents/TCC/projeto/backend/target/test-classes:/Users/leonardorocha/Documents/TCC/projeto/backend/target/classes:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.0/spring-boot-starter-web-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.0/spring-boot-starter-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.0/spring-boot-starter-logging-3.2.0.jar:/Users/leonardorocha/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/Users/leonardorocha/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/Users/leonardorocha/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/Users/leonardorocha/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/Users/leonardorocha/.m2/repository/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar:/Users/leonardorocha/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/leonardorocha/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.0/spring-boot-starter-json-3.2.0.jar:/Users/leonardorocha/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.3/jackson-datatype-jdk8-2.15.3.jar:/Users/leonardorocha/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.3/jackson-datatype-jsr310-2.15.3.jar:/Users/leonardorocha/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.3/jackson-module-parameter-names-2.15.3.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.0/spring-boot-starter-tomcat-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.16/tomcat-embed-core-10.1.16.jar:/Users/leonardorocha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.16/tomcat-embed-websocket-10.1.16.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-web/6.1.1/spring-web-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-beans/6.1.1/spring-beans-6.1.1.jar:/Users/leonardorocha/.m2/repository/io/micrometer/micrometer-observation/1.12.0/micrometer-observation-1.12.0.jar:/Users/leonardorocha/.m2/repository/io/micrometer/micrometer-commons/1.12.0/micrometer-commons-1.12.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-webmvc/6.1.1/spring-webmvc-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-context/6.1.1/spring-context-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-expression/6.1.1/spring-expression-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.0/spring-boot-starter-data-jpa-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.0/spring-boot-starter-aop-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/aspectj/aspectjweaver/1.9.20.1/aspectjweaver-1.9.20.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.0/spring-boot-starter-jdbc-3.2.0.jar:/Users/leonardorocha/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-jdbc/6.1.1/spring-jdbc-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/hibernate/orm/hibernate-core/6.3.1.Final/hibernate-core-6.3.1.Final.jar:/Users/leonardorocha/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/leonardorocha/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/leonardorocha/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/Users/leonardorocha/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/Users/leonardorocha/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/Users/leonardorocha/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/Users/leonardorocha/.m2/repository/net/bytebuddy/byte-buddy/1.14.10/byte-buddy-1.14.10.jar:/Users/leonardorocha/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.jar:/Users/leonardorocha/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.jar:/Users/leonardorocha/.m2/repository/org/eclipse/angus/angus-activation/2.0.1/angus-activation-2.0.1.jar:/Users/leonardorocha/.m2/repository/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.jar:/Users/leonardorocha/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/leonardorocha/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/leonardorocha/.m2/repository/org/antlr/antlr4-runtime/4.10.1/antlr4-runtime-4.10.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/data/spring-data-jpa/3.2.0/spring-data-jpa-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/data/spring-data-commons/3.2.0/spring-data-commons-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-orm/6.1.1/spring-orm-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-tx/6.1.1/spring-tx-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-aspects/6.1.1/spring-aspects-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.0/spring-boot-starter-security-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-aop/6.1.1/spring-aop-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/security/spring-security-config/6.2.0/spring-security-config-6.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/security/spring-security-web/6.2.0/spring-security-web-6.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.0/spring-boot-starter-validation-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.16/tomcat-embed-el-10.1.16.jar:/Users/leonardorocha/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/Users/leonardorocha/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/leonardorocha/.m2/repository/org/postgresql/postgresql/42.6.0/postgresql-42.6.0.jar:/Users/leonardorocha/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/Users/leonardorocha/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/Users/leonardorocha/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/leonardorocha/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/Users/leonardorocha/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/Users/leonardorocha/.m2/repository/org/springframework/security/spring-security-crypto/6.2.0/spring-security-crypto-6.2.0.jar:/Users/leonardorocha/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.jar:/Users/leonardorocha/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.jar:/Users/leonardorocha/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-devtools/3.2.0/spring-boot-devtools-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot/3.2.0/spring-boot-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.0/spring-boot-autoconfigure-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.0/spring-boot-starter-test-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-test/3.2.0/spring-boot-test-3.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.0/spring-boot-test-autoconfigure-3.2.0.jar:/Users/leonardorocha/.m2/repository/com/jayway/jsonpath/json-path/2.8.0/json-path-2.8.0.jar:/Users/leonardorocha/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.1/jakarta.xml.bind-api-4.0.1.jar:/Users/leonardorocha/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar:/Users/leonardorocha/.m2/repository/net/minidev/json-smart/2.5.0/json-smart-2.5.0.jar:/Users/leonardorocha/.m2/repository/net/minidev/accessors-smart/2.5.0/accessors-smart-2.5.0.jar:/Users/leonardorocha/.m2/repository/org/ow2/asm/asm/9.3/asm-9.3.jar:/Users/leonardorocha/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/Users/leonardorocha/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/Users/leonardorocha/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/leonardorocha/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/Users/leonardorocha/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/Users/leonardorocha/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/leonardorocha/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/Users/leonardorocha/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/leonardorocha/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/Users/leonardorocha/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/Users/leonardorocha/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/Users/leonardorocha/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/Users/leonardorocha/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar:/Users/leonardorocha/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/leonardorocha/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/Users/leonardorocha/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/Users/leonardorocha/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-core/6.1.1/spring-core-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-jcl/6.1.1/spring-jcl-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/spring-test/6.1.1/spring-test-6.1.1.jar:/Users/leonardorocha/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/Users/leonardorocha/.m2/repository/org/springframework/security/spring-security-test/6.2.0/spring-security-test-6.2.0.jar:/Users/leonardorocha/.m2/repository/org/springframework/security/spring-security-core/6.2.0/spring-security-core-6.2.0.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/leonardorocha"/>
@@ -31,7 +30,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/leonardorocha/Documents/TCC/projeto/backend/target/surefire/surefirebooter-20251128012437041_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/leonardorocha/Documents/TCC/projeto/backend/target/surefire/surefirebooter-20251128013331489_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="23.0.2"/>
@@ -59,9 +58,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="67.0"/>
+    <property name="maven.test.failure.ignore" value="true"/>
   </properties>
-  <testcase name="testAtualizarExpositor_NotFound" classname="com.crmshot.controller.ExpositorControllerTest" time="0.552">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testAtualizarExpositor_NotFound" classname="com.crmshot.controller.ExpositorControllerTest" time="0.155">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -81,207 +81,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
-	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
-	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
-	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
-	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:410)
-	... 3 more
-Caused by: java.lang.IllegalStateException: 
-Byte Buddy could not instrument all classes within the mock's type hierarchy
-
-This problem should never occur for javac-compiled classes. This problem has been observed for classes that are:
- - Compiled by older versions of scalac
- - Classes that are part of the Android distribution
-	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:285)
-	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.mockClass(InlineBytecodeGenerator.java:218)
-	at org.mockito.internal.creation.bytebuddy.TypeCachingBytecodeGenerator.lambda$mockClass$0(TypeCachingBytecodeGenerator.java:78)
-	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
-	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
-	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
-	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:410)
-	at org.mockito.internal.creation.bytebuddy.TypeCachingBytecodeGenerator.mockClass(TypeCachingBytecodeGenerator.java:75)
-	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.createMockType(InlineDelegateByteBuddyMockMaker.java:412)
-	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.doCreateMock(InlineDelegateByteBuddyMockMaker.java:371)
-	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.createMock(InlineDelegateByteBuddyMockMaker.java:350)
-	at org.mockito.internal.creation.bytebuddy.InlineByteBuddyMockMaker.createMock(InlineByteBuddyMockMaker.java:56)
-	at org.mockito.internal.util.MockUtil.createMock(MockUtil.java:99)
-	at org.mockito.internal.MockitoCore.mock(MockitoCore.java:88)
-	at org.mockito.Mockito.mock(Mockito.java:2101)
-	at org.mockito.internal.configuration.MockAnnotationProcessor.processAnnotationForMock(MockAnnotationProcessor.java:79)
-	at org.mockito.internal.configuration.MockAnnotationProcessor.process(MockAnnotationProcessor.java:28)
-	at org.mockito.internal.configuration.MockAnnotationProcessor.process(MockAnnotationProcessor.java:25)
-	at org.mockito.internal.configuration.IndependentAnnotationEngine.createMockFor(IndependentAnnotationEngine.java:44)
-	at org.mockito.internal.configuration.IndependentAnnotationEngine.process(IndependentAnnotationEngine.java:72)
-	at org.mockito.internal.configuration.InjectingAnnotationEngine.processIndependentAnnotations(InjectingAnnotationEngine.java:62)
-	at org.mockito.internal.configuration.InjectingAnnotationEngine.process(InjectingAnnotationEngine.java:47)
-	at org.mockito.MockitoAnnotations.openMocks(MockitoAnnotations.java:81)
-	at org.mockito.internal.framework.DefaultMockitoSession.<init>(DefaultMockitoSession.java:43)
-	at org.mockito.internal.session.DefaultMockitoSessionBuilder.startMocking(DefaultMockitoSessionBuilder.java:83)
-	... 3 more
-Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by the current version of Byte Buddy which officially supports Java 22 (66) - update Byte Buddy or set net.bytebuddy.experimental as a VM property
-	at net.bytebuddy.utility.OpenedClassReader.of(OpenedClassReader.java:100)
-	at net.bytebuddy.dynamic.scaffold.TypeWriter$Default$ForInlining.create(TypeWriter.java:4011)
-	at net.bytebuddy.dynamic.scaffold.TypeWriter$Default.make(TypeWriter.java:2224)
-	at net.bytebuddy.dynamic.DynamicType$Builder$AbstractBase$UsingTypeWriter.make(DynamicType.java:4055)
-	at net.bytebuddy.dynamic.DynamicType$Builder$AbstractBase.make(DynamicType.java:3739)
-	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.transform(InlineBytecodeGenerator.java:402)
-	at java.instrument/java.lang.instrument.ClassFileTransformer.transform(ClassFileTransformer.java:242)
-	at java.instrument/sun.instrument.TransformerManager.transform(TransformerManager.java:188)
-	at java.instrument/sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:610)
-	at java.instrument/sun.instrument.InstrumentationImpl.retransformClasses0(Native Method)
-	at java.instrument/sun.instrument.InstrumentationImpl.retransformClasses(InstrumentationImpl.java:225)
-	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
-	... 27 more
-]]></error>
-    <system-err><![CDATA[java.lang.instrument.IllegalClassFormatException: Error while instrumenting com/sun/tools/attach/VirtualMachine with JaCoCo 0.8.11.202310140853/f33756c.
-	at org.jacoco.agent.rt.internal_4742761.CoverageTransformer.transform(CoverageTransformer.java:94)
-	at java.instrument/java.lang.instrument.ClassFileTransformer.transform(ClassFileTransformer.java:242)
-	at java.instrument/sun.instrument.TransformerManager.transform(TransformerManager.java:188)
-	at java.instrument/sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:610)
-	at java.base/java.lang.ClassLoader.defineClass2(Native Method)
-	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1116)
-	at java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:182)
-	at java.base/jdk.internal.loader.BuiltinClassLoader.defineClass(BuiltinClassLoader.java:821)
-	at java.base/jdk.internal.loader.BuiltinClassLoader.findClassInModuleOrNull(BuiltinClassLoader.java:741)
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClassOrNull(BuiltinClassLoader.java:665)
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:639)
-	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:528)
-	at java.base/java.lang.Class.forName0(Native Method)
-	at java.base/java.lang.Class.forName(Class.java:578)
-	at java.base/java.lang.Class.forName(Class.java:557)
-	at net.bytebuddy.agent.ByteBuddyAgent$AttachmentProvider$Accessor$Simple.of(ByteBuddyAgent.java:969)
-	at net.bytebuddy.agent.ByteBuddyAgent$AttachmentProvider$ForModularizedVm.attempt(ByteBuddyAgent.java:1093)
-	at net.bytebuddy.agent.ByteBuddyAgent$AttachmentProvider$Compound.attempt(ByteBuddyAgent.java:1273)
-	at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:630)
-	at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:616)
-	at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:568)
-	at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:545)
-	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.<clinit>(InlineDelegateByteBuddyMockMaker.java:133)
-	at org.mockito.internal.creation.bytebuddy.InlineByteBuddyMockMaker.<init>(InlineByteBuddyMockMaker.java:23)
-	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:501)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:485)
-	at org.mockito.internal.configuration.plugins.DefaultMockitoPlugins.create(DefaultMockitoPlugins.java:103)
-	at org.mockito.internal.configuration.plugins.DefaultMockitoPlugins.getDefaultPlugin(DefaultMockitoPlugins.java:79)
-	at org.mockito.internal.configuration.plugins.PluginLoader.loadPlugin(PluginLoader.java:75)
-	at org.mockito.internal.configuration.plugins.PluginLoader.loadPlugin(PluginLoader.java:50)
-	at org.mockito.internal.configuration.plugins.PluginRegistry.<init>(PluginRegistry.java:27)
-	at org.mockito.internal.configuration.plugins.Plugins.<clinit>(Plugins.java:22)
-	at org.mockito.internal.MockitoCore.<clinit>(MockitoCore.java:73)
-	at org.mockito.Mockito.<clinit>(Mockito.java:1683)
-	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:155)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeEachCallbacks$2(TestMethodTestDescriptor.java:167)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeMethodsOrCallbacksUntilExceptionOccurs$6(TestMethodTestDescriptor.java:203)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeMethodsOrCallbacksUntilExceptionOccurs(TestMethodTestDescriptor.java:203)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeEachCallbacks(TestMethodTestDescriptor.java:166)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:133)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
-	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
-	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
-	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
-	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
-	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
-	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
-Caused by: java.io.IOException: Error while instrumenting com/sun/tools/attach/VirtualMachine with JaCoCo 0.8.11.202310140853/f33756c.
-	at org.jacoco.agent.rt.internal_4742761.core.instr.Instrumenter.instrumentError(Instrumenter.java:161)
-	at org.jacoco.agent.rt.internal_4742761.core.instr.Instrumenter.instrument(Instrumenter.java:111)
-	at org.jacoco.agent.rt.internal_4742761.CoverageTransformer.transform(CoverageTransformer.java:92)
-	... 91 more
-Caused by: java.lang.IllegalArgumentException: Unsupported class file major version 67
-	at org.jacoco.agent.rt.internal_4742761.asm.ClassReader.<init>(ClassReader.java:200)
-	at org.jacoco.agent.rt.internal_4742761.asm.ClassReader.<init>(ClassReader.java:180)
-	at org.jacoco.agent.rt.internal_4742761.asm.ClassReader.<init>(ClassReader.java:166)
-	at org.jacoco.agent.rt.internal_4742761.core.internal.instr.InstrSupport.classReaderFor(InstrSupport.java:280)
-	at org.jacoco.agent.rt.internal_4742761.core.instr.Instrumenter.instrument(Instrumenter.java:77)
-	at org.jacoco.agent.rt.internal_4742761.core.instr.Instrumenter.instrument(Instrumenter.java:109)
-	... 92 more
-WARNING: A Java agent has been loaded dynamically (/Users/leonardorocha/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.10/byte-buddy-agent-1.14.10.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
-]]></system-err>
-  </testcase>
-  <testcase name="testBuscarExpositor_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.025">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
-
-Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
-
-If you're not sure why you're getting this error, please open an issue on GitHub.
-
-
-Java               : 23
-JVM vendor name    : Homebrew
-JVM vendor version : 23.0.2
-JVM name           : OpenJDK 64-Bit Server VM
-JVM version        : 23.0.2
-JVM info           : mixed mode, sharing
-OS name            : Mac OS X
-OS version         : 26.0.1
-
-
-You are seeing this disclaimer because Mockito is configured to create inlined mocks.
-You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
-
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
-	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
-		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
-		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -335,8 +142,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testAtualizarStatus_DiferentesStatus" classname="com.crmshot.controller.ExpositorControllerTest" time="0.026">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testBuscarExpositor_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.13">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -356,14 +163,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -417,8 +224,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testListarExpositoresPorVendedor" classname="com.crmshot.controller.ExpositorControllerTest" time="0.026">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testAtualizarStatus_DiferentesStatus" classname="com.crmshot.controller.ExpositorControllerTest" time="0.044">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -438,14 +245,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -499,8 +306,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testExcluirExpositor_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.024">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testListarExpositoresPorVendedor" classname="com.crmshot.controller.ExpositorControllerTest" time="0.04">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -520,14 +327,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -581,8 +388,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testAtualizarExpositor_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.024">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testExcluirExpositor_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.038">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -602,14 +409,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -663,8 +470,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testBuscarExpositor_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.024">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testAtualizarExpositor_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.037">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -684,14 +491,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -745,8 +552,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testListarExpositoresPaginado" classname="com.crmshot.controller.ExpositorControllerTest" time="0.022">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testBuscarExpositor_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.032">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -766,14 +573,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -827,8 +634,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testAtualizarStatus_ExpositorNaoEncontrado" classname="com.crmshot.controller.ExpositorControllerTest" time="0.04">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testListarExpositoresPaginado" classname="com.crmshot.controller.ExpositorControllerTest" time="0.035">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -848,14 +655,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -909,8 +716,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testBuscarExpositor_NotFound" classname="com.crmshot.controller.ExpositorControllerTest" time="0.027">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testAtualizarStatus_ExpositorNaoEncontrado" classname="com.crmshot.controller.ExpositorControllerTest" time="0.03">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -930,14 +737,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -991,8 +798,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testListarExpositores_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.021">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testBuscarExpositor_NotFound" classname="com.crmshot.controller.ExpositorControllerTest" time="0.03">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1012,14 +819,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1073,8 +880,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testListarExpositores_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.022">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testListarExpositores_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.03">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1094,14 +901,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1155,8 +962,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testCriarExpositor_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.019">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testListarExpositores_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.038">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1176,14 +983,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1237,8 +1044,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testAtualizarStatus_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.021">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testCriarExpositor_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.036">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1258,14 +1065,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1319,8 +1126,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testBuscarExpositor_ComVendedor" classname="com.crmshot.controller.ExpositorControllerTest" time="0.018">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testAtualizarStatus_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.031">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1340,14 +1147,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1401,8 +1208,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testListarExpositoresPorStatus" classname="com.crmshot.controller.ExpositorControllerTest" time="0.023">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testBuscarExpositor_ComVendedor" classname="com.crmshot.controller.ExpositorControllerTest" time="0.032">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1422,14 +1229,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1483,8 +1290,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testAtualizarExpositor_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.02">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testListarExpositoresPorStatus" classname="com.crmshot.controller.ExpositorControllerTest" time="0.032">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1504,14 +1311,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1565,8 +1372,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testCriarExpositor_CnpjJaExiste" classname="com.crmshot.controller.ExpositorControllerTest" time="0.019">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testAtualizarExpositor_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.028">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1586,14 +1393,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1647,8 +1454,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testListarExpositores_SemVendedor" classname="com.crmshot.controller.ExpositorControllerTest" time="0.023">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testCriarExpositor_CnpjJaExiste" classname="com.crmshot.controller.ExpositorControllerTest" time="0.029">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1668,14 +1475,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1729,8 +1536,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testExcluirExpositor_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.021">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testListarExpositores_SemVendedor" classname="com.crmshot.controller.ExpositorControllerTest" time="0.029">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1750,14 +1557,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1811,8 +1618,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testAtualizarStatus_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.031">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testExcluirExpositor_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.028">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1832,14 +1639,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1893,8 +1700,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testCriarExpositor_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.023">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testAtualizarStatus_Success" classname="com.crmshot.controller.ExpositorControllerTest" time="0.028">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1914,14 +1721,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -1975,8 +1782,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testAtualizarStatus_StatusVazio" classname="com.crmshot.controller.ExpositorControllerTest" time="0.026">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testCriarExpositor_Exception" classname="com.crmshot.controller.ExpositorControllerTest" time="0.028">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -1996,14 +1803,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -2057,8 +1864,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testListarExpositores_ComVendedor" classname="com.crmshot.controller.ExpositorControllerTest" time="0.021">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testAtualizarStatus_StatusVazio" classname="com.crmshot.controller.ExpositorControllerTest" time="0.029">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -2078,14 +1885,14 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
@@ -2139,8 +1946,8 @@ Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by 
 	... 27 more
 ]]></error>
   </testcase>
-  <testcase name="testAtualizarStatus_StatusInvalido" classname="com.crmshot.controller.ExpositorControllerTest" time="0.021">
-    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+  <testcase name="testListarExpositores_ComVendedor" classname="com.crmshot.controller.ExpositorControllerTest" time="0.038">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
 
@@ -2160,14 +1967,96 @@ OS version         : 26.0.1
 You are seeing this disclaimer because Mockito is configured to create inlined mocks.
 You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
 
-Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
 		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
 		... 2 more
-Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class java.lang.Object, class com.crmshot.service.ExpositorService]
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
+	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
+	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
+	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:410)
+	... 3 more
+Caused by: java.lang.IllegalStateException: 
+Byte Buddy could not instrument all classes within the mock's type hierarchy
+
+This problem should never occur for javac-compiled classes. This problem has been observed for classes that are:
+ - Compiled by older versions of scalac
+ - Classes that are part of the Android distribution
+	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:285)
+	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.mockClass(InlineBytecodeGenerator.java:218)
+	at org.mockito.internal.creation.bytebuddy.TypeCachingBytecodeGenerator.lambda$mockClass$0(TypeCachingBytecodeGenerator.java:78)
+	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
+	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
+	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)
+	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:410)
+	at org.mockito.internal.creation.bytebuddy.TypeCachingBytecodeGenerator.mockClass(TypeCachingBytecodeGenerator.java:75)
+	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.createMockType(InlineDelegateByteBuddyMockMaker.java:412)
+	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.doCreateMock(InlineDelegateByteBuddyMockMaker.java:371)
+	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.createMock(InlineDelegateByteBuddyMockMaker.java:350)
+	at org.mockito.internal.creation.bytebuddy.InlineByteBuddyMockMaker.createMock(InlineByteBuddyMockMaker.java:56)
+	at org.mockito.internal.util.MockUtil.createMock(MockUtil.java:99)
+	at org.mockito.internal.MockitoCore.mock(MockitoCore.java:88)
+	at org.mockito.Mockito.mock(Mockito.java:2101)
+	at org.mockito.internal.configuration.MockAnnotationProcessor.processAnnotationForMock(MockAnnotationProcessor.java:79)
+	at org.mockito.internal.configuration.MockAnnotationProcessor.process(MockAnnotationProcessor.java:28)
+	at org.mockito.internal.configuration.MockAnnotationProcessor.process(MockAnnotationProcessor.java:25)
+	at org.mockito.internal.configuration.IndependentAnnotationEngine.createMockFor(IndependentAnnotationEngine.java:44)
+	at org.mockito.internal.configuration.IndependentAnnotationEngine.process(IndependentAnnotationEngine.java:72)
+	at org.mockito.internal.configuration.InjectingAnnotationEngine.processIndependentAnnotations(InjectingAnnotationEngine.java:62)
+	at org.mockito.internal.configuration.InjectingAnnotationEngine.process(InjectingAnnotationEngine.java:47)
+	at org.mockito.MockitoAnnotations.openMocks(MockitoAnnotations.java:81)
+	at org.mockito.internal.framework.DefaultMockitoSession.<init>(DefaultMockitoSession.java:43)
+	at org.mockito.internal.session.DefaultMockitoSessionBuilder.startMocking(DefaultMockitoSessionBuilder.java:83)
+	... 3 more
+Caused by: java.lang.IllegalArgumentException: Java 23 (67) is not supported by the current version of Byte Buddy which officially supports Java 22 (66) - update Byte Buddy or set net.bytebuddy.experimental as a VM property
+	at net.bytebuddy.utility.OpenedClassReader.of(OpenedClassReader.java:100)
+	at net.bytebuddy.dynamic.scaffold.TypeWriter$Default$ForInlining.create(TypeWriter.java:4011)
+	at net.bytebuddy.dynamic.scaffold.TypeWriter$Default.make(TypeWriter.java:2224)
+	at net.bytebuddy.dynamic.DynamicType$Builder$AbstractBase$UsingTypeWriter.make(DynamicType.java:4055)
+	at net.bytebuddy.dynamic.DynamicType$Builder$AbstractBase.make(DynamicType.java:3739)
+	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.transform(InlineBytecodeGenerator.java:402)
+	at java.instrument/java.lang.instrument.ClassFileTransformer.transform(ClassFileTransformer.java:242)
+	at java.instrument/sun.instrument.TransformerManager.transform(TransformerManager.java:188)
+	at java.instrument/sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:610)
+	at java.instrument/sun.instrument.InstrumentationImpl.retransformClasses0(Native Method)
+	at java.instrument/sun.instrument.InstrumentationImpl.retransformClasses(InstrumentationImpl.java:225)
+	at org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator.triggerRetransformation(InlineBytecodeGenerator.java:281)
+	... 27 more
+]]></error>
+  </testcase>
+  <testcase name="testAtualizarStatus_StatusInvalido" classname="com.crmshot.controller.ExpositorControllerTest" time="0.068">
+    <error message="&#10;Mockito cannot mock this class: class com.crmshot.service.ExpositorService.&#10;&#10;If you&apos;re not sure why you&apos;re getting this error, please open an issue on GitHub.&#10;&#10;&#10;Java               : 23&#10;JVM vendor name    : Homebrew&#10;JVM vendor version : 23.0.2&#10;JVM name           : OpenJDK 64-Bit Server VM&#10;JVM version        : 23.0.2&#10;JVM info           : mixed mode, sharing&#10;OS name            : Mac OS X&#10;OS version         : 26.0.1&#10;&#10;&#10;You are seeing this disclaimer because Mockito is configured to create inlined mocks.&#10;You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.&#10;&#10;Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]" type="org.mockito.exceptions.base.MockitoException"><![CDATA[org.mockito.exceptions.base.MockitoException: 
+
+Mockito cannot mock this class: class com.crmshot.service.ExpositorService.
+
+If you're not sure why you're getting this error, please open an issue on GitHub.
+
+
+Java               : 23
+JVM vendor name    : Homebrew
+JVM vendor version : 23.0.2
+JVM name           : OpenJDK 64-Bit Server VM
+JVM version        : 23.0.2
+JVM info           : mixed mode, sharing
+OS name            : Mac OS X
+OS version         : 26.0.1
+
+
+You are seeing this disclaimer because Mockito is configured to create inlined mocks.
+You can learn about inline mocks and their limitations under item #39 of the Mockito class javadoc.
+
+Underlying exception : org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
+	at org.mockito.junit.jupiter.MockitoExtension.beforeEach(MockitoExtension.java:159)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	Suppressed: java.lang.NullPointerException: Cannot invoke "java.util.Set.forEach(java.util.function.Consumer)" because the return value of "org.junit.jupiter.api.extension.ExtensionContext$Store.remove(Object, java.lang.Class)" is null
+		at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:190)
+		... 2 more
+Caused by: org.mockito.exceptions.base.MockitoException: Could not modify all classes [class com.crmshot.service.ExpositorService, class java.lang.Object]
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:168)
 	at net.bytebuddy.TypeCache$WithInlineExpunction.findOrInsert(TypeCache.java:399)
 	at net.bytebuddy.TypeCache.findOrInsert(TypeCache.java:190)

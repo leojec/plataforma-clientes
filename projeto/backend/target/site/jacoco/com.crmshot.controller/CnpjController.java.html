@@ -38,11 +38,11 @@ import java.util.Map;
             // Retornar os dados
 <span class="fc" id="L39">            return ResponseEntity.ok(response.getBody());</span>
             
-<span class="nc" id="L41">        } catch (Exception e) {</span>
-<span class="nc" id="L42">            Map&lt;String, String&gt; erro = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L43">            erro.put(&quot;status&quot;, &quot;ERROR&quot;);</span>
-<span class="nc" id="L44">            erro.put(&quot;message&quot;, &quot;Erro ao buscar dados do CNPJ: &quot; + e.getMessage());</span>
-<span class="nc" id="L45">            return ResponseEntity.status(500).body(erro);</span>
+<span class="fc" id="L41">        } catch (Exception e) {</span>
+<span class="fc" id="L42">            Map&lt;String, String&gt; erro = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L43">            erro.put(&quot;status&quot;, &quot;ERROR&quot;);</span>
+<span class="fc" id="L44">            erro.put(&quot;message&quot;, &quot;Erro ao buscar dados do CNPJ: &quot; + e.getMessage());</span>
+<span class="fc" id="L45">            return ResponseEntity.status(500).body(erro);</span>
         }
     }
 }
