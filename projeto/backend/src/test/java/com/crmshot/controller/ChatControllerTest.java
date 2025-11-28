@@ -33,9 +33,8 @@ class ChatControllerTest {
     private ChatController chatController;
 
     @BeforeEach
-    void setUp() {
-
-    }
+    @SuppressWarnings("java:S1186")
+    void setUp() {}
 
     @Test
     void testProcessarPergunta_ProximaReuniao() {

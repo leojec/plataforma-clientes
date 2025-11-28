@@ -50,10 +50,8 @@ public class ExpositorRequest {
 
     private Long vendedorId;
 
-
-    public ExpositorRequest() {
-
-    }
+    @SuppressWarnings("java:S1186")
+    public ExpositorRequest() {}
 
 
     public String getRazaoSocial() {

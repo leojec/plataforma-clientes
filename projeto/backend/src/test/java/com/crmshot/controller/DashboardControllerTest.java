@@ -40,9 +40,8 @@ class DashboardControllerTest {
     private DashboardController dashboardController;
 
     @BeforeEach
-    void setUp() {
-
-    }
+    @SuppressWarnings("java:S1186")
+    void setUp() {}
 
     @Test
     void testGetDashboardStats() {
