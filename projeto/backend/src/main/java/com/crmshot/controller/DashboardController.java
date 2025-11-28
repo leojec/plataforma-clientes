@@ -18,6 +18,8 @@ import java.util.Random;
 @CrossOrigin(origins = "*")
 public class DashboardController {
 
+    private static final Random RANDOM = new Random();
+
     @Autowired
     private ExpositorRepository expositorRepository;
 
@@ -85,7 +87,6 @@ public class DashboardController {
         
         // Gerar dados fictícios para os últimos 30 dias baseados nos usuários reais
         List<Map<String, Object>> dados = new ArrayList<>();
-        Random random = new Random();
         
         for (int i = 29; i >= 0; i--) {
             LocalDateTime data = LocalDateTime.now().minusDays(i);
@@ -101,9 +102,9 @@ public class DashboardController {
                 
                 // Dar valores diferentes para cada usuário
                 if (j == 0) {
-                    quantidade = random.nextInt(20) + 5; // Primeiro usuário: 5-24 atividades
+                    quantidade = RANDOM.nextInt(20) + 5; // Primeiro usuário: 5-24 atividades
                 } else {
-                    quantidade = random.nextInt(15) + 2; // Outros usuários: 2-16 atividades
+                    quantidade = RANDOM.nextInt(15) + 2; // Outros usuários: 2-16 atividades
                 }
                 
                 ponto.put(nomeUsuario, quantidade);

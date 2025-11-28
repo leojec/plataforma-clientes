@@ -13,7 +13,7 @@ import java.util.Map;
 public class CnpjController {
 
     @GetMapping("/{cnpj}")
-    public ResponseEntity<?> buscarCNPJ(@PathVariable String cnpj) {
+    public ResponseEntity<Object> buscarCNPJ(@PathVariable String cnpj) {
         try {
             // Remover formatação do CNPJ
             String cnpjLimpo = cnpj.replaceAll("[^0-9]", "");
@@ -31,7 +31,9 @@ public class CnpjController {
             String url = "https://www.receitaws.com.br/v1/cnpj/" + cnpjLimpo;
             
             // Fazer a chamada para a API da ReceitaWS
-            ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+            @SuppressWarnings("unchecked")
+            ResponseEntity<Map<String, Object>> response = (ResponseEntity<Map<String, Object>>) 
+                (ResponseEntity<?>) restTemplate.getForEntity(url, Map.class);
             
             // Retornar os dados
             return ResponseEntity.ok(response.getBody());

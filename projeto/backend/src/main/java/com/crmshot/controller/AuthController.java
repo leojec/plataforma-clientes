@@ -27,7 +27,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
     
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             // Buscar usuário por email
             Usuario usuario = usuarioService.findByEmail(loginRequest.getEmail());
@@ -56,7 +56,7 @@ public class AuthController {
     }
     
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<Object> register(@Valid @RequestBody Usuario usuario) {
         try {
             if (usuarioService.existeEmail(usuario.getEmail())) {
                 return ResponseEntity.badRequest()

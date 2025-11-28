@@ -27,60 +27,97 @@ public class ChatController {
     @PostMapping("/perguntar")
     public ResponseEntity<Map<String, String>> processarPergunta(@RequestBody Map<String, String> request) {
         String pergunta = request.get("pergunta").toLowerCase();
-        String resposta;
-
+        
         try {
-            // Processar pergunta e gerar resposta
-            if (pergunta.contains("próxima reunião") || pergunta.contains("proxima reuniao") || 
-                pergunta.contains("próximo encontro") || pergunta.contains("quando") && pergunta.contains("reunião")) {
-                resposta = buscarProximaReuniao();
-                
-            } else if (pergunta.contains("quantos leads") || pergunta.contains("quantidade de leads") ||
-                       pergunta.contains("quantos clientes") || pergunta.contains("total de leads")) {
-                resposta = contarLeads();
-                
-            } else if (pergunta.contains("atividades hoje") || pergunta.contains("atividade hoje") ||
-                       pergunta.contains("o que tenho hoje")) {
-                resposta = buscarAtividadesHoje();
-                
-            } else if (pergunta.contains("propostas") && (pergunta.contains("valor") || pergunta.contains("quanto"))) {
-                resposta = buscarValorPropostas();
-                
-            } else if (pergunta.contains("última atividade") || pergunta.contains("ultima atividade") ||
-                       pergunta.contains("último contato") || pergunta.contains("ultimo contato")) {
-                resposta = buscarUltimaAtividade();
-                
-            } else if (pergunta.contains("atividades pendentes") || pergunta.contains("atividade pendente") ||
-                       pergunta.contains("tarefas pendentes")) {
-                resposta = buscarAtividadesPendentes();
-                
-            } else if (pergunta.contains("m²") || pergunta.contains("metros") || pergunta.contains("area vendida")) {
-                resposta = buscarMetrosVendidos();
-                
-            } else if (pergunta.contains("resumo") || pergunta.contains("overview") || pergunta.contains("visão geral")) {
-                resposta = gerarResumo();
-                
-            } else {
-                resposta = "Desculpe, não entendi sua pergunta. Tente perguntar sobre:\n\n" +
-                          "• Próximas reuniões\n" +
-                          "• Quantidade de leads\n" +
-                          "• Atividades de hoje\n" +
-                          "• Valor de propostas\n" +
-                          "• Última atividade\n" +
-                          "• Atividades pendentes\n" +
-                          "• Metros quadrados vendidos\n" +
-                          "• Resumo geral";
-            }
-
-            Map<String, String> response = new HashMap<>();
-            response.put("resposta", resposta);
-            return ResponseEntity.ok(response);
-
+            String resposta = processarPerguntaInterna(pergunta);
+            return buildRespostaResponse(resposta);
         } catch (Exception e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("resposta", "Desculpe, ocorreu um erro ao processar sua pergunta. Tente novamente.");
-            return ResponseEntity.ok(errorResponse);
+            return buildErrorResponse();
         }
+    }
+
+    private String processarPerguntaInterna(String pergunta) {
+        if (isPerguntaProximaReuniao(pergunta)) {
+            return buscarProximaReuniao();
+        } else if (isPerguntaQuantosLeads(pergunta)) {
+            return contarLeads();
+        } else if (isPerguntaAtividadesHoje(pergunta)) {
+            return buscarAtividadesHoje();
+        } else if (isPerguntaValorPropostas(pergunta)) {
+            return buscarValorPropostas();
+        } else if (isPerguntaUltimaAtividade(pergunta)) {
+            return buscarUltimaAtividade();
+        } else if (isPerguntaAtividadesPendentes(pergunta)) {
+            return buscarAtividadesPendentes();
+        } else if (isPerguntaMetrosVendidos(pergunta)) {
+            return buscarMetrosVendidos();
+        } else if (isPerguntaResumo(pergunta)) {
+            return gerarResumo();
+        } else {
+            return getMensagemAjuda();
+        }
+    }
+
+    private boolean isPerguntaProximaReuniao(String pergunta) {
+        return pergunta.contains("próxima reunião") || pergunta.contains("proxima reuniao") || 
+               pergunta.contains("próximo encontro") || 
+               (pergunta.contains("quando") && pergunta.contains("reunião"));
+    }
+
+    private boolean isPerguntaQuantosLeads(String pergunta) {
+        return pergunta.contains("quantos leads") || pergunta.contains("quantidade de leads") ||
+               pergunta.contains("quantos clientes") || pergunta.contains("total de leads");
+    }
+
+    private boolean isPerguntaAtividadesHoje(String pergunta) {
+        return pergunta.contains("atividades hoje") || pergunta.contains("atividade hoje") ||
+               pergunta.contains("o que tenho hoje");
+    }
+
+    private boolean isPerguntaValorPropostas(String pergunta) {
+        return pergunta.contains("propostas") && (pergunta.contains("valor") || pergunta.contains("quanto"));
+    }
+
+    private boolean isPerguntaUltimaAtividade(String pergunta) {
+        return pergunta.contains("última atividade") || pergunta.contains("ultima atividade") ||
+               pergunta.contains("último contato") || pergunta.contains("ultimo contato");
+    }
+
+    private boolean isPerguntaAtividadesPendentes(String pergunta) {
+        return pergunta.contains("atividades pendentes") || pergunta.contains("atividade pendente") ||
+               pergunta.contains("tarefas pendentes");
+    }
+
+    private boolean isPerguntaMetrosVendidos(String pergunta) {
+        return pergunta.contains("m²") || pergunta.contains("metros") || pergunta.contains("area vendida");
+    }
+
+    private boolean isPerguntaResumo(String pergunta) {
+        return pergunta.contains("resumo") || pergunta.contains("overview") || pergunta.contains("visão geral");
+    }
+
+    private String getMensagemAjuda() {
+        return "Desculpe, não entendi sua pergunta. Tente perguntar sobre:\n\n" +
+               "• Próximas reuniões\n" +
+               "• Quantidade de leads\n" +
+               "• Atividades de hoje\n" +
+               "• Valor de propostas\n" +
+               "• Última atividade\n" +
+               "• Atividades pendentes\n" +
+               "• Metros quadrados vendidos\n" +
+               "• Resumo geral";
+    }
+
+    private ResponseEntity<Map<String, String>> buildRespostaResponse(String resposta) {
+        Map<String, String> response = new HashMap<>();
+        response.put("resposta", resposta);
+        return ResponseEntity.ok(response);
+    }
+
+    private ResponseEntity<Map<String, String>> buildErrorResponse() {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("resposta", "Desculpe, ocorreu um erro ao processar sua pergunta. Tente novamente.");
+        return ResponseEntity.ok(errorResponse);
     }
 
     private String buscarProximaReuniao() {
