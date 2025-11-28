@@ -41,12 +41,41 @@ function KanbanBoard() {
   // Buscar expositores do backend (apenas dados reais)
   const { isLoading } = useQuery(
     'expositores',
-    () => api.get('/expositores').then(res => res.data),
+    () => api.get('/expositores').then(res => {
+      // Validar se a resposta é um array
+      if (!Array.isArray(res.data)) {
+        console.error('❌ Resposta da API não é um array:', res.data);
+        // Se for string (HTML), tentar extrair JSON ou retornar array vazio
+        if (typeof res.data === 'string') {
+          console.error('❌ API retornou HTML ao invés de JSON. Verifique a URL base e o endpoint.');
+          return [];
+        }
+        // Se for objeto, tentar converter para array
+        if (res.data && typeof res.data === 'object') {
+          return [];
+        }
+        return [];
+      }
+      return res.data;
+    }),
     {
       refetchOnWindowFocus: false,
       retry: 1,
       onSuccess: (data) => {
         console.log('✅ Expositores carregados com sucesso:', data);
+        
+        // Garantir que data é um array
+        if (!Array.isArray(data)) {
+          console.error('❌ Data não é um array:', data);
+          setLeads({
+            lead: [],
+            emAndamento: [],
+            emNegociacao: [],
+            standFechado: []
+          });
+          return;
+        }
+        
         // Organizar expositores por status
         const leadsOrganizados = {
           lead: [],
@@ -90,6 +119,19 @@ function KanbanBoard() {
       },
       onError: (error) => {
         console.error('❌ Erro ao carregar expositores (somente dados reais):', error);
+        console.error('❌ Detalhes do erro:', {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          url: error.config?.url
+        });
+        // Garantir que o estado seja inicializado mesmo em caso de erro
+        setLeads({
+          lead: [],
+          emAndamento: [],
+          emNegociacao: [],
+          standFechado: []
+        });
       }
     }
   );
