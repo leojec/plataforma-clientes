@@ -225,8 +225,8 @@ Este script:
 - **Health Check**: http://localhost:8080/api/health
 
 ### **Produção (AWS)**
-- **Frontend**: (Configurar no Vercel/Netlify)
-- **Backend API**: (URL do Elastic Beanstalk)
+- **Frontend**: AWS S3 + CloudFront (CDN)
+- **Backend API**: AWS Elastic Beanstalk + CloudFront (HTTPS)
 - **Banco de Dados**: AWS RDS PostgreSQL
 
 ## 🔑 **Credenciais de Teste**
@@ -378,20 +378,35 @@ eb deploy
 - `RDS_PORT`: Porta do banco (5432)
 - `JWT_SECRET`: Chave secreta para JWT
 
-### **Frontend (Vercel/Netlify)**
+### **Frontend (AWS S3 + CloudFront)**
 ```bash
 cd frontend
 
 # Build de produção
 npm run build
 
-# Deploy (exemplo Vercel)
-vercel --prod
+# Upload para S3 (via AWS CLI)
+aws s3 sync build/ s3://seu-bucket-frontend/ --delete
+
+# Invalidar cache do CloudFront
+aws cloudfront create-invalidation \
+  --distribution-id SEU_DISTRIBUTION_ID \
+  --paths "/*"
 ```
 
-**Variáveis de Ambiente:**
-- `REACT_APP_BACKEND_URL`: URL do backend (Elastic Beanstalk)
-- `REACT_APP_API_URL`: URL da API (opcional)
+**Variáveis de Ambiente (no build):**
+- `REACT_APP_API_URL`: URL do CloudFront do backend (HTTPS) - **Recomendado para produção**
+- `REACT_APP_BACKEND_URL`: URL direta do Elastic Beanstalk (fallback)
+
+**Configuração AWS:**
+1. **S3 Bucket**: Criar bucket para hospedar arquivos estáticos
+2. **CloudFront Distribution**: 
+   - Origin: S3 Bucket
+   - Default Root Object: `index.html`
+   - Error Pages: 404 → `/index.html` (para SPA)
+3. **Build com variáveis**: O build deve incluir `REACT_APP_API_URL` apontando para o CloudFront do backend (HTTPS)
+
+**Nota**: O frontend usa CloudFront para resolver problemas de Mixed Content (HTTP/HTTPS) ao acessar o backend.
 
 ### **Banco de Dados (AWS RDS)**
 - **Tipo**: PostgreSQL
