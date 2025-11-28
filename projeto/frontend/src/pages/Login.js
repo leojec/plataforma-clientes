@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff, X } from 'lucide-react';
 import { api } from '../services/api';
@@ -294,6 +294,27 @@ function Login() {
           </div>
         </div>
       )}
+
+      <div className="mt-8 text-center text-sm text-gray-600">
+        <div className="flex items-center justify-center space-x-4">
+          <Link
+            to="/politica-privacidade"
+            className="hover:text-blue-600 transition-colors"
+          >
+            Política de Privacidade
+          </Link>
+          <span>•</span>
+          <Link
+            to="/termos-uso"
+            className="hover:text-blue-600 transition-colors"
+          >
+            Termos de Uso
+          </Link>
+        </div>
+        <p className="mt-2 text-xs text-gray-500">
+          © {new Date().getFullYear()} CRM Shot Fair Brasil. Todos os direitos reservados.
+        </p>
+      </div>
     </div>
   );
 }

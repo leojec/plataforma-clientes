@@ -12,6 +12,8 @@ import Relatorios from './pages/Relatorios';
 import Configuracoes from './pages/Configuracoes';
 import LeadDetail from './pages/LeadDetail';
 import Agenda from './pages/Agenda';
+import PoliticaPrivacidade from './pages/PoliticaPrivacidade';
+import TermosUso from './pages/TermosUso';
 import Layout from './components/Layout';
 
 const queryClient = new QueryClient();
@@ -34,6 +36,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
+      <Route path="/termos-uso" element={<TermosUso />} />
       <Route path="/" element={
         <ProtectedRoute>
           <Layout />

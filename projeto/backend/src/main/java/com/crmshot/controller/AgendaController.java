@@ -247,7 +247,7 @@ public class AgendaController {
             throw new IllegalArgumentException("Nenhum usuário encontrado");
         } catch (Exception e) {
             logger.error("Erro ao obter usuário logado: {}", e.getMessage(), e);
-            List<Usuario> usuarios = usuarioRepository.findByAtivoTrue();
+        List<Usuario> usuarios = usuarioRepository.findByAtivoTrue();
             if (!usuarios.isEmpty()) {
                 return usuarios.get(0);
             }

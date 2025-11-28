@@ -283,6 +283,50 @@ function SidebarContent({ navigation, isCurrentPath, collapsed, expanded, onTogg
           );
         })}
       </nav>
+
+      {}
+      <div className={`mt-auto border-t border-slate-700 ${expanded ? 'px-4 py-4' : 'px-3 py-4'}`}>
+        <div className={`flex flex-col space-y-2 ${expanded ? 'items-start' : 'items-center'}`}>
+          <Link
+            to="/politica-privacidade"
+            className={`text-slate-400 hover:text-slate-200 text-xs transition-colors duration-200 ${expanded ? 'text-left' : 'text-center'}`}
+            title={!expanded ? 'Política de Privacidade' : undefined}
+          >
+            {expanded ? (
+              <span
+                className="transition-opacity duration-200"
+                style={{
+                  opacity: expanded ? 1 : 0,
+                  transitionDelay: expanded ? '50ms' : '0ms'
+                }}
+              >
+                Política de Privacidade
+              </span>
+            ) : (
+              <span className="text-[10px]">PP</span>
+            )}
+          </Link>
+          <Link
+            to="/termos-uso"
+            className={`text-slate-400 hover:text-slate-200 text-xs transition-colors duration-200 ${expanded ? 'text-left' : 'text-center'}`}
+            title={!expanded ? 'Termos de Uso' : undefined}
+          >
+            {expanded ? (
+              <span
+                className="transition-opacity duration-200"
+                style={{
+                  opacity: expanded ? 1 : 0,
+                  transitionDelay: expanded ? '50ms' : '0ms'
+                }}
+              >
+                Termos de Uso
+              </span>
+            ) : (
+              <span className="text-[10px]">TU</span>
+            )}
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
