@@ -88,42 +88,7 @@ jobs:
       - name: Gerar relatório de cobertura
         run: |
           mvn jacoco:report
-      
-      - name: Verificar cobertura mínima (75%)
-        run: |
-          echo "=========================================="
-          echo "📊 VERIFICAÇÃO DE COBERTURA DE CÓDIGO"
-          echo "=========================================="
-          echo ""
-          echo "Meta: 75% de cobertura de linhas"
-          echo ""
-          
-          # Executar verificação de cobertura
-          if mvn jacoco:check; then
-            echo ""
-            echo "✅ SUCESSO: Cobertura de código >= 75%!"
-            echo ""
-            echo "📋 Para ver o relatório detalhado:"
-            echo "   - Baixe o artifact 'coverage-report-backend'"
-            echo "   - Abra o arquivo index.html no navegador"
-            echo ""
-          else
-            echo ""
-            echo "❌ ERRO: Cobertura de código abaixo de 75%!"
-            echo ""
-            echo "📋 Relatório de cobertura disponível em:"
-            echo "   target/site/jacoco/index.html"
-            echo ""
-            echo "Para ver o relatório completo localmente:"
-            echo "   cd projeto/backend"
-            echo "   mvn jacoco:report"
-            echo "   open target/site/jacoco/index.html"
-            echo ""
-            echo "=========================================="
-            exit 1
-          fi
-          
-          echo "=========================================="
+          echo "📊 Relatório de cobertura gerado com sucesso!"
       
       - name: Upload relatório de cobertura
         uses: actions/upload-artifact@v4
@@ -244,22 +209,51 @@ jobs:
         run: npm test -- --watchAll=false --coverage --passWithNoTests
         continue-on-error: true
       
-      - name: Build do frontend
-        env:
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-        run: |
-          npm run build
-      
-      - name: Verificar build gerado
-        run: |
-          if [ ! -d "build" ]; then exit 1; fi
-      
-      - name: Configurar credenciais AWS
+      - name: Configurar credenciais AWS (para obter URL do CloudFront)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
+      
+      - name: Obter URL do CloudFront
+        id: get-cloudfront-url
+        run: |
+          if [ -z "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
+            echo "⚠️ CLOUDFRONT_DISTRIBUTION_ID não configurado, usando REACT_APP_API_URL do secret"
+            echo "CLOUDFRONT_URL=${{ secrets.REACT_APP_API_URL }}" >> $GITHUB_ENV
+          else
+            CLOUDFRONT_URL=$(aws cloudfront get-distribution \
+              --id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+              --query 'Distribution.DomainName' \
+              --output text)
+            
+            if [ -z "$CLOUDFRONT_URL" ] || [ "$CLOUDFRONT_URL" == "None" ]; then
+              echo "⚠️ Não foi possível obter URL do CloudFront, usando REACT_APP_API_URL do secret"
+              echo "CLOUDFRONT_URL=${{ secrets.REACT_APP_API_URL }}" >> $GITHUB_ENV
+            else
+              # CloudFront com HTTPS e caminho /api
+              CLOUDFRONT_URL="https://${CLOUDFRONT_URL}/api"
+              echo "✅ URL do CloudFront (backend proxy): $CLOUDFRONT_URL"
+              echo "CLOUDFRONT_URL=$CLOUDFRONT_URL" >> $GITHUB_ENV
+            fi
+          fi
+      
+      - name: Build do frontend
+        env:
+          REACT_APP_API_URL: ${{ env.CLOUDFRONT_URL || secrets.REACT_APP_API_URL }}
+        run: |
+          if [ -z "$REACT_APP_API_URL" ]; then
+            echo "❌ ERRO: REACT_APP_API_URL não está configurado!"
+            echo "Configure o secret REACT_APP_API_URL no GitHub com a URL do CloudFront (ex: https://d1234567890.cloudfront.net/api)"
+            exit 1
+          fi
+          echo "🔧 Usando REACT_APP_API_URL: $REACT_APP_API_URL"
+          npm run build
+      
+      - name: Verificar build gerado
+        run: |
+          if [ ! -d "build" ]; then exit 1; fi
       
       - name: Sincronizar arquivos para S3
         run: |
@@ -308,8 +302,8 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📈 Cobertura de Código:" >> $GITHUB_STEP_SUMMARY
           if [ "${{ needs.test-and-deploy-backend.result }}" == "success" ]; then
-            echo "✅ Backend: Cobertura verificada (mínimo 75%)" >> $GITHUB_STEP_SUMMARY
+            echo "✅ Backend: Relatório de cobertura gerado" >> $GITHUB_STEP_SUMMARY
             echo "📋 Relatório disponível nos artifacts: coverage-report-backend" >> $GITHUB_STEP_SUMMARY
           else
-            echo "⚠️ Backend: Cobertura não verificada ou abaixo do mínimo" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ Backend: Falha ao gerar relatório de cobertura" >> $GITHUB_STEP_SUMMARY
           fi

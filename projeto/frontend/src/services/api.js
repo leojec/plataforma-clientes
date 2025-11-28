@@ -1,7 +1,18 @@
 import axios from 'axios';
 
+// Normalizar e limpar a URL da API (remover caracteres invisíveis)
+const normalizeURL = (url) => {
+  if (!url) return 'http://localhost:8080/api';
+  // Remove caracteres zero-width e espaços invisíveis
+  return url.replace(/[\u200B-\u200D\uFEFF\u200C\u200D]/g, '').trim().replace(/\/+$/, '');
+};
+
+const baseURL = normalizeURL(process.env.REACT_APP_API_URL || 'http://localhost:8080/api');
+// Garantir que termina com /api
+const finalBaseURL = baseURL.endsWith('/api') ? baseURL : `${baseURL}/api`;
+
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api',
+  baseURL: finalBaseURL,
   timeout: 10000,
 });
 
