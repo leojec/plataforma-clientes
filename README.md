@@ -498,7 +498,7 @@ Consulte os arquivos `pom.xml` (backend) e `package.json` (frontend) para lista 
 **CRM Shot Fair Brasil** é um sistema desenvolvido como Trabalho de Conclusão de Curso (TCC) para o curso de Engenharia de Software do Centro Universitário Católica de Santa Catarina - Joinville.
 
 **Autor**: Leonardo Luis da Rocha  
-**Orientador**: [Nome do Orientador]  
+**Orientador**: Diogo Winck  
 **Ano**: 2025
 
 ---
